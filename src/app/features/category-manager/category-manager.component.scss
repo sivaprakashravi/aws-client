@@ -51,6 +51,9 @@
         span {
             float: right;
             margin-top: -24px;
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
         }
     }
 }

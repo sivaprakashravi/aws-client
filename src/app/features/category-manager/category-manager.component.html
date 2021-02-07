@@ -9,21 +9,22 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <button mat-raised-button color="primary" [disabled]="!position.value"><span class="mdi">search</span>Fetch
+        <button mat-raised-button color="primary" (click)="scrap()" [disabled]="!position.value"><span
+                class="mdi">search</span>Fetch
             Products</button>
     </div>
     <div class="scrapped-data">
         <div class="header">
             <h5>Latest 100 Records Displayed</h5>
-            <div class="search" *ngIf="products && products.length">
+            <div class="search">
                 <mat-form-field class="example-form-field">
                     <mat-label>Search in Table</mat-label>
-                    <input matInput type="text" [(ngModel)]="value">
-                    <span class="mdi" *ngIf="value" (click)="value=''">close</span>
+                    <input matInput type="text" [(ngModel)]="value" (ngModelChange)="search(value)">
+                    <span class="mdi" *ngIf="value" (click)="value=''; search(value)">close</span>
                 </mat-form-field>
             </div>
-            <button mat-icon-button color="primary">
-                <span class="mdi">download_for_offline</span>
+            <button mat-icon-button color="primary" *ngIf="products && products.length">
+                <span class="mdi" (click)="download()">download_for_offline</span>
             </button>
         </div>
         <table mat-table [dataSource]="products" *ngIf="products && products.length" class="mat-elevation-z8">

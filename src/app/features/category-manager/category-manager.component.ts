@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 
-import {FormControl} from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { CategoryManagerService } from 'src/app/services/backend/category-manager.service';
+import { HelpersService } from 'src/app/services/helpers.service';
 
 @Component({
   selector: 'app-category-manager',
@@ -10,31 +12,38 @@ import {FormControl} from '@angular/forms';
 })
 export class CategoryManagerComponent implements OnInit {
   displayedColumns: string[] = ['asin', 'productName', 'category', 'actualPrice', 'sellingPrice', 'offerPercentage'];
-  products: Product[] = [
-    {
-      asin: 'B07K8W7Q7W',
-      uuid: '76bfdde5-de82-4736-95fa-06a83b963930',
-      primaryImage: 'https://m.media-amazon.com/images/I/51lPB6P4BwL._AC_UL320_.jpg',
-      altImages: ['https://m.media-amazon.com/images/I/51lPB6P4BwL._AC_UL320_.jpg'],
-      isSponsored: true,
-      productName: 'prod name as displayed',
-      rating: '5.0',
-      noOfRating: 7,
-      actualPrice: 600,
-      sellingPrice: 299,
-      offerPercentage: 50,
-      bankOffers: ['1500 off on Kotak Bank Credit & Debit Card'],
-      shippingCharges: 55,
-      deliveryDueBy: 'Saturday, February 6 - Sunday, February 7',
-      category: 'catName',
-      subCategory: 'subCatName'
-    }
-  ];
+  products: Product[] = [];
+  rawProducts: Product[] = [];
   position = new FormControl('');
   positionOptions = ['Mobile'];
-  constructor() { }
+  value = '';
+  constructor(private categoryManagerService: CategoryManagerService, private helpers: HelpersService) { }
 
   ngOnInit(): void {
+  }
+
+  async scrap() {
+    if (this.position && this.position.value) {
+      const { data } = await this.categoryManagerService.scrapCaterory(this.position.value);
+      this.rawProducts = data;
+      this.products = data;
+    }
+  }
+
+  download() {
+    this.helpers.convertTOCSV(this.products, `${this.position.value}-${new Date().getTime()}`, '.csv');
+  }
+
+  search(value) {
+    if (this.rawProducts && this.rawProducts.length && value && value.length >= 3) {
+      value = value.toUpperCase();
+      this.products = this.rawProducts.filter(prod => {
+        const key = JSON.stringify(prod).toUpperCase();
+        return key.indexOf(value) > -1;
+      });
+    } else {
+      this.products = this.rawProducts;
+    }
   }
 
 }
