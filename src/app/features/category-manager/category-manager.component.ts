@@ -15,7 +15,7 @@ export class CategoryManagerComponent implements OnInit {
   products: Product[] = [];
   rawProducts: Product[] = [];
   position = new FormControl('');
-  positionOptions = ['Mobile'];
+  positionOptions = ['Mobile', 'Bags', 'Shoes'];
   value = '';
   constructor(private categoryManagerService: CategoryManagerService, private helpers: HelpersService) { }
 
