@@ -23,7 +23,7 @@ export class HttpLoaderService implements OnDestroy {
   enabled = false;
   counter = 0;
   error: any = {};
-  timeout = 2; // in minutes
+  timeout = 10; // in minutes
   dataHolder: Array<any> = [];
   subscribed: any = {};
   errorCodes;
@@ -59,10 +59,12 @@ export class HttpLoaderService implements OnDestroy {
   async get(request: Observable<any>, noValidation?) {
     const self = this;
     const timed = timeout(self.timeout * 60 * 1000);
+    console.log(timed);
     let response;
     if (noValidation || this.session.validSession()) {
       self.open();
       await request.pipe(timed, catchError((et) => {
+        debugger;
         self.requestCancel(et);
         return of(null);
       })).toPromise().then((success) => {

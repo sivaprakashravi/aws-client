@@ -23,7 +23,7 @@ export class LoadingService implements OnDestroy {
   enabled = false;
   counter = 0;
   error: any = {};
-  timeout = 2; // in minutes
+  timeout = 15; // in minutes
   dataHolder: Array<any> = [];
   subscribed: any = {};
   errorCodes;

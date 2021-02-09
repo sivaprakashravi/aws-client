@@ -4,8 +4,8 @@
             <mat-label>Choose a Category</mat-label>
             <mat-select [formControl]="position">
                 <mat-option value=''>-Select-</mat-option>
-                <mat-option *ngFor="let positionOption of positionOptions" [value]="positionOption">
-                    {{positionOption}}
+                <mat-option *ngFor="let category of categories" [value]="category">
+                    {{category.name}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
@@ -38,9 +38,9 @@
             </ng-container>
 
             <!-- Name Column -->
-            <ng-container matColumnDef="productName">
+            <ng-container matColumnDef="label">
                 <th mat-header-cell *matHeaderCellDef> PRODUCT NAME. </th>
-                <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.label}} </td>
             </ng-container>
 
             <!-- Weight Column -->
@@ -50,15 +50,15 @@
             </ng-container>
 
             <!-- Symbol Column -->
-            <ng-container matColumnDef="actualPrice">
+            <ng-container matColumnDef="buybox_new_landed_price">
                 <th mat-header-cell *matHeaderCellDef> ACTUAL PRICE. </th>
-                <td mat-cell *matCellDef="let element"> {{element.actualPrice}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.buybox_new_landed_price}} </td>
             </ng-container>
 
             <!-- Symbol Column -->
-            <ng-container matColumnDef="sellingPrice">
+            <ng-container matColumnDef="buybox_new_listing_price">
                 <th mat-header-cell *matHeaderCellDef> SELLING PRICE. </th>
-                <td mat-cell *matCellDef="let element"> {{element.sellingPrice}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.buybox_new_listing_price}} </td>
             </ng-container>
 
             <!-- Symbol Column -->

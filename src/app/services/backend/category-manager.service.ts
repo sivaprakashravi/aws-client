@@ -21,4 +21,11 @@ export class CategoryManagerService {
       return response;
     }
   }
+
+  categories() {
+    const url = `${this.url}amazon/categories`;
+    const request = this.http.get(url);
+    const response = this.loadingService.get(request);
+    return response;
+  }
 }

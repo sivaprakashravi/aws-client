@@ -11,23 +11,33 @@ import { HelpersService } from 'src/app/services/helpers.service';
   styleUrls: ['./category-manager.component.scss']
 })
 export class CategoryManagerComponent implements OnInit {
-  displayedColumns: string[] = ['asin', 'productName', 'category', 'actualPrice', 'sellingPrice', 'offerPercentage'];
+  displayedColumns: string[] = ['asin', 'label', 'category', 'buybox_new_landed_price', 'buybox_new_listing_price', 'offerPercentage'];
   products: Product[] = [];
   rawProducts: Product[] = [];
   position = new FormControl('');
-  positionOptions = ['Mobile', 'Bags', 'Shoes'];
+  positionOptions = ['mobile', 'computer'];
   value = '';
+  categories = [];
   constructor(private categoryManagerService: CategoryManagerService, private helpers: HelpersService) { }
 
   ngOnInit(): void {
+    this.getCategories();
   }
 
   async scrap() {
     if (this.position && this.position.value) {
+      this.rawProducts = [];
+      this.products = [];
       const { data } = await this.categoryManagerService.scrapCaterory(this.position.value);
       this.rawProducts = data;
       this.products = data;
     }
+  }
+
+  async getCategories() {
+    const { data } = await this.categoryManagerService.categories();
+    this.categories = data;
+
   }
 
   download() {
