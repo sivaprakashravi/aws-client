@@ -9,11 +9,10 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <button mat-raised-button color="primary" (click)="scrap()" [disabled]="!position.value"><span
-                class="mdi">search</span>Fetch
-            Products</button>
+        <button mat-raised-button color="primary" (click)="schedule()" [disabled]="!position.value"><span
+                class="mdi">schedule</span>Schedule</button>
     </div>
-    <div class="scrapped-data">
+    <!-- <div class="scrapped-data">
         <div class="header">
             <h5>Latest 100 Records Displayed</h5>
             <div class="search">
@@ -28,40 +27,26 @@
             </button>
         </div>
         <table mat-table [dataSource]="products" *ngIf="products && products.length" class="mat-elevation-z8">
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-
-            <!-- Position Column -->
             <ng-container matColumnDef="asin">
                 <th mat-header-cell *matHeaderCellDef> ASIN. </th>
                 <td mat-cell *matCellDef="let element"> {{element.asin}} </td>
             </ng-container>
-
-            <!-- Name Column -->
             <ng-container matColumnDef="label">
                 <th mat-header-cell *matHeaderCellDef> PRODUCT NAME. </th>
                 <td mat-cell *matCellDef="let element"> {{element.label}} </td>
             </ng-container>
-
-            <!-- Weight Column -->
             <ng-container matColumnDef="category">
                 <th mat-header-cell *matHeaderCellDef> CATEGORY. </th>
                 <td mat-cell *matCellDef="let element"> {{element.category}} </td>
             </ng-container>
-
-            <!-- Symbol Column -->
             <ng-container matColumnDef="buybox_new_landed_price">
                 <th mat-header-cell *matHeaderCellDef> ACTUAL PRICE. </th>
                 <td mat-cell *matCellDef="let element"> {{element.buybox_new_landed_price}} </td>
             </ng-container>
-
-            <!-- Symbol Column -->
             <ng-container matColumnDef="buybox_new_listing_price">
                 <th mat-header-cell *matHeaderCellDef> SELLING PRICE. </th>
                 <td mat-cell *matCellDef="let element"> {{element.buybox_new_listing_price}} </td>
             </ng-container>
-
-            <!-- Symbol Column -->
             <ng-container matColumnDef="offerPercentage">
                 <th mat-header-cell *matHeaderCellDef> OFFER (%) </th>
                 <td mat-cell *matCellDef="let element"> {{element.offerPercentage}} </td>
@@ -71,5 +56,19 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <div *ngIf="products && !products.length">No Products Fetched</div>
+    </div> -->
+    <div class="scheduled-jobs">
+        <h4 *ngIf="jobs && jobs.length">Active Jobs</h4>
+        <ul>
+            <li *ngFor="let job of jobs" [ngClass]="{'orange': job.status === 'Scheduled', 'green': job.status === 'Job Started', 'ok': job.status === 'Job Completed'}">
+                <div>{{job.name}}</div>
+                <div>{{job.status}}
+                    <span class="mdi" *ngIf="job.status === 'Scheduled'">alarm_on</span>
+                    <span class="mdi" *ngIf="job.status === 'Job Started'">autorenew</span>
+                    <span class="mdi" *ngIf="job.status === 'Job Completed'">done_all</span>
+                </div>
+                <div>{{job.scheduledAt | date: 'medium'}}</div>
+            </li>
+        </ul>
     </div>
 </div>

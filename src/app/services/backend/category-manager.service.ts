@@ -28,4 +28,11 @@ export class CategoryManagerService {
     const response = this.loadingService.get(request);
     return response;
   }
+
+  jobStatus() {
+    const url = `${this.url}amazon/jobs`;
+    const request = this.http.get(url);
+    const response = this.loadingService.get(request);
+    return response;
+  }
 }

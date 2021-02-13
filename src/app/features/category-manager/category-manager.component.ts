@@ -18,10 +18,16 @@ export class CategoryManagerComponent implements OnInit {
   positionOptions = ['mobile', 'computer'];
   value = '';
   categories = [];
+  jobs = [];
+  interval = (1 * 60 * 1000);
   constructor(private categoryManagerService: CategoryManagerService, private helpers: HelpersService) { }
 
   ngOnInit(): void {
-    this.getCategories();
+    const self = this;
+    self.getCategories();
+    setInterval(() => {
+      self.checkJobStatus();
+    }, self.interval);
   }
 
   async scrap() {
@@ -31,6 +37,30 @@ export class CategoryManagerComponent implements OnInit {
       const { data } = await this.categoryManagerService.scrapCaterory(this.position.value);
       this.rawProducts = data;
       this.products = data;
+    }
+  }
+
+  async schedule() {
+    if (this.position && this.position.value && this.position.value.name) {
+      const alreadyScheduled = this.jobs.find(j => j.id === this.position.value.id);
+      if (!alreadyScheduled) {
+        this.position.value.scheduledAt = new Date();
+        this.position.value.status = 'Scheduled';
+        this.jobs.push(this.position.value);
+        setTimeout(async () => {
+          const { data } = await this.categoryManagerService.scrapCaterory(this.position.value.name);
+          this.position.value.status = data.status;
+        }, 2000);
+      }
+    }
+  }
+
+  async checkJobStatus() {
+    if (this.jobs && this.jobs.length) {
+      const { data } = await this.categoryManagerService.jobStatus();
+      data.forEach(({job, status}) => {
+        this.jobs.find(j => j.name === job).status = status;
+      });
     }
   }
 
