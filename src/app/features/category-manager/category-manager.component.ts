@@ -19,7 +19,7 @@ export class CategoryManagerComponent implements OnInit {
   value = '';
   categories = [];
   jobs = [];
-  interval = (1 * 60 * 1000);
+  interval = (0.1 * 60 * 1000);
   constructor(private categoryManagerService: CategoryManagerService, private helpers: HelpersService) { }
 
   ngOnInit(): void {
@@ -45,27 +45,39 @@ export class CategoryManagerComponent implements OnInit {
       const alreadyScheduled = this.jobs.find(j => j.id === this.position.value.id);
       if (!alreadyScheduled) {
         this.position.value.scheduledAt = new Date();
-        this.position.value.status = 'Scheduled';
-        this.jobs.push(this.position.value);
+        this.position.value.status = 'Job Scheduled';
+        const isExists = this.jobs.find(j => j.id === this.position.value.id);
         setTimeout(async () => {
           const { data } = await this.categoryManagerService.scrapCaterory(this.position.value.name);
           this.position.value.status = data.status;
-        }, 2000);
+        }, 1000);
+        this.jobs.push(this.position.value);
+      } else if (alreadyScheduled.status === 'Job Completed') {
+        alreadyScheduled.count += 1;
+        alreadyScheduled.status = 'Job Scheduled';
+        setTimeout(async () => {
+          const { data } = await this.categoryManagerService.scrapCaterory(this.position.value.name);
+          this.position.value.status = data.status;
+        }, 1000);
       }
     }
   }
 
   async checkJobStatus() {
-    if (this.jobs && this.jobs.length) {
+    if (this.jobs && this.jobs.length && this.jobs.find(j => j.status !== 'Job Completed')) {
       const { data } = await this.categoryManagerService.jobStatus();
-      data.forEach(({job, status}) => {
-        this.jobs.find(j => j.name === job).status = status;
+      data.forEach(({ job, status }) => {
+        const jId = this.jobs.find(j => j.name === job);
+        if (jId) {
+          jId.status = status;
+        }
       });
     }
   }
 
   async getCategories() {
     const { data } = await this.categoryManagerService.categories();
+    data.forEach(d => d.count = 0);
     this.categories = data;
 
   }

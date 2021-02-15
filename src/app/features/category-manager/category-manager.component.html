@@ -60,7 +60,7 @@
     <div class="scheduled-jobs">
         <h4 *ngIf="jobs && jobs.length">Active Jobs</h4>
         <ul>
-            <li *ngFor="let job of jobs" [ngClass]="{'orange': job.status === 'Scheduled', 'green': job.status === 'Job Started', 'ok': job.status === 'Job Completed'}">
+            <li *ngFor="let job of jobs" [ngClass]="{'orange': job.status === 'Job Scheduled', 'green': job.status === 'Job Started', 'ok': job.status === 'Job Completed'}">
                 <div>{{job.name}}</div>
                 <div>{{job.status}}
                     <span class="mdi" *ngIf="job.status === 'Scheduled'">alarm_on</span>
