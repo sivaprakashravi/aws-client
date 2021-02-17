@@ -14,6 +14,8 @@
     }
   }
   .scrapped-data {
+    margin-top: 15px;
+    border-top: 1px solid #ccc;
     .header {
       padding: 5px 0 5px 0;
       color: #3f51b5;
@@ -73,6 +75,7 @@
         border-radius: 5px;
         display: inline-block;
         padding: 20px 10px;
+        vertical-align: top;
         &.orange {
           border-color: orange;
           span {

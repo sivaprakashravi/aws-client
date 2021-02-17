@@ -19,29 +19,31 @@ export class CategoryManagerComponent implements OnInit {
   value = '';
   categories = [];
   jobs = [];
-  interval = (0.1 * 60 * 1000);
+  interval = (2 * 60 * 1000);
+  fetchData = false;
   constructor(private categoryManagerService: CategoryManagerService, private helpers: HelpersService) { }
 
   ngOnInit(): void {
     const self = this;
     self.getCategories();
+    self.scrap();
     setInterval(() => {
       self.checkJobStatus();
     }, self.interval);
   }
 
   async scrap() {
-    if (this.position && this.position.value) {
-      this.rawProducts = [];
-      this.products = [];
-      const { data } = await this.categoryManagerService.scrapCaterory(this.position.value);
-      this.rawProducts = data;
-      this.products = data;
-    }
+    this.rawProducts = [];
+    this.products = [];
+    const { data } = await this.categoryManagerService.scrappedData();
+    this.rawProducts = data;
+    this.products = data;
   }
 
   async schedule() {
     if (this.position && this.position.value && this.position.value.name) {
+      this.rawProducts = [];
+      this.products = [];
       const alreadyScheduled = this.jobs.find(j => j.id === this.position.value.id);
       if (!alreadyScheduled) {
         this.position.value.scheduledAt = new Date();
@@ -66,6 +68,7 @@ export class CategoryManagerComponent implements OnInit {
   async checkJobStatus() {
     if (this.jobs && this.jobs.length && this.jobs.find(j => j.status !== 'Job Completed')) {
       const { data } = await this.categoryManagerService.jobStatus();
+      this.fetchData = data.find(d => d.status !== 'Job Completed' ) ? true : false;
       data.forEach(({ job, status }) => {
         const jId = this.jobs.find(j => j.name === job);
         if (jId) {
@@ -73,13 +76,15 @@ export class CategoryManagerComponent implements OnInit {
         }
       });
     }
+    if (this.fetchData) {
+      this.scrap();
+    }
   }
 
   async getCategories() {
     const { data } = await this.categoryManagerService.categories();
     data.forEach(d => d.count = 0);
     this.categories = data;
-
   }
 
   download() {

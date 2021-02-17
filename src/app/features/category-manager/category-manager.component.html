@@ -12,7 +12,23 @@
         <button mat-raised-button color="primary" (click)="schedule()" [disabled]="!position.value"><span
                 class="mdi">schedule</span>Schedule</button>
     </div>
-    <!-- <div class="scrapped-data">
+    
+    <div class="scheduled-jobs">
+        <h4 *ngIf="jobs && jobs.length">Active Jobs</h4>
+        <ul>
+            <li *ngFor="let job of jobs" [ngClass]="{'orange': job.status === 'Job Scheduled', 'green': job.status === 'Job Started', 'ok': job.status === 'Job Completed'}">
+                <div>{{job.name}}</div>
+                <div>{{job.status}}
+                    <span class="mdi" *ngIf="job.status === 'Scheduled'">alarm_on</span>
+                    <span class="mdi" *ngIf="job.status === 'Job Started'">autorenew</span>
+                    <span class="mdi" *ngIf="job.status === 'Job Completed'">done_all</span>
+                </div>
+                <div>{{job.scheduledAt | date: 'medium'}}</div>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="scrapped-data">
         <div class="header">
             <h5>Latest 100 Records Displayed</h5>
             <div class="search">
@@ -56,19 +72,5 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <div *ngIf="products && !products.length">No Products Fetched</div>
-    </div> -->
-    <div class="scheduled-jobs">
-        <h4 *ngIf="jobs && jobs.length">Active Jobs</h4>
-        <ul>
-            <li *ngFor="let job of jobs" [ngClass]="{'orange': job.status === 'Job Scheduled', 'green': job.status === 'Job Started', 'ok': job.status === 'Job Completed'}">
-                <div>{{job.name}}</div>
-                <div>{{job.status}}
-                    <span class="mdi" *ngIf="job.status === 'Scheduled'">alarm_on</span>
-                    <span class="mdi" *ngIf="job.status === 'Job Started'">autorenew</span>
-                    <span class="mdi" *ngIf="job.status === 'Job Completed'">done_all</span>
-                </div>
-                <div>{{job.scheduledAt | date: 'medium'}}</div>
-            </li>
-        </ul>
     </div>
 </div>
