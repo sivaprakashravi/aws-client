@@ -30,7 +30,7 @@ export class CategoryManagerService {
   }
 
   categories() {
-    const url = `${this.url}amazon/categories`;
+    const url = `${this.url}category/all`;
     const request = this.http.get(url);
     const response = this.loadingService.get(request);
     return response;
@@ -39,6 +39,20 @@ export class CategoryManagerService {
   jobStatus() {
     const url = `${this.url}amazon/jobs`;
     const request = this.http.get(url);
+    const response = this.loadingService.get(request);
+    return response;
+  }
+
+  async jobs() {
+    const url = `${this.url}job/all`;
+    const request = this.http.get(url);
+    const response = await this.loadingService.get(request);
+    return response.data;
+  }
+
+  addJob(data) {
+    const url = `${this.url}job/create`;
+    const request = this.http.post(url, data);
     const response = this.loadingService.get(request);
     return response;
   }

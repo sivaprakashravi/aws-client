@@ -5,26 +5,30 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatSliderModule } from '@angular/material/slider';
+import { MatSliderChange, MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { CategoryManagerComponent } from './features/category-manager/category-manager.component';
 import { RouteErrorComponent } from './features/route-error/route-error.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { ConfigurationComponent } from './features/configuration/configuration.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     CategoryManagerComponent,
     RouteErrorComponent,
-    LoadingComponent
+    LoadingComponent,
+    ConfigurationComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,10 @@ import { LoadingComponent } from './shared/loading/loading.component';
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule,
+    MatSnackBarModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,0 +1,36 @@
+<div class="configuration">
+    <h3>Application Configuration 
+        <div class="add-actions">
+            <button class="left10px danger" (click)="refreshCategories()" mat-raised-button color="secondary"><span class="mdi">account_tree</span>Refresh Categories</button>
+            <button class="left10px danger" mat-raised-button color="secondary"><span class="mdi">stop_circle</span>Suspend Application</button>
+            <button class="left10px danger" mat-raised-button color="secondary"><span class="mdi">delete_outline</span>Empty Database</button>
+            <button class="left10px danger" mat-raised-button color="secondary"><span class="mdi">refresh</span>Reset Configuration</button>
+        </div></h3>
+    <form [formGroup]="configurationForm">
+        <div>
+            <mat-form-field class="left10px width80p">
+                <mat-label>Scrap Proxies</mat-label>
+                <input formControlName="proxies" matInput>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="left10px w150px">
+                <mat-label>Scrap Host</mat-label>
+                <input formControlName="host" matInput>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="left10px w150px">
+                <mat-label>Data to save in a loop</mat-label>
+                <input formControlName="save" matInput>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field class="left10px w150px">
+                <mat-label>Scrap Data Max Range</mat-label>
+                <input formControlName="maxRange" matInput maxlength="5">
+            </mat-form-field>
+        </div>
+        <button class="left10px" mat-raised-button color="primary" (click)="saveConfiguration()"><span class="mdi">schedule</span>Save</button>
+    </form>
+</div>

@@ -1,22 +1,59 @@
 <div class="category-manager">
     <div class="filter">
-        <mat-form-field class="example-user-input">
-            <mat-label>Choose a Category</mat-label>
-            <mat-select [formControl]="position">
-                <mat-option value=''>-Select-</mat-option>
-                <mat-option *ngFor="let category of categories" [value]="category">
-                    {{category.name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="schedule()" [disabled]="!position.value"><span
-                class="mdi">schedule</span>Schedule</button>
+        <h3>Schedule a Job</h3>
+        <form [formGroup]="newJob">
+            <mat-form-field>
+                <mat-label>Choose a Category</mat-label>
+                <mat-select formControlName="category" (selectionChange)="updateSubCategory($event)">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let category of categories" [value]="category">
+                        {{category.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="left10px" *ngIf="subCategories && subCategories.length">
+                <mat-label>Choose a Sub Category</mat-label>
+                <mat-select formControlName="subCategory">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let sCategory of subCategories" [value]="sCategory">
+                        {{sCategory.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="left10px" *ngIf="duration && duration.length">
+                <mat-label>Interval</mat-label>
+                <mat-select formControlName="interval">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let d of duration" [value]="d">
+                        {{d}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="left10px range">
+                <mat-label>Data From</mat-label>
+                <input formControlName="from" #from matInput maxlength="3">
+            </mat-form-field>
+            <mat-form-field class="left10px range">
+                <mat-label>Data To</mat-label>
+                <input formControlName="to" #to matInput maxlength="4">
+            </mat-form-field>
+            <mat-checkbox color="primary" class="left10px" formControlName="prime">Only Prime</mat-checkbox>
+            <mat-checkbox color="primary" class="left10px" formControlName="recursive">Recursive Job</mat-checkbox>
+            <button mat-raised-button color="primary" (click)="seheduleJob()" [disabled]="!newJob.value.category || !newJob.value.subCategory"><span
+                    class="mdi">schedule</span>Schedule</button>
+            <button mat-raised-button color="secondary" (click)="setJob()"><span
+                    class="mdi">clear_all</span>Reset</button>
+        </form>
     </div>
-    
-    <div class="scheduled-jobs">
+    <div>
+        <button mat-raised-button color="secondary" (click)="showJobs()"><span
+            class="mdi">refresh</span>Refresh Scheduled Jobs</button>
+    </div>
+    <!-- <div class="scheduled-jobs">
         <h4 *ngIf="jobs && jobs.length">Active Jobs</h4>
         <ul>
-            <li *ngFor="let job of jobs" [ngClass]="{'orange': job.status === 'Job Scheduled', 'green': job.status === 'Job Started', 'ok': job.status === 'Job Completed'}">
+            <li *ngFor="let job of jobs"
+                [ngClass]="{'orange': job.status === 'Job Scheduled', 'green': job.status === 'Job Started', 'ok': job.status === 'Job Completed'}">
                 <div>{{job.name}}</div>
                 <div>{{job.status}}
                     <span class="mdi" *ngIf="job.status === 'Scheduled'">alarm_on</span>
@@ -26,51 +63,59 @@
                 <div>{{job.scheduledAt | date: 'medium'}}</div>
             </li>
         </ul>
-    </div>
-    
-    <div class="scrapped-data">
+    </div> -->
+
+    <div class="scrapped-data" *ngIf="rawJobs && rawJobs.length">
         <div class="header">
-            <h5>Latest 100 Records Displayed</h5>
+            <h5>Scheduled Jobs</h5>
             <div class="search">
                 <mat-form-field class="example-form-field">
-                    <mat-label>Search in Table</mat-label>
+                    <mat-label>Search Jobs</mat-label>
                     <input matInput type="text" [(ngModel)]="value" (ngModelChange)="search(value)">
                     <span class="mdi" *ngIf="value" (click)="value=''; search(value)">close</span>
                 </mat-form-field>
             </div>
-            <button mat-icon-button color="primary" *ngIf="products && products.length">
+            <!-- <button mat-icon-button color="primary" *ngIf="jobs && jobs.length">
                 <span class="mdi" (click)="download()">download_for_offline</span>
-            </button>
+            </button> -->
         </div>
-        <table mat-table [dataSource]="products" *ngIf="products && products.length" class="mat-elevation-z8">
-            <ng-container matColumnDef="asin">
-                <th mat-header-cell *matHeaderCellDef> ASIN. </th>
-                <td mat-cell *matCellDef="let element"> {{element.asin}} </td>
-            </ng-container>
-            <ng-container matColumnDef="label">
-                <th mat-header-cell *matHeaderCellDef> PRODUCT NAME. </th>
-                <td mat-cell *matCellDef="let element"> {{element.label}} </td>
-            </ng-container>
+        <table mat-table [dataSource]="jobs" *ngIf="jobs && jobs.length" class="mat-elevation-z8">
             <ng-container matColumnDef="category">
                 <th mat-header-cell *matHeaderCellDef> CATEGORY. </th>
-                <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
             </ng-container>
-            <ng-container matColumnDef="buybox_new_landed_price">
-                <th mat-header-cell *matHeaderCellDef> ACTUAL PRICE. </th>
-                <td mat-cell *matCellDef="let element"> {{element.buybox_new_landed_price}} </td>
+            <ng-container matColumnDef="subCategory">
+                <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY. </th>
+                <td mat-cell *matCellDef="let element"> {{element.subCategory.name}} </td>
             </ng-container>
-            <ng-container matColumnDef="buybox_new_listing_price">
-                <th mat-header-cell *matHeaderCellDef> SELLING PRICE. </th>
-                <td mat-cell *matCellDef="let element"> {{element.buybox_new_listing_price}} </td>
+            <ng-container matColumnDef="interval">
+                <th mat-header-cell *matHeaderCellDef> INTERVAL. </th>
+                <td mat-cell *matCellDef="let element"> {{element.interval}} </td>
             </ng-container>
-            <ng-container matColumnDef="offerPercentage">
-                <th mat-header-cell *matHeaderCellDef> OFFER (%) </th>
-                <td mat-cell *matCellDef="let element"> {{element.offerPercentage}} </td>
+            <ng-container matColumnDef="recursive">
+                <th mat-header-cell *matHeaderCellDef> RECURSIVE. </th>
+                <td mat-cell *matCellDef="let element"> {{element.recursive ? 'YES' : 'NO'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="prime">
+                <th mat-header-cell *matHeaderCellDef> PRIME. </th>
+                <td mat-cell *matCellDef="let element"> {{element.prime ? 'YES' : 'NO'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="createdAt">
+                <th mat-header-cell *matHeaderCellDef> SCHEDULED ON. </th>
+                <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'medium'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="scheduledBy">
+                <th mat-header-cell *matHeaderCellDef> SCHEDULED BY. </th>
+                <td mat-cell *matCellDef="let element"> {{element.scheduledBy}} </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> STATUS. </th>
+                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <div *ngIf="products && !products.length">No Products Fetched</div>
+        <!-- <div *ngIf="jobs && !jobs.length">No Jobs Scheduled!</div> -->
     </div>
 </div>
