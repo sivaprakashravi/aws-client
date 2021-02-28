@@ -11,7 +11,15 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./category-manager.component.scss']
 })
 export class CategoryManagerComponent implements OnInit {
-  displayedColumns: string[] = ['category', 'subCategory', 'interval', 'recursive', 'prime', 'createdAt', 'scheduledBy', 'status'];
+  displayedColumns: string[] = ['category',
+    'subCategory',
+    'interval',
+    'recursive',
+    'prime',
+    'createdAt',
+    'scheduledBy',
+    'status',
+    'percentage'];
   products: Product[] = [];
   rawProducts: Product[] = [];
   value = '';
