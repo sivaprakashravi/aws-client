@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  URL: 'http://13.233.160.244:8000/'
+  URL: 'http://34.236.13.8:8001/',
+  PROCESS_URL: 'http://34.236.13.8:8000/'
 };

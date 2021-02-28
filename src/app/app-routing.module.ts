@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'job-scheduler', component: CategoryManagerComponent },
   { path: 'configuration', component: ConfigurationComponent },
-  { path: '',   redirectTo: '/category-manager', pathMatch: 'full' }, // redirect to `first-component`
+  { path: '',   redirectTo: '/job-scheduler', pathMatch: 'full' }, // redirect to `first-component`
   { path: '**', component: RouteErrorComponent },  // Wildcard route for a 404 page
 ];
 
