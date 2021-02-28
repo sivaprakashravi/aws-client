@@ -58,6 +58,12 @@ export class CategoryManagerComponent implements OnInit {
       this.subCategories = value.subCategory;
     }
   }
+  checkNewJob({ category, subCategory }) {
+    if (this.rawJobs && this.rawJobs.length) {
+      const exist = this.rawJobs.filter(r => r.category.nId === category.nId && r.subCategory.nId === subCategory.nId);
+      return exist.length ? false : true;
+    }
+  }
 
   async seheduleJob() {
     const values = this.newJob.value;
@@ -73,10 +79,15 @@ export class CategoryManagerComponent implements OnInit {
       }
     }
     if (values.category && values.subCategory) {
-      await this.categoryManagerService.addJob(values);
-      this.dialog.simpleDialog('Job Created');
-      this.setJob();
-      this.showJobs();
+      const isValid = await this.checkNewJob(values);
+      if (isValid) {
+        await this.categoryManagerService.addJob(values);
+        this.dialog.simpleDialog('Job Created');
+        this.setJob();
+        this.showJobs();
+      } else {
+        this.dialog.simpleDialog('Same Category / Sub Category Job is already Scheduled');
+      }
     }
   }
 
