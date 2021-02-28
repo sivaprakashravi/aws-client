@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "tokopedia-amazon-client"
+  "defaultProject": "tokopedia-amazon-client",
+  "cli": {
+    "analytics": false
+  }
 }
