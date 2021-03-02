@@ -13,26 +13,31 @@ export class ConfigurationComponent implements OnInit {
     proxies: '',
     host: '',
     maxRange: '',
-    save: 1
+    save: 1,
+    active: false
   };
+  rawConfiguration: any = {};
   configurationForm: FormGroup = new FormGroup({
     proxies: new FormControl(''),
     host: new FormControl(''),
     maxRange: new FormControl(''),
     save: new FormControl('')
- });
+  });
   constructor(private config: ConfigurationService, private dialog: DialogService) { }
 
   async ngOnInit() {
     const configuration = await this.config.getConfiguration();
     this.configuration = configuration[0];
+    this.rawConfiguration = configuration[0];
     this.setConfiguration(this.configuration);
   }
 
   async saveConfiguration() {
     const configData = this.configurationForm.value;
     const configSaved = await this.config.saveConfiguration(configData);
-    this.dialog.simpleDialog('Configuration Updated');
+    if (configSaved) {
+      this.dialog.simpleDialog('Configuration Updated');
+    }
   }
 
   setConfiguration({ proxies, host, maxRange, save }) {
@@ -42,6 +47,15 @@ export class ConfigurationComponent implements OnInit {
       maxRange: new FormControl(maxRange),
       save: new FormControl(save)
     });
+  }
+
+  async suspendApplication() {
+    const configData = this.rawConfiguration;
+    configData.active = !configData.active;
+    const configSaved = await this.config.saveConfiguration(configData);
+    if (configSaved) {
+      this.dialog.simpleDialog('Configuration Updated');
+    }
   }
 
   async refreshCategories() {

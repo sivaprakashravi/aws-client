@@ -31,7 +31,7 @@
             </mat-form-field>
             <mat-form-field class="left10px range">
                 <mat-label>Data From</mat-label>
-                <input formControlName="from" #from matInput maxlength="3">
+                <input formControlName="from" #from matInput maxlength="4">
             </mat-form-field>
             <mat-form-field class="left10px range">
                 <mat-label>Data To</mat-label>
@@ -90,15 +90,25 @@
             </ng-container>
             <ng-container matColumnDef="interval">
                 <th mat-header-cell *matHeaderCellDef> INTERVAL. </th>
-                <td mat-cell *matCellDef="let element"> {{element.interval}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.interval ? element.interval : '--'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="from">
+                <th mat-header-cell *matHeaderCellDef> DATA From. </th>
+                <td mat-cell *matCellDef="let element"> {{element.from}} </td>
+            </ng-container>
+            <ng-container matColumnDef="to">
+                <th mat-header-cell *matHeaderCellDef> DATA To. </th>
+                <td mat-cell *matCellDef="let element"> {{element.to}} </td>
             </ng-container>
             <ng-container matColumnDef="recursive">
                 <th mat-header-cell *matHeaderCellDef> RECURSIVE. </th>
-                <td mat-cell *matCellDef="let element"> {{element.recursive ? 'YES' : 'NO'}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <span class="mdi" [ngClass]="{'no': !element.recursive}">check_box</span>
             </ng-container>
             <ng-container matColumnDef="prime">
                 <th mat-header-cell *matHeaderCellDef> PRIME. </th>
-                <td mat-cell *matCellDef="let element"> {{element.prime ? 'YES' : 'NO'}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <span class="mdi" [ngClass]="{'no': !element.prime}">check_box</span>
             </ng-container>
             <ng-container matColumnDef="createdAt">
                 <th mat-header-cell *matHeaderCellDef> SCHEDULED ON. </th>
@@ -110,11 +120,16 @@
             </ng-container>
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef> STATUS. </th>
-                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                <td mat-cell *matCellDef="let element"[title]="element.status">                    
+                    <span class="mdi" *ngIf="element.status === 'NEW'">fiber_new</span>
+                    <span class="mdi" *ngIf="element.status === 'Scheduled'" >add_task</span>
+                </td>
             </ng-container>
             <ng-container matColumnDef="percentage">
                 <th mat-header-cell *matHeaderCellDef> Completion (%). </th>
-                <td mat-cell *matCellDef="let element"> {{element.percentage ? element.percentage : 0}}% </td>
+                <td mat-cell *matCellDef="let element"> 
+                    <!-- {{element.percentage ? element.percentage : 0}}% -->
+                    <mat-progress-bar mode="determinate" [value]="element.percentage"></mat-progress-bar> </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

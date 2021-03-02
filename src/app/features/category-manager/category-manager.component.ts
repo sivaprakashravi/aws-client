@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
-
 import { FormGroup, FormControl } from '@angular/forms';
 import { CategoryManagerService } from 'src/app/services/backend/category-manager.service';
 import { HelpersService } from 'src/app/services/helpers.service';
@@ -14,10 +13,12 @@ export class CategoryManagerComponent implements OnInit {
   displayedColumns: string[] = ['category',
     'subCategory',
     'interval',
-    'recursive',
-    'prime',
+    'from',
+    'to',
     'createdAt',
     'scheduledBy',
+    'recursive',
+    'prime',
     'status',
     'percentage'];
   products: Product[] = [];
@@ -58,10 +59,20 @@ export class CategoryManagerComponent implements OnInit {
       this.subCategories = value.subCategory;
     }
   }
-  checkNewJob({ category, subCategory }) {
+  checkNewJob({ category, subCategory, from, to }) {
     if (this.rawJobs && this.rawJobs.length) {
-      const exist = this.rawJobs.filter(r => r.category.nId === category.nId && r.subCategory.nId === subCategory.nId);
+      const exist = this.rawJobs.filter(r => {
+        const sameCat = r.category.nId === category.nId;
+        const sameSubCat = r.subCategory.nId === subCategory.nId;
+        const sameFrom = r.from === from;
+        const sameTo = r.to === to;
+        const btwnFrom = from >= r.from && from <= r.to;
+        const btwnTo = to >= r.from && to <= r.to;
+        return sameCat && sameSubCat && sameFrom && sameTo && btwnFrom && btwnTo;
+      });
       return exist.length ? false : true;
+    } else {
+      return true;
     }
   }
 

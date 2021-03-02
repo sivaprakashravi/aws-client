@@ -2,7 +2,11 @@
     <h3>Application Configuration 
         <div class="add-actions">
             <button class="left10px danger" (click)="refreshCategories()" mat-raised-button color="secondary"><span class="mdi">account_tree</span>Refresh Categories</button>
-            <button class="left10px danger" mat-raised-button color="secondary"><span class="mdi">stop_circle</span>Suspend Application</button>
+            <button class="left10px danger" (click)="suspendApplication()" mat-raised-button color="secondary">
+                <span class="mdi" *ngIf="rawConfiguration.active">stop_circle</span>
+                <span class="mdi" *ngIf="!rawConfiguration.active">play_arrow</span>
+                {{!rawConfiguration.active ? 'Resume' : 'Suspend'}} Application
+            </button>
             <button class="left10px danger" mat-raised-button color="secondary"><span class="mdi">delete_outline</span>Empty Database</button>
             <button class="left10px danger" mat-raised-button color="secondary"><span class="mdi">refresh</span>Reset Configuration</button>
         </div></h3>

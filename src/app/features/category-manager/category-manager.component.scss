@@ -126,6 +126,19 @@
   }
 }
 
+.status {
+  border: 1px solid red;
+}
+
+.mat-cell {
+  span.mdi {
+    color: #3f51b5;
+    &.no {
+      color: #ccc;
+    }
+  }
+}
+
 @keyframes rotating {
   from {
     -ms-transform: rotate(0deg);
