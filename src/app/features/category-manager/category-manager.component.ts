@@ -41,7 +41,7 @@ export class CategoryManagerComponent implements OnInit {
     self.showJobs();
     // self.scrap();
     setInterval(() => {
-      self.checkJobStatus();
+      // self.checkJobStatus();
     }, self.interval);
   }
 
