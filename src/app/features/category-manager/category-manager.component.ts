@@ -28,9 +28,9 @@ export class CategoryManagerComponent implements OnInit {
   subCategories = [];
   jobs = [];
   rawJobs = [];
-  interval = (2 * 60 * 1000);
+  interval = 30000;
   fetchData = false;
-  duration = ['Everyday', 'Once in a Week', 'Once in a Month', 'Twice in a Week', 'Twice in a Month'];
+  duration = ['Now', 'Everyday', 'Once in a Week', 'Once in a Month', 'Twice in a Week', 'Twice in a Month'];
   newJob: FormGroup;
   constructor(private categoryManagerService: CategoryManagerService, private helpers: HelpersService, private dialog: DialogService) { }
 
@@ -41,7 +41,7 @@ export class CategoryManagerComponent implements OnInit {
     self.showJobs();
     // self.scrap();
     setInterval(() => {
-      // self.checkJobStatus();
+      self.refreshJobs();
     }, self.interval);
   }
 
@@ -106,6 +106,12 @@ export class CategoryManagerComponent implements OnInit {
     const jobs = await this.categoryManagerService.jobs();
     this.rawJobs = jobs;
     this.jobs = jobs;
+  }
+
+  async refreshJobs() {
+    if (this.rawJobs && this.rawJobs.length && this.rawJobs.find(r => r.status === 'Running')) {
+      this.showJobs();
+    }
   }
 
   async schedule() {
@@ -180,7 +186,7 @@ export class CategoryManagerComponent implements OnInit {
       subCategory: new FormControl(''),
       recursive: new FormControl(false),
       prime: new FormControl(false),
-      interval: new FormControl(''),
+      interval: new FormControl('Now'),
       from: new FormControl('0'),
       to: new FormControl('1000')
     });

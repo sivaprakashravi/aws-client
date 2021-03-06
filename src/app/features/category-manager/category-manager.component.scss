@@ -136,6 +136,12 @@
     &.no {
       color: #ccc;
     }
+    &.loop {
+      animation: rotating 1.5s infinite;
+    }    
+    &.completed {
+      color: green;
+    }
   }
 }
 

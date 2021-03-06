@@ -1,0 +1,36 @@
+.locale-setup {    
+    padding: 15px;
+    display: flex;
+    .add-formula {
+        width: 50%;
+        display: inline-block;
+    }
+    .apply-formula {
+        width: 50%;
+        display: inline-block;
+    }
+    .locale-list {
+        margin: 15px 0 0 0;
+        table {
+            width: 80%;
+          }
+    }
+    .red {
+        color: rgb(201, 0, 0);
+    }
+    .left10px {
+      margin-left: 10px;
+    }
+    .right10px {
+      margin-right: 10px;
+    }
+    .w25 {
+        width: 70px;
+    }
+    .w115 {
+        width: 115px;
+    }
+    .action-buttons {
+        display: inline-block;
+    }
+}

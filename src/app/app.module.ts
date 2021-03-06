@@ -22,6 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { ConfigurationComponent } from './features/configuration/configuration.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LocaleSetupComponent } from './features/locale-setup/locale-setup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CategoryManagerComponent,
     RouteErrorComponent,
     LoadingComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    LocaleSetupComponent
   ],
   imports: [
     BrowserModule,
