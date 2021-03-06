@@ -109,8 +109,10 @@ export class CategoryManagerComponent implements OnInit {
   }
 
   async refreshJobs() {
-    if (this.rawJobs && this.rawJobs.length && this.rawJobs.find(r => r.status === 'Running')) {
-      this.showJobs();
+    if (this.rawJobs && this.rawJobs.length) {
+      if (this.rawJobs.find(r => r.status === 'Running' || r.status === 'New' || r.status === 'Scheduled')) {
+        this.showJobs();
+      }
     }
   }
 

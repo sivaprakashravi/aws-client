@@ -90,7 +90,7 @@
                 <button mat-raised-button color="primary" (click)="apply()"
                     [disabled]="!newFormula.value.category || !newFormula.value.locale"><span
                         class="mdi">schedule</span>Apply</button>
-                <button class="left10px" mat-raised-button color="secondary"><span
+                <button class="left10px" mat-raised-button color="secondary" (click)="resetNewFormula()"><span
                         class="mdi">clear_all</span>Reset</button>
             </div>
         </form>

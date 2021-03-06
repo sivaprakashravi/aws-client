@@ -41,4 +41,32 @@ export class LocaleService {
     const { data } = await this.loadingService.get(request);
     return data;
   }
+
+  
+  // LOCALELOGS: '/locale/log/all,',
+  // ADDLOCALELOG: '/locale/log/add',
+  // ARCHIVELOCALELOG: '/locale/log/archive',
+
+  async getLocaleLogs() {
+    const url = `${this.url}locale/log/all`;
+    const request = this.http.get(url);
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
+
+  async addLog(log) {
+    const url = `${this.url}locale/log/add`;
+    const request = this.http.post(url, log);
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
+
+  async archiveLog(logId) {
+    const url = `${this.url}locale/log/archive`;
+    let params = new HttpParams();
+    params = params.set('logId', logId);
+    const request = this.http.delete(url, { params });
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
 }

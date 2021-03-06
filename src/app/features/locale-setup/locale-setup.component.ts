@@ -30,6 +30,7 @@ export class LocaleSetupComponent implements OnInit {
 
   ngOnInit(): void {
     this.reset();
+    this.resetNewFormula();
     this.listLocales();
     this.getCategories();
   }
@@ -55,7 +56,9 @@ export class LocaleSetupComponent implements OnInit {
       dealerChargeType: new FormControl('%'),
       deliveryChargeType: new FormControl('%'),
     });
+  }
 
+  resetNewFormula() {
     this.newFormula = new FormGroup({
       category: new FormControl(''),
       subCategory: new FormControl(''),

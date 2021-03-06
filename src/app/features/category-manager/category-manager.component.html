@@ -78,7 +78,7 @@
                 <span class="mdi" (click)="download()">download_for_offline</span>
             </button> -->
         </div>
-        <table mat-table [dataSource]="jobs" *ngIf="jobs && jobs.length" class="mat-elevation-z8">
+        <table mat-table [dataSource]="jobs" *ngIf="jobs && jobs.length">
             <ng-container matColumnDef="category">
                 <th mat-header-cell *matHeaderCellDef> CATEGORY. </th>
                 <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>

@@ -16,20 +16,33 @@ export class ConfigurationComponent implements OnInit {
     save: 1,
     active: false
   };
-  rawConfiguration: any = {};
+  rawConfiguration: any = {
+    proxies: '',
+    host: '',
+    maxRange: '',
+    save: 1,
+    active: false
+  };
   configurationForm: FormGroup = new FormGroup({
     proxies: new FormControl(''),
     host: new FormControl(''),
     maxRange: new FormControl(''),
-    save: new FormControl('')
+    save: new FormControl(''),
+    active: new FormControl(false)
   });
   constructor(private config: ConfigurationService, private dialog: DialogService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.getConfiguration();
+  }
+
+  async getConfiguration() {
     const configuration = await this.config.getConfiguration();
-    this.configuration = configuration[0];
-    this.rawConfiguration = configuration[0];
-    this.setConfiguration(this.configuration);
+    if (configuration) {
+      this.configuration = configuration;
+      this.rawConfiguration = configuration;
+      this.setConfiguration(this.configuration);
+    }
   }
 
   async saveConfiguration() {
@@ -45,7 +58,8 @@ export class ConfigurationComponent implements OnInit {
       proxies: new FormControl(proxies),
       host: new FormControl(host),
       maxRange: new FormControl(maxRange),
-      save: new FormControl(save)
+      save: new FormControl(save),
+      active: new FormControl(false)
     });
   }
 
