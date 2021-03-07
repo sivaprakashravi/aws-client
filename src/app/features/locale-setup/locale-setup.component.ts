@@ -4,6 +4,7 @@ import { CategoryManagerService } from 'src/app/services/backend/category-manage
 import { LocaleService } from 'src/app/services/backend/locale.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-locale-setup',
@@ -26,6 +27,7 @@ export class LocaleSetupComponent implements OnInit {
   constructor(
     private localeService: LocaleService,
     private dialog: DialogService,
+    private router: Router,
     private categoryManagerService: CategoryManagerService) { }
 
   ngOnInit(): void {
@@ -112,13 +114,13 @@ export class LocaleSetupComponent implements OnInit {
       let category = this.newFormula.value.category;
       category = category.nId;
       let subCategory = this.newFormula.value.subCategory;
+      subCategory = subCategory.nId;
       filter = {
         locale: _.pick(this.newFormula.value.locale, ['localeId', 'name']),
         recursive: isRecursive ? true : false,
         category,
         subCategory
       };
-      subCategory = subCategory.nId;
       if (method === 'addLog') {
         filter.status = 'saved';
       }
@@ -152,6 +154,12 @@ export class LocaleSetupComponent implements OnInit {
     const logs = await this.localeService.refresh(log, category.nId, subCategory.nId);
     this.dialog.simpleDialog(logs ? 'Product Count Updated Successfully!' : 'Error during Count Update!!');
     this.getLocales();
+  }
+
+  async navToPdts({ category, subCategory, count }) {
+    if (count && category && subCategory) {
+      this.router.navigate(['products'], { queryParams: { category: category.nId, subCategory: subCategory.nId } });
+    }
   }
 
 }

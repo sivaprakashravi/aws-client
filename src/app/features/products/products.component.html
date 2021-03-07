@@ -1,1 +1,81 @@
-<p>products works!</p>
+<div class="products">
+    <div class="filter">
+        <h3>Search For Products</h3>
+        <form [formGroup]="filter">
+            <mat-form-field>
+                <mat-label>Choose a Category</mat-label>
+                <mat-select formControlName="category" (selectionChange)="updateSubCategory($event)">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let category of categories" [value]="category">
+                        {{category.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="left10px">
+                <mat-label>Choose a Sub Category</mat-label>
+                <mat-select formControlName="subCategory" [disabled]="!(subCategories && subCategories.length)">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let sCategory of subCategories" [value]="sCategory">
+                        {{sCategory.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button class="left10px" mat-raised-button color="primary" (click)="search()"
+                [disabled]="!filter.value.category || !filter.value.subCategory"><span
+                    class="mdi">filter_alt</span>Filter</button>
+            <button class="left10px" mat-raised-button color="primary" (click)="download()"
+                [disabled]="!filter.value.category || !filter.value.subCategory"><span
+                    class="mdi">download</span>Download</button>
+            <button class="left10px" mat-raised-button color="secondary" (click)="setFilter()"><span
+                    class="mdi">clear_all</span>Reset</button>
+        </form>
+    </div>
+    <div>
+        <table mat-table [dataSource]="products" *ngIf="products && products.length">
+            <ng-container matColumnDef="asin">
+                <th mat-header-cell *matHeaderCellDef> ASIN. </th>
+                <td mat-cell *matCellDef="let element"> {{element.asin}} </td>
+            </ng-container>
+            <ng-container matColumnDef="label">
+                <th mat-header-cell *matHeaderCellDef> Label. </th>
+                <td mat-cell *matCellDef="let element"> {{element.label}} </td>
+            </ng-container>
+            <ng-container matColumnDef="prodMinDesc">
+                <th mat-header-cell *matHeaderCellDef> Desc. </th>
+                <td mat-cell *matCellDef="let element"> {{element.prodMinDesc}} </td>
+            </ng-container>
+            <ng-container matColumnDef="rating">
+                <th mat-header-cell *matHeaderCellDef> Rating. </th>
+                <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
+            </ng-container>
+            <ng-container matColumnDef="brand">
+                <th mat-header-cell *matHeaderCellDef> Brand. </th>
+                <td mat-cell *matCellDef="let element"> {{element.brand}} </td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Description. </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+            <ng-container matColumnDef="model">
+                <th mat-header-cell *matHeaderCellDef> Model. </th>
+                <td mat-cell *matCellDef="let element"> {{element.model}} </td>
+            </ng-container>
+            <ng-container matColumnDef="price">
+                <th mat-header-cell *matHeaderCellDef> Price. </th>
+                <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+            </ng-container>
+            <ng-container matColumnDef="deliveryCharge">
+                <th mat-header-cell *matHeaderCellDef> Delivery Charge. </th>
+                <td mat-cell *matCellDef="let element"> {{element.deliveryCharge}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div class="pagination">
+        <ul>
+            <li (click)="page(i+1)" *ngFor="let item of [].constructor(pages); let i = index"
+                [ngClass]="{'active': i+1 === activePage}">{{i+1}}</li>
+        </ul>
+    </div>
+</div>
