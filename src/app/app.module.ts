@@ -23,6 +23,7 @@ import { LoadingComponent } from './shared/loading/loading.component';
 import { ConfigurationComponent } from './features/configuration/configuration.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LocaleSetupComponent } from './features/locale-setup/locale-setup.component';
+import { ProductsComponent } from './features/products/products.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import { LocaleSetupComponent } from './features/locale-setup/locale-setup.compo
     RouteErrorComponent,
     LoadingComponent,
     ConfigurationComponent,
-    LocaleSetupComponent
+    LocaleSetupComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule,

@@ -15,7 +15,7 @@ export class LocaleSetupComponent implements OnInit {
     'dealerCharge',
     'deliveryCharge',
     'actions'];
-    displayedApplyColumns: string[] = ['id', 'category', 'subCategory', 'locale', 'message'];
+  displayedApplyColumns: string[] = ['category', 'subCategory', 'recursive', 'locale', 'count', 'actions', 'refresh', 'archive'];
   formula: FormGroup;
   newFormula: FormGroup;
   values = ['%', 'value'];
@@ -33,6 +33,7 @@ export class LocaleSetupComponent implements OnInit {
     this.resetNewFormula();
     this.listLocales();
     this.getCategories();
+    this.getLocales();
   }
 
   async getCategories() {
@@ -98,22 +99,59 @@ export class LocaleSetupComponent implements OnInit {
     }
   }
 
-  async apply() {
-    let category = this.newFormula.value.category;
-    category = category.nId;
-    let subCategory = this.newFormula.value.subCategory;
-    subCategory = subCategory.nId;
-    const filter: any = {
-      locale: this.newFormula.value.locale,
-      category,
-      subCategory
-    };
-    const locale = await this.localeService.applyLocale(filter);
+  async apply(method, isRecursive?, row?) {
+    let filter: any = {};
+    if (method === 'applyOnly') {
+      filter = row;
+      filter.category = filter.category.nId;
+      filter.subCategory = filter.subCategory.nId;
+      filter.status = 'applied';
+      filter.noSave = true;
+      method = 'applyLog';
+    } else {
+      let category = this.newFormula.value.category;
+      category = category.nId;
+      let subCategory = this.newFormula.value.subCategory;
+      filter = {
+        locale: _.pick(this.newFormula.value.locale, ['localeId', 'name']),
+        recursive: isRecursive ? true : false,
+        category,
+        subCategory
+      };
+      subCategory = subCategory.nId;
+      if (method === 'addLog') {
+        filter.status = 'saved';
+      }
+      if (method === 'applyLog') {
+        filter.status = 'applied';
+      }
+    }
+    const locale = await this.localeService[method](filter);
     this.dialog.simpleDialog(locale.message);
-    const applied = _.cloneDeep(this.newFormula.value);
-    applied.message = locale.message;
-    applied.id = this.localeUpdates.length + 1;
-    this.localeUpdates = _.concat(this.localeUpdates, [applied]);
+    this.resetNewFormula();
+    this.getLocales();
+  }
+
+  async getLocales() {
+    const logs = await this.localeService.getLocaleLogs();
+    logs.forEach(l => {
+      l.category = this.categories.find(c => c.nId === l.category);
+      l.subCategory = l.category.subCategory.find(c => c.nId === l.subCategory);
+    });
+    this.localeUpdates = logs;
+  }
+
+  async archiveLocale(locale: any) {
+    const logs = await this.localeService.archiveLog(locale.log);
+    this.dialog.simpleDialog(logs ? 'Log Archived Successfully!' : 'Error during Archive!!');
+    this.getLocales();
+  }
+
+  async refresh(locale: any) {
+    const { log, category, subCategory } = locale;
+    const logs = await this.localeService.refresh(log, category.nId, subCategory.nId);
+    this.dialog.simpleDialog(logs ? 'Product Count Updated Successfully!' : 'Error during Count Update!!');
+    this.getLocales();
   }
 
 }

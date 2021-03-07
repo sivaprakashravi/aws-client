@@ -6,6 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'tokopedia-amazon-client';
+  title = 'Ecom Automation';
   date = new Date();
+  navigation = [{
+    name: 'Schedule',
+    route: 'job-scheduler'
+  }, {
+    name: 'Locale',
+    route: 'locale-setup'
+  }, {
+    name: 'Products',
+    route: 'products'
+  }];
 }

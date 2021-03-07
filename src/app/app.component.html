@@ -3,6 +3,9 @@
 <div class="core">
   <header>
     <label for="header">HORIZON</label>
+    <ul>
+      <li *ngFor="let nav of navigation"><a  [routerLink]="nav.route" routerLinkActive="active">{{nav.name}}</a></li>
+    </ul>
   </header>
   <router-outlet></router-outlet>
   <!-- <footer>&copy; Copyright Horizon {{date}}</footer> -->

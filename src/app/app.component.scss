@@ -8,5 +8,17 @@
         label {
             text-transform: uppercase;
         }
+        ul {
+            float: right;
+            display: flex;
+            li {
+                display: inline-flex;
+                margin-right: 18px;
+                a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+            }
+        }
     }
 }

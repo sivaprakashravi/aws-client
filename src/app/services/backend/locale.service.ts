@@ -35,14 +35,14 @@ export class LocaleService {
     return data;
   }
 
-  async applyLocale(config) {
+  async applyLog(config) {
     const url = `${this.url}locale/apply`;
     const request = this.http.post(url, config);
     const { data } = await this.loadingService.get(request);
     return data;
   }
 
-  
+
   // LOCALELOGS: '/locale/log/all,',
   // ADDLOCALELOG: '/locale/log/add',
   // ARCHIVELOCALELOG: '/locale/log/archive',
@@ -64,8 +64,17 @@ export class LocaleService {
   async archiveLog(logId) {
     const url = `${this.url}locale/log/archive`;
     let params = new HttpParams();
-    params = params.set('logId', logId);
+    params = params.set('log', logId);
     const request = this.http.delete(url, { params });
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
+
+  async refresh(log, category, subCategory) {
+    const url = `${this.url}locale/log/refresh`;
+    let params = new HttpParams();
+    params = params.set('log', log).append('category', category).append('subCategory', subCategory);
+    const request = this.http.get(url, { params });
     const { data } = await this.loadingService.get(request);
     return data;
   }

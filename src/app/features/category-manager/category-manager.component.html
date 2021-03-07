@@ -137,7 +137,7 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'inactive': !row.active}"></tr>
         </table>
         <!-- <div *ngIf="jobs && !jobs.length">No Jobs Scheduled!</div> -->
     </div>
