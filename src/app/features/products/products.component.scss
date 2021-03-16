@@ -5,18 +5,6 @@
       margin-left: 10px;
     }
   }
-  table {
-    width: 100%;
-    table-layout: fixed;
-
-    th,
-    td {
-      overflow: hidden;
-      width: auto;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
   .pagination {
       margin-top: 15px;
       ul {

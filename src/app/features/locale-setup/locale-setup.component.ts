@@ -18,7 +18,7 @@ export class LocaleSetupComponent implements OnInit {
     'ccpKG',
     'ppn',
     'actions'];
-  displayedApplyColumns: string[] = ['category', 'subCategory', 'recursive', 'locale', 'count', 'actions', 'refresh', 'archive'];
+  displayedApplyColumns: string[] = ['category', 'subCategory', 'recursive', 'locale', 'count', 'actions'];
   formula: FormGroup;
   newFormula: FormGroup;
   values = ['%', 'value'];
@@ -34,11 +34,11 @@ export class LocaleSetupComponent implements OnInit {
     private router: Router,
     private categoryManagerService: CategoryManagerService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.reset();
     this.resetNewFormula();
     this.listLocales();
-    this.getCategories();
+    await this.getCategories();
     this.getLocales();
   }
 
@@ -148,11 +148,12 @@ export class LocaleSetupComponent implements OnInit {
     if (method === 'addLog') {
       filter.status = 'saved';
     }
-    if (method === 'applyOnly' || method === 'applyLog') {
-      filter.status = 'applied';
-    }
     if (method === 'applyLog') {
       filter.recursive = true;
+    }
+    if (method === 'applyOnly' || method === 'applyLog') {
+      filter.status = 'applied';
+      method = 'applyLog';
     }
     const locale = await this.localeService[method](filter);
     this.dialog.simpleDialog(locale.message);

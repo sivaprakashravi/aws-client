@@ -31,6 +31,9 @@
       width: 80%;
       .mdi {
           color: #3f51b5;
+          &.disabled {
+            color: #ccc;
+          }
       }
     }
     &.w100 {
@@ -64,5 +67,9 @@
     cursor: pointer;
     color: #3f51b5;
     text-decoration: underline;
+  }
+
+  .mat-column-actions {
+    width: 140px;
   }
 }
