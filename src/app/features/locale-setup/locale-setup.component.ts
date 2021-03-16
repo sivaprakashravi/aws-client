@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CategoryManagerService } from 'src/app/services/backend/category-manager.service';
 import { LocaleService } from 'src/app/services/backend/locale.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -13,8 +13,10 @@ import { Router } from '@angular/router';
 })
 export class LocaleSetupComponent implements OnInit {
   displayedColumns: string[] = ['name',
-    'dealerCharge',
-    'deliveryCharge',
+    'variationFactor',
+    'markUp',
+    'ccpKG',
+    'ppn',
     'actions'];
   displayedApplyColumns: string[] = ['category', 'subCategory', 'recursive', 'locale', 'count', 'actions', 'refresh', 'archive'];
   formula: FormGroup;
@@ -24,6 +26,8 @@ export class LocaleSetupComponent implements OnInit {
   categories = [];
   subCategories = [];
   localeUpdates = [];
+  addLocale = false;
+
   constructor(
     private localeService: LocaleService,
     private dialog: DialogService,
@@ -53,11 +57,20 @@ export class LocaleSetupComponent implements OnInit {
 
   reset() {
     this.formula = new FormGroup({
-      name: new FormControl(''),
-      dealerCharge: new FormControl(0),
-      deliveryCharge: new FormControl(0),
-      dealerChargeType: new FormControl('%'),
-      deliveryChargeType: new FormControl('%'),
+      name: new FormControl('', [Validators.required]),
+      variationFactor: new FormControl('', [Validators.required]),
+      volumetricWtFactor: new FormControl('', [Validators.required]),
+      packingCost: new FormControl('', [Validators.required]),
+      freightUD: new FormControl('', [Validators.required]),
+      freightDC: new FormControl('', [Validators.required]),
+      ccpKG: new FormControl('', [Validators.required]),
+      ccpHAWB: new FormControl('', [Validators.required]),
+      sensitiveCargo: new FormControl('', [Validators.required]),
+      handlingCharges: new FormControl('', [Validators.required]),
+      markUp: new FormControl('', [Validators.required]),
+      beaCukai: new FormControl('', [Validators.required]),
+      pfComission: new FormControl('', [Validators.required]),
+      ppn: new FormControl('', [Validators.required]),
     });
   }
 
@@ -70,12 +83,23 @@ export class LocaleSetupComponent implements OnInit {
   }
 
   numberOnly(evt) {
-    const charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode === 46 || charCode > 31 && (charCode < 48 || charCode > 57)) {
-      evt.preventDefault();
-      return false;
+    const theEvent = evt || window.event;
+    let key = null;
+    // Handle paste
+    if (theEvent.type === 'paste') {
+      key = theEvent.clipboardData.getData('text/plain');
+    } else {
+      // Handle key press
+      key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
     }
-    return true;
+    const regex = /[0-9]|\./;
+    if (!regex.test(key)) {
+      theEvent.returnValue = false;
+      if (theEvent.preventDefault) {
+        theEvent.preventDefault();
+      }
+    }
   }
 
   async listLocales() {
@@ -103,13 +127,12 @@ export class LocaleSetupComponent implements OnInit {
 
   async apply(method, isRecursive?, row?) {
     let filter: any = {};
-    if (method === 'applyOnly') {
+    if (method === 'applyOnly' || method === 'applyLog') {
       filter = row;
       filter.category = filter.category.nId;
       filter.subCategory = filter.subCategory.nId;
       filter.status = 'applied';
       filter.noSave = true;
-      method = 'applyLog';
     } else {
       let category = this.newFormula.value.category;
       category = category.nId;
@@ -121,12 +144,15 @@ export class LocaleSetupComponent implements OnInit {
         category,
         subCategory
       };
-      if (method === 'addLog') {
-        filter.status = 'saved';
-      }
-      if (method === 'applyLog') {
-        filter.status = 'applied';
-      }
+    }
+    if (method === 'addLog') {
+      filter.status = 'saved';
+    }
+    if (method === 'applyOnly' || method === 'applyLog') {
+      filter.status = 'applied';
+    }
+    if (method === 'applyLog') {
+      filter.recursive = true;
     }
     const locale = await this.localeService[method](filter);
     this.dialog.simpleDialog(locale.message);

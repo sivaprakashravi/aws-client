@@ -1,52 +1,95 @@
 <div class="locale-setup">
     <div class="add-formula">
-        <h3>Add a Locale <span>[Conversion from USD - IR]</span></h3>
-        <form [formGroup]="formula">
-            <mat-form-field>
-                <mat-label>Locale Name</mat-label>
-                <input formControlName="name" #to matInput maxlength="25">
-            </mat-form-field>
-            <mat-form-field class="left10px w115">
-                <mat-label>Dealer Charge</mat-label>
-                <input formControlName="dealerCharge" #to matInput maxlength="4" (keydown)="numberOnly($event)">
-            </mat-form-field>
-            <mat-form-field class="w25">
-                <mat-select formControlName="dealerChargeType">
-                    <mat-option *ngFor="let value of values" [value]="value">{{value}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="left10px w115">
-                <mat-label>Delivery Charge</mat-label>
-                <input formControlName="deliveryCharge" #to matInput maxlength="4" (keydown)="numberOnly($event)">
-            </mat-form-field>
-            <mat-form-field class="w25 right10px">
-                <mat-select formControlName="deliveryChargeType">
-                    <mat-option *ngFor="let value of values" [value]="value">{{value}}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div class="action-buttons">
-                <button mat-raised-button color="primary" (click)="add()"
-                    [disabled]="!formula.value.name || !(formula.value.deliveryCharge || formula.value.dealerCharge)"><span
-                        class="mdi">schedule</span>Add</button>
-                <button class="left10px" mat-raised-button color="secondary" (click)="reset()">
-                    <span class="mdi">clear_all</span>Reset</button>
-            </div>
-        </form>
+        <h3>Add a Locale <span>[Conversion from USD - IDR]</span> <span class="add mdi"
+                (click)="addLocale = !addLocale">{{!addLocale ? 'add' : 'clear'}}</span></h3>
+        <div class="long-form" *ngIf="addLocale">
+            <form [formGroup]="formula">
+                <mat-form-field class="w115">
+                    <mat-label>Locale Name</mat-label>
+                    <input formControlName="name" matInput maxlength="25">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>Variation Factor</mat-label>
+                    <input formControlName="variationFactor" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>Volumetric Wt. Factor</mat-label>
+                    <input formControlName="volumetricWtFactor" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="w115">
+                    <mat-label>Packing Cost</mat-label>
+                    <input formControlName="packingCost" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>Freight [USA - DXB] per KG</mat-label>
+                    <input formControlName="freightUD" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>Freight [DXB - CGK] per KG</mat-label>
+                    <input formControlName="freightDC" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="w115">
+                    <mat-label>Custom Clearance / KG</mat-label>
+                    <input formControlName="ccpKG" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>Custom Clearance / HAWB</mat-label>
+                    <input formControlName="ccpHAWB" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>Sensitive Cargo / HAWB</mat-label>
+                    <input formControlName="sensitiveCargo" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="w115">
+                    <mat-label>Pickup / Handling Charges</mat-label>
+                    <input formControlName="handlingCharges" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>Markup in %</mat-label>
+                    <input formControlName="markUp" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>BEA CUKAI in %</mat-label>
+                    <input formControlName="beaCukai" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="w115">
+                    <mat-label>Platform Comission %</mat-label>
+                    <input formControlName="pfComission" matInput type="number">
+                </mat-form-field>
+                <mat-form-field class="left10px w115">
+                    <mat-label>PPN in %</mat-label>
+                    <input formControlName="ppn" matInput type="number">
+                </mat-form-field>
+                <br>
+                <div class="action-buttons">
+                    <button mat-raised-button color="primary" (click)="add()"
+                        [disabled]="formula && !formula.valid"><span class="mdi">schedule</span>Add</button>
+                    <button class="left10px" mat-raised-button color="secondary" (click)="reset()">
+                        <span class="mdi">clear_all</span>Reset</button>
+                </div>
+            </form>
+        </div>
         <div class="locale-list">
             <table mat-table [dataSource]="locales" *ngIf="locales && locales.length" class="mat-elevation-z8">
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Name. </th>
                     <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                 </ng-container>
-                <ng-container matColumnDef="dealerCharge">
-                    <th mat-header-cell *matHeaderCellDef> Dealer Charge. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.dealerCharge}}{{element.dealerChargeType === '%' ?
-                        element.dealerChargeType : ''}} </td>
+                <ng-container matColumnDef="variationFactor">
+                    <th mat-header-cell *matHeaderCellDef> Price Variation Factor.[%] </th>
+                    <td mat-cell *matCellDef="let element"> {{element.variationFactor}} </td>
                 </ng-container>
-                <ng-container matColumnDef="deliveryCharge">
-                    <th mat-header-cell *matHeaderCellDef> Delivery Charge. </th>
-                    <td mat-cell *matCellDef="let element"> {{element.deliveryCharge}}{{element.deliveryChargeType ===
-                        '%' ? element.deliveryChargeType : ''}} </td>
+                <ng-container matColumnDef="markUp">
+                    <th mat-header-cell *matHeaderCellDef> markUp.[%] </th>
+                    <td mat-cell *matCellDef="let element"> {{element.markUp}} </td>
+                </ng-container>
+                <ng-container matColumnDef="ccpKG">
+                    <th mat-header-cell *matHeaderCellDef> Custom Clearance. </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ccpKG}} / KILO & {{element.ccpHAWB}} / HAWB </td>
+                </ng-container>
+                <ng-container matColumnDef="ppn">
+                    <th mat-header-cell *matHeaderCellDef> PPN.[%] </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ppn}} </td>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
@@ -93,12 +136,12 @@
                 <button mat-raised-button color="primary" (click)="apply('addLog')"
                     [disabled]="!newFormula.value.category || !newFormula.value.locale"><span
                         class="mdi">save</span>Save</button>
-                <button class="left10px" mat-raised-button color="primary" (click)="apply('applyLog')"
+                <!-- <button class="left10px" mat-raised-button color="primary" (click)="apply('applyLog')"
                     [disabled]="!newFormula.value.category || !newFormula.value.locale"><span
-                        class="mdi">schedule</span>Apply</button>
-                <button class="left10px" mat-raised-button color="primary" (click)="apply('applyLog', true)"
+                        class="mdi">schedule</span>Apply</button> -->
+                <!-- <button class="left10px" mat-raised-button color="primary" (click)="apply('applyLog', true)"
                     [disabled]="!newFormula.value.category || !newFormula.value.locale"><span
-                        class="mdi">schedule</span>Apply Recursively</button>
+                        class="mdi">schedule</span>Apply Recursively</button> -->
                 <button class="left10px" mat-raised-button color="secondary" (click)="resetNewFormula()"><span
                         class="mdi">clear_all</span>Reset</button>
             </div>
@@ -125,19 +168,28 @@
                 </ng-container>
                 <ng-container matColumnDef="count">
                     <th mat-header-cell *matHeaderCellDef> Applied to. </th>
-                    <td mat-cell *matCellDef="let element" (click)="navToPdts(element)" [ngClass]="{'link': element.count}"> {{element.count}} Products</td>
+                    <td mat-cell *matCellDef="let element" (click)="navToPdts(element)"
+                        [ngClass]="{'link': element.count}"> {{element.count}} Products</td>
                 </ng-container>
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let row"> <button (click)="apply('applyOnly', false, row)" class="left10px" mat-raised-button color="primary" [disabled]="row.status === 'applied'">{{row.status === 'saved' ? 'Apply' : 'Applied'}}</button></td>
+                    <td mat-cell *matCellDef="let row">
+                        <button (click)="apply('applyOnly', false, row)" class="left10px" mat-raised-button
+                            color="primary" [disabled]="row.status === 'applied'">{{row.status === 'saved' ? 'Apply' :
+                            'Applied'}}</button>
+                        <button class="left10px" mat-raised-button color="primary" (click)="apply('applyLog', true, row)"
+                        [disabled]="row.recursive">Apply Recursively</button>
+                    </td>
                 </ng-container>
                 <ng-container matColumnDef="refresh">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let row"> <span (click)="refresh(row)" *ngIf="row.status === 'saved'" class="mdi right10px">refresh</span></td>
+                    <td mat-cell *matCellDef="let row"> <span (click)="refresh(row)" *ngIf="row.status === 'saved'"
+                            class="mdi right10px">refresh</span></td>
                 </ng-container>
                 <ng-container matColumnDef="archive">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let row"> <span (click)="archiveLocale(row)" class="mdi">archive</span></td>
+                    <td mat-cell *matCellDef="let row"> <span (click)="archiveLocale(row)" class="mdi">archive</span>
+                    </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedApplyColumns"></tr>

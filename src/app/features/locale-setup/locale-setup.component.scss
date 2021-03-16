@@ -10,6 +10,16 @@
   .add-formula {
     width: 50%;
     display: inline-block;
+    .add {
+      float: right;
+      margin: 5px 25px;
+    }
+  }
+  .long-form {
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    width: calc(100% - 40px);
   }
   .apply-formula {
     width: 50%;
@@ -42,7 +52,7 @@
     width: 70px;
   }
   .w115 {
-    width: 115px;
+    width: 31.5%;
   }
   .action-buttons {
     display: inline-block;
