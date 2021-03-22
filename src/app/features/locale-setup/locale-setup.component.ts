@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CategoryManagerService } from 'src/app/services/backend/category-manager.service';
+import { JobSchedulerService } from 'src/app/services/backend/job-scheduler.service';
 import { LocaleService } from 'src/app/services/backend/locale.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import * as _ from 'lodash';
@@ -32,7 +32,7 @@ export class LocaleSetupComponent implements OnInit {
     private localeService: LocaleService,
     private dialog: DialogService,
     private router: Router,
-    private categoryManagerService: CategoryManagerService) { }
+    private jobSchedulerService: JobSchedulerService) { }
 
   async ngOnInit() {
     this.reset();
@@ -43,7 +43,7 @@ export class LocaleSetupComponent implements OnInit {
   }
 
   async getCategories() {
-    const { data } = await this.categoryManagerService.categories();
+    const { data } = await this.jobSchedulerService.categories();
     data.forEach(d => d.count = 0);
     this.categories = data;
   }

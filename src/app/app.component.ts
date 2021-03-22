@@ -17,5 +17,8 @@ export class AppComponent {
   }, {
     name: 'Products',
     route: 'products'
+  }, {
+    name: 'Categories',
+    route: 'categories'
   }];
 }

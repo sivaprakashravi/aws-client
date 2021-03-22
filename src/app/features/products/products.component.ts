@@ -7,7 +7,7 @@ import {
   FormGroup
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CategoryManagerService } from 'src/app/services/backend/category-manager.service';
+import { JobSchedulerService } from 'src/app/services/backend/job-scheduler.service';
 import { ProductService } from 'src/app/services/backend/product.service';
 import * as _ from 'lodash';
 
@@ -38,7 +38,7 @@ export class ProductsComponent implements OnInit {
   pages = 0;
   activePage = 1;
   constructor(
-    private categoryManagerService: CategoryManagerService,
+    private jobSchedulerService: JobSchedulerService,
     private router: ActivatedRoute,
     private productService: ProductService) {
     this.router.queryParams.subscribe(params => {
@@ -92,7 +92,7 @@ export class ProductsComponent implements OnInit {
   }
 
   async getCategories() {
-    const { data } = await this.categoryManagerService.categories();
+    const { data } = await this.jobSchedulerService.categories();
     data.forEach(d => d.count = 0);
     this.categories = data;
   }

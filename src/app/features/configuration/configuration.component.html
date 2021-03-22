@@ -7,7 +7,7 @@
                 <span class="mdi" *ngIf="!rawConfiguration.active">play_arrow</span>
                 {{!rawConfiguration.active ? 'Resume' : 'Suspend'}} Application
             </button>
-            <button class="left10px danger" mat-raised-button color="secondary"><span class="mdi">delete_outline</span>Empty Database</button>
+            <button class="left10px danger" mat-raised-button color="secondary" (click)="clearDBs()"><span class="mdi">delete_outline</span>Empty Database</button>
             <button class="left10px danger" mat-raised-button color="secondary"><span class="mdi">refresh</span>Reset Configuration</button>
         </div></h3>
     <form [formGroup]="configurationForm">

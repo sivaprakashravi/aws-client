@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryManagerComponent } from './category-manager.component';
+import { JobSchedulerComponent } from './job-scheduler.component';
 
-describe('CategoryManagerComponent', () => {
-  let component: CategoryManagerComponent;
-  let fixture: ComponentFixture<CategoryManagerComponent>;
+describe('JobSchedulerComponent', () => {
+  let component: JobSchedulerComponent;
+  let fixture: ComponentFixture<JobSchedulerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CategoryManagerComponent ]
+      declarations: [ JobSchedulerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CategoryManagerComponent);
+    fixture = TestBed.createComponent(JobSchedulerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

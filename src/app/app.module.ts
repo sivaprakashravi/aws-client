@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { DashboardComponent } from './features/dashboard/dashboard.component';
-import { CategoryManagerComponent } from './features/category-manager/category-manager.component';
+import { JobSchedulerComponent } from './features/job-scheduler/job-scheduler.component';
 import { RouteErrorComponent } from './features/route-error/route-error.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoadingComponent } from './shared/loading/loading.component';
@@ -24,16 +24,18 @@ import { ConfigurationComponent } from './features/configuration/configuration.c
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LocaleSetupComponent } from './features/locale-setup/locale-setup.component';
 import { ProductsComponent } from './features/products/products.component';
+import { CategoriesComponent } from './features/categories/categories.component';
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    CategoryManagerComponent,
+    JobSchedulerComponent,
     RouteErrorComponent,
     LoadingComponent,
     ConfigurationComponent,
     LocaleSetupComponent,
-    ProductsComponent
+    ProductsComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,

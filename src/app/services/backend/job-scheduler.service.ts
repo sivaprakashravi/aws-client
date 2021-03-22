@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '.././../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { LoadingService } from '../loading.service';
 import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { AppService } from '../app.service';
@@ -7,7 +7,7 @@ import { AppService } from '../app.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryManagerService {
+export class JobSchedulerService {
   url = `${environment.URL}`;
   constructor(private loadingService: LoadingService, private http: HttpClient, private session: AppService) { }
 

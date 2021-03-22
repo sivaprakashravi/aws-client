@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
+import { DbService } from 'src/app/services/backend/db.service';
 import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
@@ -30,7 +31,7 @@ export class ConfigurationComponent implements OnInit {
     save: new FormControl(''),
     active: new FormControl(false)
   });
-  constructor(private config: ConfigurationService, private dialog: DialogService) { }
+  constructor(private config: ConfigurationService, private dialog: DialogService, private db: DbService) { }
 
   ngOnInit() {
     this.getConfiguration();
@@ -75,6 +76,11 @@ export class ConfigurationComponent implements OnInit {
   async refreshCategories() {
     const cat = await this.config.refreshCategories();
     this.dialog.simpleDialog(cat);
+  }
+
+  async clearDBs() {
+    const deleted = await this.db.deleteDBs();
+    this.dialog.simpleDialog('All Documents removed Except Categories and Configuration.');
   }
 
 }

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CategoryManagerService } from 'src/app/services/backend/category-manager.service';
+import { JobSchedulerService } from 'src/app/services/backend/job-scheduler.service';
 import { HelpersService } from 'src/app/services/helpers.service';
 import { DialogService } from 'src/app/services/dialog.service';
 @Component({
-  selector: 'app-category-manager',
-  templateUrl: './category-manager.component.html',
-  styleUrls: ['./category-manager.component.scss']
+  selector: 'app-job-scheduler',
+  templateUrl: './job-scheduler.component.html',
+  styleUrls: ['./job-scheduler.component.scss']
 })
-export class CategoryManagerComponent implements OnInit {
+export class JobSchedulerComponent implements OnInit {
   displayedColumns: string[] = ['category',
     'subCategory',
     'interval',
@@ -32,7 +32,7 @@ export class CategoryManagerComponent implements OnInit {
   fetchData = false;
   duration = ['Now', 'Everyday', 'Once in a Week', 'Once in a Month', 'Twice in a Week', 'Twice in a Month'];
   newJob: FormGroup;
-  constructor(private categoryManagerService: CategoryManagerService, private helpers: HelpersService, private dialog: DialogService) { }
+  constructor(private jobSchedulerService: JobSchedulerService, private helpers: HelpersService, private dialog: DialogService) { }
 
   ngOnInit(): void {
     const self = this;
@@ -48,7 +48,7 @@ export class CategoryManagerComponent implements OnInit {
   async scrap() {
     this.rawProducts = [];
     this.products = [];
-    const { data } = await this.categoryManagerService.scrappedData();
+    const { data } = await this.jobSchedulerService.scrappedData();
     this.rawProducts = data;
     this.products = data;
   }
@@ -92,7 +92,7 @@ export class CategoryManagerComponent implements OnInit {
     if (values.category && values.subCategory) {
       const isValid = await this.checkNewJob(values);
       if (isValid) {
-        await this.categoryManagerService.addJob(values);
+        await this.jobSchedulerService.addJob(values);
         this.dialog.simpleDialog('Job Created');
         this.setJob();
         this.showJobs();
@@ -103,7 +103,7 @@ export class CategoryManagerComponent implements OnInit {
   }
 
   async showJobs() {
-    const jobs = await this.categoryManagerService.jobs();
+    const jobs = await this.jobSchedulerService.jobs();
     this.rawJobs = jobs;
     this.jobs = jobs;
   }
@@ -128,7 +128,7 @@ export class CategoryManagerComponent implements OnInit {
         category.value.status = 'Job Scheduled';
         const isExists = this.jobs.find(j => j.id === category.value.id);
         setTimeout(async () => {
-          const { data } = await this.categoryManagerService.scrapCaterory(category.value.name);
+          const { data } = await this.jobSchedulerService.scrapCaterory(category.value.name);
           category.value.status = data.status;
         }, 1000);
         this.jobs.push(category.value);
@@ -136,7 +136,7 @@ export class CategoryManagerComponent implements OnInit {
         alreadyScheduled.count += 1;
         alreadyScheduled.status = 'Job Scheduled';
         setTimeout(async () => {
-          const { data } = await this.categoryManagerService.scrapCaterory(category.value.name);
+          const { data } = await this.jobSchedulerService.scrapCaterory(category.value.name);
           category.value.status = data.status;
         }, 1000);
       }
@@ -145,7 +145,7 @@ export class CategoryManagerComponent implements OnInit {
 
   async checkJobStatus() {
     if (this.jobs && this.jobs.length && this.jobs.find(j => j.status !== 'Job Completed')) {
-      const { data } = await this.categoryManagerService.jobStatus();
+      const { data } = await this.jobSchedulerService.jobStatus();
       this.fetchData = data.find(d => d.status !== 'Job Completed') ? true : false;
       data.forEach(({ job, status }) => {
         const jId = this.jobs.find(j => j.name === job);
@@ -160,7 +160,7 @@ export class CategoryManagerComponent implements OnInit {
   }
 
   async getCategories() {
-    const { data } = await this.categoryManagerService.categories();
+    const { data } = await this.jobSchedulerService.categories();
     data.forEach(d => d.count = 0);
     this.categories = data;
   }
