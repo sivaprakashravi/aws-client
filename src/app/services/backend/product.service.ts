@@ -21,10 +21,10 @@ export class ProductService {
     return data;
   }
 
-  async downloadProducts({ category, subCategory}) {
+  async downloadProducts({ category, subCategory, storeId}) {
     const url = `${this.url}product/download`;
     let params = new HttpParams();
-    params = params.set('category', category).append('subCategory', subCategory);
+    params = params.set('category', category).append('subCategory', subCategory).append('storeId', storeId);
     const request = this.http.get(url, { params });
     const { data } = await this.loadingService.get(request);
     return data;
