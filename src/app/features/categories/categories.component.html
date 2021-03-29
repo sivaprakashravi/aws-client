@@ -1,9 +1,72 @@
 <div class="category-manager">
+    <h3>Manage Category
+        <span class="mdi add">add</span>
+    </h3>
+    <form [formGroup]="category">
+        <div>
+            <mat-form-field>
+                <mat-label>Choose a Category</mat-label>
+                <mat-select (selectionChange)="updateCategory($event)">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let category of customCategories" [value]="category">
+                        {{category.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field class="left10px">
+            <mat-label>Id</mat-label>
+            <input formControlName="nId" matInput type="number">
+        </mat-form-field>
+        <span class="mdi add" *ngIf="isCategoryUpdate" (click)="addSubCategory()">add</span>
+        <button class="left10px" mat-raised-button color="primary" (click)="createCategory()"
+            [disabled]="!category.value.name && !category.value.nId"><span class="mdi">{{isCategoryUpdate ? 'update' :
+                'add'}}</span>{{isCategoryUpdate ? 'Update' : 'Add'}}</button>
+        <button class="left10px" mat-raised-button color="secondary" (click)="clearCategory()"><span
+                class="mdi">clear_all</span>Cancel</button>
+        <ol class="sub-category">
+            <li *ngFor="let subCategory of category.value.subCategory">
+                <form [formGroup]="subCategory">
+                    <mat-form-field class="left10px">
+                        <mat-label>Name</mat-label>
+                        <input formControlName="name" matInput>
+                    </mat-form-field>
+                    <mat-form-field class="left10px">
+                        <mat-label>Id</mat-label>
+                        <input formControlName="nId" matInput type="number">
+                    </mat-form-field>
+                    <span class="mdi add" *ngIf="isCategoryUpdate" (click)="addSubCategory1(subCategory, subCategory.value.subCategory)">add</span>
+                    <span class="mdi add remove" *ngIf="isCategoryUpdate" (click)="removeSubCategory1(subCategory, category)">remove</span>
+                    <ol class="sub-category">
+                        <li *ngFor="let subCategory2 of subCategory.value.subCategory">
+                            <form [formGroup]="subCategory2">
+                                <mat-form-field class="left10px">
+                                    <mat-label>Name</mat-label>
+                                    <input formControlName="name" matInput>
+                                </mat-form-field>
+                                <mat-form-field class="left10px">
+                                    <mat-label>Id</mat-label>
+                                    <input formControlName="nId" matInput type="number">
+                                </mat-form-field>
+                                <span class="mdi add remove" *ngIf="isCategoryUpdate" (click)="removeSubCategory1(subCategory2, subCategory)">remove</span>
+                            </form>
+                        </li>
+                    </ol>
+                </form>
+            </li>
+        </ol>
+    </form>
+</div>
+<div class="category-manager">
     <h3>Set Store</h3>
     <form [formGroup]="form">
         <mat-form-field>
             <mat-label>Choose a Category</mat-label>
-            <mat-select formControlName="category" (selectionChange)="updateSubCategory($event)">
+            <mat-select formControlName="category" (selectionChange)="updateSubCategory($event, 'subCategories')">
                 <mat-option value=''>-Select-</mat-option>
                 <mat-option *ngFor="let category of categories" [value]="category">
                     {{category.name}}
@@ -11,10 +74,20 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field class="left10px" *ngIf="subCategories && subCategories.length">
-            <mat-label>Choose a Sub Category</mat-label>
-            <mat-select formControlName="subCategory" (selectionChange)="updateStoreId($event)">
+            <mat-label>Choose a Sub Category 1</mat-label>
+            <mat-select formControlName="subCategory"
+                (selectionChange)="updateStoreId($event); updateSubCategory($event, 'subCategories1')">
                 <mat-option value=''>-Select-</mat-option>
                 <mat-option *ngFor="let sCategory of subCategories" [value]="sCategory">
+                    {{sCategory.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="left10px" *ngIf="subCategories1 && subCategories1.length">
+            <mat-label>Choose a Sub Category 2</mat-label>
+            <mat-select formControlName="subCategory1" (selectionChange)="updateStoreId($event)">
+                <mat-option value=''>-Select-</mat-option>
+                <mat-option *ngFor="let sCategory of subCategories1" [value]="sCategory">
                     {{sCategory.name}}
                 </mat-option>
             </mat-select>
@@ -23,7 +96,9 @@
             <mat-label>Store Id</mat-label>
             <input formControlName="storeId" matInput type="number">
         </mat-form-field>
-        <button class="left10px" mat-raised-button color="primary" (click)="update()" [disabled]="!form.value.storeId"><span class="mdi">update</span>Update</button>
-        <button class="left10px" mat-raised-button color="secondary" (click)="cancel()"><span class="mdi">clear_all</span>Cancel</button>
+        <button class="left10px" mat-raised-button color="primary" (click)="update()"
+            [disabled]="!form.value.storeId"><span class="mdi">update</span>Update</button>
+        <button class="left10px" mat-raised-button color="secondary" (click)="cancel()"><span
+                class="mdi">clear_all</span>Cancel</button>
     </form>
 </div>

@@ -26,6 +26,7 @@ export class JobSchedulerComponent implements OnInit {
   value = '';
   categories = [];
   subCategories = [];
+  subCategories1 = [];
   jobs = [];
   rawJobs = [];
   interval = 30000;
@@ -53,12 +54,13 @@ export class JobSchedulerComponent implements OnInit {
     this.products = data;
   }
 
-  updateSubCategory({ value }) {
-    this.subCategories = [];
+  updateSubCategory({ value }, subCategories: string) {
+    this[subCategories] = [];
     if (value && value.subCategory) {
-      this.subCategories = value.subCategory;
+      this[subCategories] = value.subCategory;
     }
   }
+
   checkNewJob({ category, subCategory, from, to }) {
     if (this.rawJobs && this.rawJobs.length) {
       const exist = this.rawJobs.filter(r => {
@@ -186,6 +188,7 @@ export class JobSchedulerComponent implements OnInit {
     this.newJob = new FormGroup({
       category: new FormControl(''),
       subCategory: new FormControl(''),
+      subCategory1: new FormControl(''),
       recursive: new FormControl(false),
       prime: new FormControl(false),
       interval: new FormControl('Now'),
@@ -193,6 +196,7 @@ export class JobSchedulerComponent implements OnInit {
       to: new FormControl('1000')
     });
     this.subCategories = [];
+    this.subCategories1 = [];
   }
 
 }

@@ -15,6 +15,7 @@ import { MessageService } from './message.service';
 import { JsonService } from './json.service';
 import { SessionService } from './auth/session.service';
 import { Router } from '@angular/router';
+import { DialogService } from './dialog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class LoadingService implements OnDestroy {
   constructor(
     private http: HttpClient,
     private toast: ToastService,
-    private message: MessageService,
+    private message: DialogService,
     private json: JsonService,
     private session: SessionService,
     private router: Router) { }
@@ -148,16 +149,7 @@ export class LoadingService implements OnDestroy {
 
   showError(error) {
     if (error) {
-      this.message.createMessage({
-        header: `Code: ${error.errorCode}`,
-        message: error.message,
-        yes: {
-          label: 'Ok',
-          action: () => {
-            this.message.close();
-          }
-        }
-      });
+      this.message.simpleDialog(error.message);
     }
   }
 

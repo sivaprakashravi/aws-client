@@ -4,7 +4,7 @@
         <form [formGroup]="newJob">
             <mat-form-field>
                 <mat-label>Choose a Category</mat-label>
-                <mat-select formControlName="category" (selectionChange)="updateSubCategory($event)">
+                <mat-select formControlName="category" (selectionChange)="updateSubCategory($event, 'subCategories')">
                     <mat-option value=''>-Select-</mat-option>
                     <mat-option *ngFor="let category of categories" [value]="category">
                         {{category.name}}
@@ -12,10 +12,19 @@
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="left10px" *ngIf="subCategories && subCategories.length">
-                <mat-label>Choose a Sub Category</mat-label>
-                <mat-select formControlName="subCategory">
+                <mat-label>Choose a Sub Category 1</mat-label>
+                <mat-select formControlName="subCategory" (selectionChange)="updateSubCategory($event, 'subCategories1')">
                     <mat-option value=''>-Select-</mat-option>
                     <mat-option *ngFor="let sCategory of subCategories" [value]="sCategory">
+                        {{sCategory.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="left10px" *ngIf="subCategories1 && subCategories1.length">
+                <mat-label>Choose a Sub Category 2</mat-label>
+                <mat-select formControlName="subCategory1">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let sCategory of subCategories1" [value]="sCategory">
                         {{sCategory.name}}
                     </mat-option>
                 </mat-select>
