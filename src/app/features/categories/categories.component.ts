@@ -39,15 +39,18 @@ export class CategoriesComponent implements OnInit {
     }
     if (value.storeId) {
       this.form.controls.storeId.setValue(value.storeId);
+      this.form.controls.categoryCode.setValue(value.categoryCode);
     }
   }
 
   updateStoreId({ value }) {
     if (value.storeId) {
       this.form.controls.storeId.setValue(value.storeId);
+      this.form.controls.categoryCode.setValue(value.categoryCode);
     } else {
       const category = this.form.get('category');
       this.form.controls.storeId.setValue(category.value.storeId);
+      this.form.controls.categoryCode.setValue(category.value.categoryCode);
     }
   }
 
@@ -56,7 +59,8 @@ export class CategoriesComponent implements OnInit {
       category: new FormControl(''),
       subCategory: new FormControl(''),
       subCategory1: new FormControl(''),
-      storeId: new FormControl(null)
+      storeId: new FormControl(null),
+      categoryCode: new FormControl(null)
     });
     this.subCategories = [];
     this.subCategories1 = [];
@@ -139,11 +143,12 @@ export class CategoriesComponent implements OnInit {
   }
 
   async update() {
-    const { category, subCategory, subCategory1, storeId } = this.form.value;
+    const { category, subCategory, subCategory1, storeId, categoryCode } = this.form.value;
     const data: any = {};
-    if ((category || subCategory) && storeId) {
+    if ((category || subCategory) && storeId && categoryCode) {
       data.category = category.nId;
       data.storeId = storeId;
+      data.categoryCode = categoryCode;
       if (subCategory) {
         data.subCategory = subCategory.nId;
       }

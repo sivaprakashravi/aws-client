@@ -35,6 +35,12 @@
                 <input formControlName="maxRange" matInput maxlength="5">
             </mat-form-field>
         </div>
+        <div>
+            <mat-form-field class="left10px w150px">
+                <mat-label>Price / Stock Watch Interval</mat-label>
+                <input formControlName="watchInterval" matInput type="number">
+            </mat-form-field>
+        </div>
         <button class="left10px" mat-raised-button color="primary" (click)="saveConfiguration()"><span class="mdi">schedule</span>Save</button>
     </form>
 </div>

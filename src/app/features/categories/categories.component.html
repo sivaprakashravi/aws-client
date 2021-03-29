@@ -96,8 +96,12 @@
             <mat-label>Store Id</mat-label>
             <input formControlName="storeId" matInput type="number">
         </mat-form-field>
+        <mat-form-field class="left10px range" *ngIf="form && form.value && form.value.category">
+            <mat-label>Category Code</mat-label>
+            <input formControlName="categoryCode" matInput type="number">
+        </mat-form-field>
         <button class="left10px" mat-raised-button color="primary" (click)="update()"
-            [disabled]="!form.value.storeId"><span class="mdi">update</span>Update</button>
+            [disabled]="!form.value.storeId || !form.value.categoryCode"><span class="mdi">update</span>Update</button>
         <button class="left10px" mat-raised-button color="secondary" (click)="cancel()"><span
                 class="mdi">clear_all</span>Cancel</button>
     </form>

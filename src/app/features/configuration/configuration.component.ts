@@ -15,21 +15,24 @@ export class ConfigurationComponent implements OnInit {
     host: '',
     maxRange: '',
     save: 1,
-    active: false
+    active: false,
+    watchInterval: 1
   };
   rawConfiguration: any = {
     proxies: '',
     host: '',
     maxRange: '',
     save: 1,
-    active: false
+    active: false,
+    watchInterval: 1
   };
   configurationForm: FormGroup = new FormGroup({
     proxies: new FormControl(''),
     host: new FormControl(''),
     maxRange: new FormControl(''),
     save: new FormControl(''),
-    active: new FormControl(false)
+    active: new FormControl(false),
+    watchInterval: new FormControl('')
   });
   constructor(private config: ConfigurationService, private dialog: DialogService, private db: DbService) { }
 
@@ -54,13 +57,14 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  setConfiguration({ proxies, host, maxRange, save }) {
+  setConfiguration({ proxies, host, maxRange, save, watchInterval }) {
     this.configurationForm = new FormGroup({
       proxies: new FormControl(proxies),
       host: new FormControl(host),
       maxRange: new FormControl(maxRange),
       save: new FormControl(save),
-      active: new FormControl(false)
+      active: new FormControl(false),
+      watchInterval: new FormControl(watchInterval)
     });
   }
 

@@ -6,6 +6,7 @@
     <ul>
       <li *ngFor="let nav of navigation"><a  [routerLink]="nav.route" routerLinkActive="active">{{nav.name}}</a></li>
     </ul>
+    <div *ngIf="notifications" (click)="gotoNotifications()" class="notification"><label>{{notifications}}</label><span class="mdi">notifications</span></div>
   </header>
   <router-outlet></router-outlet>
   <!-- <footer>&copy; Copyright Horizon {{date}}</footer> -->

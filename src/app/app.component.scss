@@ -8,6 +8,23 @@
         label {
             text-transform: uppercase;
         }
+        .notification {
+            float: right;
+            padding: 0 22px 0 0;
+            font-size: 22px;
+            position: relative;
+            cursor: pointer;
+            label {
+                left: 0;
+                font-size: 12px;
+                border: 1px solid #fff;
+                line-height: 16px;
+                padding: 0 2px;
+                border-radius: 2px;
+                background: #f44336d1;
+                vertical-align: super;
+            }
+        }
         ul {
             float: right;
             display: flex;

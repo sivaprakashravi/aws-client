@@ -25,6 +25,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LocaleSetupComponent } from './features/locale-setup/locale-setup.component';
 import { ProductsComponent } from './features/products/products.component';
 import { CategoriesComponent } from './features/categories/categories.component';
+import { NotificationsComponent } from './features/notifications/notifications.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { CategoriesComponent } from './features/categories/categories.component'
     ConfigurationComponent,
     LocaleSetupComponent,
     ProductsComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,

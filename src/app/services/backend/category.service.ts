@@ -12,10 +12,10 @@ export class CategoryService {
   process = `${environment.PROCESS_URL}`;
   constructor(private loadingService: LoadingService, private http: HttpClient, private session: AppService) { }
 
-  async updateStoreInfo({ category, subCategory, subCategory1, storeId }) {
+  async updateStoreInfo({ category, subCategory, subCategory1, storeId, categoryCode }) {
     const url = `${this.url}category/store/update`;
     let params = new HttpParams();
-    params = params.set('category', category).append('storeId', storeId);
+    params = params.set('category', category).append('storeId', storeId).append('categoryCode', categoryCode);
     if (subCategory) {
       params = params.append('subCategory', subCategory);
     }

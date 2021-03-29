@@ -20,14 +20,11 @@ import { DialogService } from 'src/app/services/dialog.service';
 export class ProductsComponent implements OnInit {
   displayedColumns = [
     'asin',
+    'sku',
     'label',
-    'prodMinDesc',
-    'rating',
-    'brand',
-    'description',
-    'model',
+    'item_dimensions_weight',
     'price',
-    'deliveryCharge'];
+    'link'];
   filter: FormGroup;
   category: any = {};
   subCategory: any = {};
@@ -118,9 +115,10 @@ export class ProductsComponent implements OnInit {
       const filter = {
         category: category.nId,
         subCategory: subCategory.nId,
-        storeId: subCategory.nId ? subCategory.storeId : category.storeId
+        storeId: subCategory.nId ? subCategory.storeId : category.storeId,
+        categoryCode: subCategory.nId ? subCategory.categoryCode : category.categoryCode
       };
-      if (filter.storeId) {
+      if (filter.storeId && filter.categoryCode) {
         let products = await this.productService.downloadProducts(filter);
         products = products.map(p => _.omit(p, 'altImages'));
         this.convertTOCSV(products, `${category.name}-${subCategory.name}-${new Date().getTime()}`, '.csv');

@@ -1,0 +1,27 @@
+<div class="notifications">
+    <h3>Notifications</h3>
+    <div>
+        <table mat-table [dataSource]="notifications" *ngIf="notifications && notifications.length">
+            <ng-container matColumnDef="asin">
+                <th mat-header-cell *matHeaderCellDef class="w-120 p-10"> ASIN. </th>
+                <td mat-cell *matCellDef="let element"> {{element.asin}} </td>
+            </ng-container>
+            <ng-container matColumnDef="salePrice">
+                <th mat-header-cell *matHeaderCellDef class="w-120 p-10"> Sale Price ($). </th>
+                <td mat-cell *matCellDef="let element"> {{element.salePrice}} </td>
+            </ng-container>
+            <ng-container matColumnDef="shippingPrice">
+                <th mat-header-cell *matHeaderCellDef class="w-120 p-10"> Shipping Price ($). </th>
+                <td mat-cell *matCellDef="let element"> {{element.shippingPrice}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div class="pagination">
+        <ul>
+            <li (click)="page(i+1)" *ngFor="let item of [].constructor(pages); let i = index"
+                [ngClass]="{'active': i+1 === activePage}">{{i+1}}</li>
+        </ul>
+    </div>
+</div>
