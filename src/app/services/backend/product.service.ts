@@ -13,7 +13,7 @@ export class ProductService {
   constructor(private loadingService: LoadingService, private http: HttpClient, private session: AppService) { }
 
   async getProducts({ category, subCategory, pageNo, limit }) {
-    const url = `${this.url}product/all`;
+    const url = `${this.url}products/processed/all`;
     let params = new HttpParams();
     params = params.set('category', category).append('subCategory', subCategory).append('pageNo', pageNo).append('limit', limit);
     const request = this.http.get(url, { params });

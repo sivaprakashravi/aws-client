@@ -11,6 +11,7 @@ import { JobSchedulerService } from 'src/app/services/backend/job-scheduler.serv
 import { ProductService } from 'src/app/services/backend/product.service';
 import * as _ from 'lodash';
 import { DialogService } from 'src/app/services/dialog.service';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-products',
@@ -39,7 +40,8 @@ export class ProductsComponent implements OnInit {
     private jobSchedulerService: JobSchedulerService,
     private router: ActivatedRoute,
     private dialog: DialogService,
-    private productService: ProductService) {
+    private productService: ProductService,
+    private appService: AppService) {
     this.router.queryParams.subscribe(params => {
       this.category = params.category;
       this.subCategory = params.subCategory;
@@ -121,42 +123,10 @@ export class ProductsComponent implements OnInit {
       if (filter.storeId && filter.categoryCode) {
         let products = await this.productService.downloadProducts(filter);
         products = products.map(p => _.omit(p, 'altImages'));
-        this.convertTOCSV(products, `${category.name}-${subCategory.name}-${new Date().getTime()}`, '.csv');
+        this.appService.convertTOCSV(products, `${category.name}-${subCategory.name}-${new Date().getTime()}`, '.csv');
       } else {
         this.dialog.simpleDialog('Store Id is not available for selected Category / Sub-Category.');
       }
-    }
-  }
-
-  public convertTOCSV(data, fileName, type) {
-    const items = data;
-    const replacer = (key, value) => value === null ? '' : value;
-    const header = Object.keys(items[0]);
-    const csv = items.map(row => header.map(fieldName => {
-      const str = row[fieldName] ? row[fieldName].replace(/"/g, "'") : '';
-      const formatted = JSON.stringify(str, replacer);
-      return formatted;
-    }).join(','));
-    csv.unshift(header.join(','));
-    const rowData = csv.join('\r\n');
-    this.downloadFile(rowData, fileName, type);
-  }
-
-  public downloadFile(data, fileName, type) {
-    const parsedResponse = data;
-    const blob = new Blob(['\uFEFF', parsedResponse],
-      { type: type === '.xls' ? 'application/vnd.ms-excel' : 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
-
-    if (navigator.msSaveOrOpenBlob) {
-      navigator.msSaveBlob(blob, `${new Date().getTime()}${type}`);
-    } else {
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${fileName}${type}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
     }
   }
 

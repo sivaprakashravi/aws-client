@@ -9,32 +9,6 @@ export class AppService {
   public user;
   public activeRoute;
   public basicDetails;
-  public navigation = [{
-    name: 'Dashboard',
-    route: 'dashboard',
-  }, {
-    name: 'Real Time Monitoring',
-    route: 'real-time-monitoring'
-  }, {
-    name: 'Reports and Analysis',
-    route: 'report-analysis',
-    isBeta: true
-  }, {
-    name: 'Alerts and Notification',
-    route: 'alert-notification'
-  }, {
-    name: 'Settings',
-    route: '',
-    class: 'mobile'
-  }, {
-    name: 'User Profile',
-    route: '',
-    class: 'mobile'
-  }, {
-    name: 'Logout',
-    route: 'logout',
-    class: 'mobile'
-  }];
   constructor() { }
 
   public enableCover() {
@@ -45,22 +19,38 @@ export class AppService {
     this.overlay = false;
   }
 
-  public listPhantomDevices(floors) {
-    const devices = [];
-    floors.forEach((floor, i) => {
-      if (floor && floor.DEVICE_DETAILS && floor.DEVICE_DETAILS.length) {
-        const FLOOR_AREA = floor.FLOOR_AREA;
-        const FLOOR_NO = floor.FLOOR_NO;
-        const DEVICE_DETAILS = floor.DEVICE_DETAILS;
-        DEVICE_DETAILS.map((d, j) => {
-          d.FLOOR_AREA = FLOOR_AREA;
-          d.FLOOR_NO = FLOOR_NO;
-          d.id = `${i}${j}`;
-          devices.push(d);
-        });
-      }
-    });
-    return devices;
+  public convertTOCSV(data, fileName, type) {
+    const items = data;
+    const replacer = (key, value) => value === null ? '' : value;
+    const header = Object.keys(items[0]);
+    const csv = items.map(row => header.map(fieldName => {
+      row[fieldName] = row[fieldName] ? (row[fieldName]).toString() : null;
+      // tslint:disable-next-line:quotemark
+      const str = row[fieldName] ? row[fieldName].replace(/"/g, "'") : '';
+      const formatted = JSON.stringify(str, replacer);
+      return formatted;
+    }).join(','));
+    csv.unshift(header.join(','));
+    const rowData = csv.join('\r\n');
+    this.downloadFile(rowData, fileName, type);
+  }
+
+  public downloadFile(data, fileName, type) {
+    const parsedResponse = data;
+    const blob = new Blob(['\uFEFF', parsedResponse],
+      { type: type === '.xls' ? 'application/vnd.ms-excel' : 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+
+    if (navigator.msSaveOrOpenBlob) {
+      navigator.msSaveBlob(blob, `${new Date().getTime()}${type}`);
+    } else {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${fileName}${type}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   }
 }
 

@@ -12,10 +12,14 @@ export class NotificationService {
   process = `${environment.PROCESS_URL}`;
   constructor(private loadingService: LoadingService, private http: HttpClient, private session: AppService) { }
 
-  async getNotifications({ pageNo, limit }) {
+  async getNotifications(filter) {
     const url = `${this.url}notification/all`;
-    let params = new HttpParams();
-    params = params.set('pageNo', pageNo).append('limit', limit);
+    let params: any = {};
+    const { pageNo, limit } = filter;
+    if (pageNo && limit) {
+      params = new HttpParams();
+      params = params.set('pageNo', pageNo).append('limit', limit);
+    }
     const request = this.http.get(url, { params });
     const { data } = await this.loadingService.get(request);
     return data;
@@ -23,6 +27,13 @@ export class NotificationService {
 
   async count() {
     const url = `${this.url}notification/count`;
+    const request = this.http.get(url);
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
+
+  async update() {
+    const url = `${this.url}notification/update/all`;
     const request = this.http.get(url);
     const { data } = await this.loadingService.get(request);
     return data;
