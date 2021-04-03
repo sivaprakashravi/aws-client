@@ -8,6 +8,7 @@ import { ProductsComponent } from './features/products/products.component';
 import { RouteErrorComponent } from './features/route-error/route-error.component';
 import { CategoriesComponent } from './features/categories/categories.component';
 import { NotificationsComponent } from './features/notifications/notifications.component';
+import { OrdersComponent } from './features/orders/orders.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
   { path: 'configuration', component: ConfigurationComponent },
   { path: 'notifications', component: NotificationsComponent },
+  { path: 'orders', component: OrdersComponent },
   { path: '',   redirectTo: '/job-scheduler', pathMatch: 'full' }, // redirect to `first-component`
   { path: '**', component: RouteErrorComponent },  // Wildcard route for a 404 page
 ];

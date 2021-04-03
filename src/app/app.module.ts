@@ -1,11 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { JobSchedulerComponent } from './features/job-scheduler/job-scheduler.component';
@@ -26,6 +28,7 @@ import { LocaleSetupComponent } from './features/locale-setup/locale-setup.compo
 import { ProductsComponent } from './features/products/products.component';
 import { CategoriesComponent } from './features/categories/categories.component';
 import { NotificationsComponent } from './features/notifications/notifications.component';
+import { OrdersComponent } from './features/orders/orders.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +40,8 @@ import { NotificationsComponent } from './features/notifications/notifications.c
     LocaleSetupComponent,
     ProductsComponent,
     CategoriesComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -55,10 +59,13 @@ import { NotificationsComponent } from './features/notifications/notifications.c
     MatInputModule,
     MatCheckboxModule,
     MatSnackBarModule,
-    MatProgressBarModule
-
+    MatProgressBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [],
+  providers: [
+    MatDatepickerModule
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
