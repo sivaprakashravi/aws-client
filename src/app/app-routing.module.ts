@@ -9,6 +9,7 @@ import { RouteErrorComponent } from './features/route-error/route-error.componen
 import { CategoriesComponent } from './features/categories/categories.component';
 import { NotificationsComponent } from './features/notifications/notifications.component';
 import { OrdersComponent } from './features/orders/orders.component';
+import { UserConfigurationComponent } from './features/user-configuration/user-configuration.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'products', component: ProductsComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'configuration', component: ConfigurationComponent },
+  { path: 'user-configuration', component: UserConfigurationComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'orders', component: OrdersComponent },
   { path: '',   redirectTo: '/job-scheduler', pathMatch: 'full' }, // redirect to `first-component`

@@ -26,6 +26,20 @@ export class ConfigurationService {
     return data;
   }
 
+  async getUserConfiguration() {
+    const url = `${this.url}configuration/user/all`;
+    const request = this.http.get(url);
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
+
+  async saveUserConfiguration(config) {
+    const url = `${this.url}configuration/user`;
+    const request = this.http.post(url, config);
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
+
   async refreshCategories() {
     const url = `${this.process}amazon/categories`;
     const request = this.http.get(url);

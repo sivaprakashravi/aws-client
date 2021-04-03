@@ -29,6 +29,7 @@ import { ProductsComponent } from './features/products/products.component';
 import { CategoriesComponent } from './features/categories/categories.component';
 import { NotificationsComponent } from './features/notifications/notifications.component';
 import { OrdersComponent } from './features/orders/orders.component';
+import { UserConfigurationComponent } from './features/user-configuration/user-configuration.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +42,8 @@ import { OrdersComponent } from './features/orders/orders.component';
     ProductsComponent,
     CategoriesComponent,
     NotificationsComponent,
-    OrdersComponent
+    OrdersComponent,
+    UserConfigurationComponent
   ],
   imports: [
     BrowserModule,
