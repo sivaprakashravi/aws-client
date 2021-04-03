@@ -25,6 +25,9 @@ export class AppComponent implements OnInit {
   }, {
     name: 'Orders',
     route: 'orders'
+  }, {
+    name: 'Configuration',
+    route: 'user-configuration'
   }];
   notifications = 0;
   constructor(private notificationService: NotificationService, private router: Router) {
