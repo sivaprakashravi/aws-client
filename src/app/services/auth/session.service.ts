@@ -49,6 +49,7 @@ export class SessionService {
 
   resetSession() {
     this.user = null;
+    this.app.user = this.user;
     this.accessToken = null;
     this.refreshToken = null;
     localStorage.removeItem('profile');
@@ -66,7 +67,6 @@ export class SessionService {
   }
 
   public validSession() {
-    return true;
     const sessionDetails = localStorage.getItem('profile');
     if (sessionDetails) {
       const expirationTime = new Date(JSON.parse(sessionDetails).exp * 1000).getTime();

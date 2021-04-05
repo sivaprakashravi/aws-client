@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { JobSchedulerComponent } from './features/job-scheduler/job-scheduler.component';
@@ -30,6 +32,8 @@ import { CategoriesComponent } from './features/categories/categories.component'
 import { NotificationsComponent } from './features/notifications/notifications.component';
 import { OrdersComponent } from './features/orders/orders.component';
 import { UserConfigurationComponent } from './features/user-configuration/user-configuration.component';
+import { LoginComponent } from './features/login/login.component';
+import { LogoutComponent } from './features/logout/logout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +47,9 @@ import { UserConfigurationComponent } from './features/user-configuration/user-c
     CategoriesComponent,
     NotificationsComponent,
     OrdersComponent,
-    UserConfigurationComponent
+    UserConfigurationComponent,
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -63,10 +69,13 @@ import { UserConfigurationComponent } from './features/user-configuration/user-c
     MatSnackBarModule,
     MatProgressBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule
   ],
   providers: [
-    MatDatepickerModule
+    MatDatepickerModule,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

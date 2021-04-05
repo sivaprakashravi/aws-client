@@ -1,0 +1,24 @@
+<div class="login">
+    <div class="box">
+        <h3><span class="mdi">
+            vpn_key
+            </span>Login</h3>
+        <form [formGroup]="login">
+            <mat-form-field class="block">
+                <mat-label>Login Id</mat-label>
+                <input formControlName="email" matInput>
+            </mat-form-field>
+            <mat-form-field class="block">
+                <mat-label>Password</mat-label>
+                <input type="password" formControlName="password" matInput>
+            </mat-form-field>
+            <div class="block fr">
+                <button class="left10px" mat-raised-button color="primary" (click)="signIn()"
+                    [disabled]="!login.value.email || !login.value.password"><span
+                        class="mdi">schedule</span>Login</button>
+                <button [disabled]="!login.value.email && !login.value.password" mat-raised-button color="secondary" (click)="setForm()"><span
+                        class="mdi">clear_all</span>Reset</button>
+            </div>
+        </form>
+    </div>
+</div>

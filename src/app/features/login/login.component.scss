@@ -1,0 +1,31 @@
+.login {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h3 {
+    margin: 0 10px;
+    color: #3f51b5;
+    span {
+      float: right;
+    }
+  }
+  .box {
+    padding: 15px;
+    border: 1px solid #ccc;
+    width: 300px;
+    box-shadow: 0px 4px 10px -5px black;
+    border-radius: 5px;
+  }
+  .block {
+    display: block;
+    width: 280px;
+    margin: 0 10px;
+  }
+  .fr {
+    button {
+      float: right;
+    }
+  }
+}

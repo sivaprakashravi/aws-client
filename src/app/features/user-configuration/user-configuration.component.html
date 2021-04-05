@@ -1,29 +1,172 @@
 <div class="configuration">
-    <h3>Application Configuration</h3>
-    <form [formGroup]="configurationForm">
-        <div>
-            <mat-form-field>
-                <mat-label>Order Watch Interval</mat-label>
-                <mat-select formControlName="orderInterval">
-                    <mat-option value=''>-Select-</mat-option>
-                    <mat-option *ngFor="let i of interval" [value]="i.id">
-                        {{i.label}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field>
-                <mat-label>Price / Stock Watch Interval</mat-label>
-                <mat-select formControlName="priceStockInteval">
-                    <mat-option value=''>-Select-</mat-option>
-                    <mat-option *ngFor="let i of interval" [value]="i.id">
-                        {{i.label}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <button mat-raised-button color="primary" (click)="saveConfiguration()"><span
-                class="mdi">schedule</span>Save</button>
-    </form>
+    <mat-tab-group animationDuration="0ms">
+        <mat-tab label="General">
+            <h3>Application Configuration</h3>
+            <form [formGroup]="configurationForm">
+                <div>
+                    <mat-form-field>
+                        <mat-label>Order Watch Interval</mat-label>
+                        <mat-select formControlName="orderInterval">
+                            <mat-option value=''>-Select-</mat-option>
+                            <mat-option *ngFor="let i of interval" [value]="i.id">
+                                {{i.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-label>Price / Stock Watch Interval</mat-label>
+                        <mat-select formControlName="priceStockInteval">
+                            <mat-option value=''>-Select-</mat-option>
+                            <mat-option *ngFor="let i of interval" [value]="i.id">
+                                {{i.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <button mat-raised-button color="primary" (click)="saveConfiguration()"><span
+                        class="mdi">schedule</span>Save</button>
+            </form>
+        </mat-tab>
+        <mat-tab label="Users">
+            <h3>Create New User</h3>
+            <div class="users">
+                <form [formGroup]="user">
+                    <mat-form-field>
+                        <mat-label>Email Id</mat-label>
+                        <input formControlName="email" matInput>
+                    </mat-form-field>
+                    <mat-form-field class="left10px">
+                        <mat-label>Phone No</mat-label>
+                        <input formControlName="phone" matInput>
+                    </mat-form-field>
+                    <mat-form-field class="left10px">
+                        <mat-label>Role</mat-label>
+                        <mat-select formControlName="role">
+                            <mat-option value=''>-Select-</mat-option>
+                            <mat-option *ngFor="let role of roles" [value]="role">
+                                {{role.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button mat-raised-button class="left10px" color="primary" (click)="saveUser()"><span
+                            class="mdi">schedule</span>Save</button>
+                </form>
+            </div>
+            <div class="user-list"></div>
+        </mat-tab>
+        <mat-tab label="Roles">
+            <h3>Create New Role</h3>
+            <div class="roles">
+                <form [formGroup]="role">
+                    <mat-form-field>
+                        <mat-label>Role</mat-label>
+                        <input formControlName="name" matInput>
+                    </mat-form-field>
+                    <button mat-raised-button class="left10px" color="primary" (click)="saveRole()"><span
+                            class="mdi">schedule</span>Save</button>
+                </form>
+            </div>
+            <div class="role-config">
+                <h3>Manage Roles</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Role</th>
+                            <th colspan="3">Scheduler</th>
+                            <th colspan="3">Locale</th>
+                            <th colspan="3">Products</th>
+                            <th colspan="3">Category</th>
+                            <th colspan="3">Orders</th>
+                            <th rowspan="2"></th>
+                        </tr>
+                        <tr>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let role of roles">
+                            <td>{{role.name}}</td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'scheduler.view')" [(ngModel)]="role.config.scheduler.view">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'scheduler.edit')" [(ngModel)]="role.config.scheduler.edit">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'scheduler.delete')" [(ngModel)]="role.config.scheduler.delete">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'locale.view')" [(ngModel)]="role.config.locale.view">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'locale.edit')" [(ngModel)]="role.config.locale.edit">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'locale.delete')" [(ngModel)]="role.config.locale.delete">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'products.view')" [(ngModel)]="role.config.products.view">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'products.edit')" [(ngModel)]="role.config.products.edit">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'products.delete')" [(ngModel)]="role.config.products.delete">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'category.view')" [(ngModel)]="role.config.category.view">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'category.edit')" [(ngModel)]="role.config.category.edit">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'category.delete')" [(ngModel)]="role.config.category.delete">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'orders.view')" [(ngModel)]="role.config.orders.view">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'orders.edit')" [(ngModel)]="role.config.orders.edit">
+                                </mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox (click)="updateRole(role, 'orders.delete')" [(ngModel)]="role.config.orders.delete">
+                                </mat-checkbox>
+                            </td>
+                            <td><span class="mdi red" (click)="deleteRole(role)">cancel</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 </div>

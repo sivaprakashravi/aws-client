@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppService } from './services/app.service';
 import { NotificationService } from './services/backend/notification.service';
 
 @Component({
@@ -7,9 +8,10 @@ import { NotificationService } from './services/backend/notification.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
   title = 'Ecom Automation';
   date = new Date();
+  user;
   navigation = [{
     name: 'Schedule',
     route: 'job-scheduler'
@@ -26,11 +28,16 @@ export class AppComponent implements OnInit {
     name: 'Orders',
     route: 'orders'
   }, {
-    name: 'Configuration',
+    name: 'Product Configuration',
     route: 'user-configuration'
   }];
+  showUserOptions = false;
   notifications = 0;
-  constructor(private notificationService: NotificationService, private router: Router) {
+  constructor(
+    private notificationService: NotificationService,
+    private router: Router,
+    public app: AppService,
+    private cdRef: ChangeDetectorRef) {
 
   }
   async ngOnInit() {
@@ -38,7 +45,19 @@ export class AppComponent implements OnInit {
     this.notifications = count;
   }
 
+  async ngOnChanges() {
+    // this.ngOnInit();
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdRef.detectChanges();
+  }
+
   gotoNotifications() {
     this.router.navigate(['notifications']);
+  }
+
+  logout() {
+    this.router.navigate(['logout']);
   }
 }

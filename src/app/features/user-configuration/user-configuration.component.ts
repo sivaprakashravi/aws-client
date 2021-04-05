@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AppHelperService } from 'src/app/helpers/app-helper.service';
+import { SessionService } from 'src/app/services/auth/session.service';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
 import { DbService } from 'src/app/services/backend/db.service';
+import { UsersService } from 'src/app/services/backend/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
@@ -23,11 +26,29 @@ export class UserConfigurationComponent implements OnInit {
     orderInterval: new FormControl(''),
     priceStockInteval: new FormControl('')
   });
-  constructor(private config: ConfigurationService, private dialog: DialogService, private db: DbService) { }
+  user: FormGroup;
+  displayedColumnsUsers = [
+    'order_id',
+    'invoice_ref_num',
+    'create_time',
+    'amount',
+    'is_cod_mitra',
+    'status'];
+  role: FormGroup;
+  roles = [];
+  constructor(
+    private config: ConfigurationService,
+    private dialog: DialogService,
+    private appHelper: AppHelperService,
+    private userService: UsersService,
+    private session: SessionService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.getConfiguration();
     this.setIntervalList();
+    this.setUser();
+    this.setRole();
+    await this.getRoles();
   }
 
   async getConfiguration() {
@@ -71,4 +92,61 @@ export class UserConfigurationComponent implements OnInit {
     }];
   }
 
+  setUser() {
+    this.user = new FormGroup({
+      email: new FormControl(),
+      phone: new FormControl(),
+      role: new FormControl()
+    });
+  }
+
+  setRole() {
+    this.role = new FormGroup({
+      name: new FormControl()
+    });
+  }
+
+  async getRoles() {
+    const { data } = await this.userService.getRoles();
+    this.roles = data;
+  }
+
+  async saveUser() {
+    const self = this;
+    const session = this.user.value;
+    const validEmail = self.appHelper.validateEmail(session.email);
+    if (validEmail) {
+      session.email = session.email.toUpperCase();
+      const user = await self.userService.register(session);
+      if (user) {
+        this.dialog.simpleDialog('User Added Successfully!');
+      }
+    }
+  }
+
+  async saveRole() {
+    const self = this;
+    const roleValue = this.role.value;
+    const role = await self.userService.addRole(roleValue);
+    if (role) {
+      this.dialog.simpleDialog('Role Added Successfully!');
+    }
+  }
+
+  async updateRole(role, selector) {
+    const self = this;
+    selector = selector.split('.');
+    role.config[selector[0]][selector[1]] = !role.config[selector[0]][selector[1]];
+    await self.userService.updateRole(role);
+    await self.getRoles();
+  }
+
+  async deleteRole(role) {
+    const self = this;
+    const deleted = await self.userService.deleteRole(role);
+    if (deleted) {
+      this.dialog.simpleDialog('Role Deleted Successfully!');
+      await this.getRoles();
+    }
+  }
 }

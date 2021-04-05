@@ -25,15 +25,26 @@
                 vertical-align: super;
             }
         }
-        ul {
+        > ul {
             float: right;
             display: flex;
             li {
                 display: inline-flex;
                 margin-right: 18px;
+                cursor: pointer;
                 a {
                     color: #fff;
                     text-decoration: none;
+                }
+                &.icon {
+                    margin-right: 10px;
+                    background: #ffffff80;
+                    border-radius: 5px;
+                    border: 1px solid #3f51b5;
+                    span {
+                        font-size: 22px;
+                        color: #3f51b5;
+                    }
                 }
             }
         }

@@ -73,3 +73,23 @@ table {
 .date {
   width: 120px;
 }
+
+.table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  tr, th, td {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    font-weight: normal;
+  }
+  th {
+    color: #3f51b5;
+  }
+  th, td {
+    padding: 10px;
+  }
+}
+
+.red {
+  color: red;
+}

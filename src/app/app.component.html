@@ -1,12 +1,18 @@
-
 <!-- <app-loading></app-loading> -->
 <div class="core">
-  <header>
+  <header *ngIf="app.user">
     <label for="header">HORIZON</label>
     <ul>
-      <li *ngFor="let nav of navigation"><a  [routerLink]="nav.route" routerLinkActive="active">{{nav.name}}</a></li>
+      <li *ngFor="let nav of navigation"><a [routerLink]="nav.route" routerLinkActive="active">{{nav.name}}</a></li>
+      <li class="icon">
+        <span class="mdi">perm_identity</span>
+      </li>
+      <li class="icon" title="Logout" (click)="logout()">
+        <span class="mdi"> arrow_forward </span>
+      </li>
     </ul>
-    <div *ngIf="notifications" (click)="gotoNotifications()" class="notification"><label>{{notifications}}</label><span class="mdi">notifications</span></div>
+    <div *ngIf="notifications" (click)="gotoNotifications()" class="notification"><label>{{notifications}}</label><span
+        class="mdi">notifications</span></div>
   </header>
   <router-outlet></router-outlet>
   <!-- <footer>&copy; Copyright Horizon {{date}}</footer> -->

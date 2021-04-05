@@ -150,4 +150,5 @@
         </table>
         <!-- <div *ngIf="jobs && !jobs.length">No Jobs Scheduled!</div> -->
     </div>
+    <div class="no-data" *ngIf="!(rawJobs && rawJobs.length)">[0] Scheduled Jobs Available</div>
 </div>
