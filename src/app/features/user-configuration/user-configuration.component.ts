@@ -36,6 +36,7 @@ export class UserConfigurationComponent implements OnInit {
     'status'];
   role: FormGroup;
   roles = [];
+  users = [];
   constructor(
     private config: ConfigurationService,
     private dialog: DialogService,
@@ -49,6 +50,7 @@ export class UserConfigurationComponent implements OnInit {
     this.setUser();
     this.setRole();
     await this.getRoles();
+    await this.getUsers();
   }
 
   async getConfiguration() {
@@ -94,6 +96,7 @@ export class UserConfigurationComponent implements OnInit {
 
   setUser() {
     this.user = new FormGroup({
+      name: new FormControl(),
       email: new FormControl(),
       phone: new FormControl(),
       role: new FormControl()
@@ -104,6 +107,17 @@ export class UserConfigurationComponent implements OnInit {
     this.role = new FormGroup({
       name: new FormControl()
     });
+  }
+
+  async getUsers() {
+    const { data } = await this.userService.getUsers();
+    data.forEach(d => {
+      if (d.role) {
+        const selectedRole = this.roles.find(r => r.roleId === d.role);
+        d.roleName = selectedRole.name;
+      }
+    });
+    this.users = data;
   }
 
   async getRoles() {
@@ -120,7 +134,11 @@ export class UserConfigurationComponent implements OnInit {
       const user = await self.userService.register(session);
       if (user) {
         this.dialog.simpleDialog('User Added Successfully!');
+        this.setUser();
+        this.getUsers();
       }
+    } else {
+      this.dialog.simpleDialog('Email Id is invalid');
     }
   }
 
@@ -130,6 +148,7 @@ export class UserConfigurationComponent implements OnInit {
     const role = await self.userService.addRole(roleValue);
     if (role) {
       this.dialog.simpleDialog('Role Added Successfully!');
+      this.setRole();
     }
   }
 

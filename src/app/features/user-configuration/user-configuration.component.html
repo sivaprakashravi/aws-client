@@ -34,6 +34,10 @@
             <div class="users">
                 <form [formGroup]="user">
                     <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input formControlName="name" matInput>
+                    </mat-form-field>
+                    <mat-form-field class="left10px">
                         <mat-label>Email Id</mat-label>
                         <input formControlName="email" matInput>
                     </mat-form-field>
@@ -54,7 +58,27 @@
                             class="mdi">schedule</span>Save</button>
                 </form>
             </div>
-            <div class="user-list"></div>
+            <div class="user-list">
+                <h3>Users Added</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone No</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of users">
+                            <td>{{user.name}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.phone}}</td>
+                            <td>{{user.roleName}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </mat-tab>
         <mat-tab label="Roles">
             <h3>Create New Role</h3>
