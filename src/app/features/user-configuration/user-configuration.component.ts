@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AppHelperService } from 'src/app/helpers/app-helper.service';
 import { SessionService } from 'src/app/services/auth/session.service';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
-import { DbService } from 'src/app/services/backend/db.service';
 import { UsersService } from 'src/app/services/backend/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
 
@@ -41,8 +40,7 @@ export class UserConfigurationComponent implements OnInit {
     private config: ConfigurationService,
     private dialog: DialogService,
     private appHelper: AppHelperService,
-    private userService: UsersService,
-    private session: SessionService) { }
+    private userService: UsersService) { }
 
   async ngOnInit() {
     this.getConfiguration();
