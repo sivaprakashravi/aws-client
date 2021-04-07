@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
     name: 'Orders',
     route: 'orders'
   }, {
-    name: 'Product Configuration',
+    name: 'Configuration',
     route: 'user-configuration'
   }];
   showUserOptions = false;
@@ -41,11 +41,13 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
 
   }
   async ngOnInit() {
-    const count = await this.notificationService.count();
-    this.notifications = count;
   }
 
   async ngOnChanges() {
+    if (this.app.user && !this.notifications) {
+      const count = await this.notificationService.count();
+      this.notifications = count;
+    }
     // this.ngOnInit();
   }
 

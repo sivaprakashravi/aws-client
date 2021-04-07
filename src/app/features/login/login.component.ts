@@ -50,20 +50,24 @@ export class LoginComponent implements OnInit {
     session.email = session.email.toUpperCase();
     const user = await self.user.confirm(session);
     if (user && user.data) {
-      self.session.setSession(user.data);
-      self.router.navigate(['job-scheduler']);
+      this.dialog.simpleDialog('User Verification Successful. Login Again!');
+      this.login.controls.verificationCode.setValue('');
+      this.login.controls.password.setValue('');
+      self.showConfirm = false;
     } else {
+      this.login.controls.verificationCode.setValue('');
       this.dialog.simpleDialog('Something went wrong. Please Try Again');
       window.setTimeout(() => self.router.navigate(['login']), 2000);
     }
   }
 
-  async newCode() { 
+  async newCode() {
     const self = this;
     const session = this.login.value;
     session.email = session.email.toUpperCase();
     const user = await self.user.resendVerification(session);
-    if(user) {
+    if (user) {
+      this.login.controls.verificationCode.setValue('');
       this.dialog.simpleDialog('New Verification code sent to registered email address');
     }
   }
@@ -79,7 +83,7 @@ export class LoginComponent implements OnInit {
         self.session.setSession(user.data);
         self.router.navigate(['job-scheduler']);
       } else {
-        if(user.status === 'error' && user.message ===  'User is not confirmed.') {
+        if (user.status === 'error' && user.message === 'User is not confirmed.') {
           self.showConfirm = true;
         } else {
           this.dialog.simpleDialog('Something went wrong. Please Try Again');

@@ -1,5 +1,6 @@
 <div class="login">
     <div class="box">
+        <div class="head">HORIZON</div>
         <h3><span class="mdi">
             vpn_key
             </span>Login</h3>
@@ -24,6 +25,7 @@
                         class="mdi">clear_all</span>Reset</button>
             </div>
             <div class="block fr" *ngIf="showConfirm">
+                <span class="link" (click)="showConfirm = !showConfirm">Back</span>
                 <span class="link" (click)="newCode()">Request new code</span>
                 <button class="left10px" mat-raised-button color="primary" (click)="confirm()"
                     [disabled]="!login.value.email || !login.value.verificationCode"><span
