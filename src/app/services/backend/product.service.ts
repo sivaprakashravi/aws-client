@@ -22,7 +22,7 @@ export class ProductService {
   }
 
   async downloadProducts({ category, subCategory, storeId, categoryCode}) {
-    const url = `${this.url}product/download`;
+    const url = `${this.url}products/download`;
     let params = new HttpParams();
     params = params.set('category', category)
     .append('subCategory', subCategory)
