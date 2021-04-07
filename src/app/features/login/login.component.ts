@@ -79,7 +79,10 @@ export class LoginComponent implements OnInit {
     if (validEmail) {
       session.email = session.email.toUpperCase();
       const user = await self.user.login(session);
-      if (user && user.data) {
+      // self.session.setSession(user.data);
+      if (user && user.data && user.data.profile) {
+        const profile = await self.user.getUser(session.email);
+        user.data.profile.roles = profile.data[0];
         self.session.setSession(user.data);
         self.router.navigate(['job-scheduler']);
       } else {

@@ -22,7 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { JobSchedulerComponent } from './features/job-scheduler/job-scheduler.component';
 import { RouteErrorComponent } from './features/route-error/route-error.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { ConfigurationComponent } from './features/configuration/configuration.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -34,6 +34,7 @@ import { OrdersComponent } from './features/orders/orders.component';
 import { UserConfigurationComponent } from './features/user-configuration/user-configuration.component';
 import { LoginComponent } from './features/login/login.component';
 import { LogoutComponent } from './features/logout/logout.component';
+import { AuthInterceptor } from './services/auth/auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,6 +74,7 @@ import { LogoutComponent } from './features/logout/logout.component';
     MatTabsModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     MatDatepickerModule,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService

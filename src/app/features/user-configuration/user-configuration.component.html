@@ -54,8 +54,8 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <button mat-raised-button class="left10px" color="primary" (click)="saveUser()"><span
-                            class="mdi">schedule</span>Save</button>
+                    <button [disabled]="!user.value.name || !user.value.email || !user.value.phone || !user.value.role" mat-raised-button class="left10px" color="primary" (click)="saveUser()"><span
+                            class="mdi">add</span>Save</button>
                 </form>
             </div>
             <div class="user-list">

@@ -82,6 +82,16 @@ export class UsersService {
     return response;
   }
 
+  async getUser(email) {
+    if (email) {
+      const url = `${this.url}/login/${email}`;
+      // const url = 'http://localhost:8083/login';
+      const request = this.http.get(url);
+      const response = await this.loadingService.get(request, true);
+      return response;
+    }
+  }
+
   async confirm(data) {
     const url = `${this.url}/confirm`;
     // const url = 'http://localhost:8083/login';
