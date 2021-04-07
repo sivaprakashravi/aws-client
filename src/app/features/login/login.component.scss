@@ -27,5 +27,13 @@
     button {
       float: right;
     }
+    span.link {
+      float: left;
+      color: #3f51b5;
+      text-decoration: underline;
+      margin-top: 8px;
+      font-size: 13px;
+      cursor: pointer;
+    }
   }
 }

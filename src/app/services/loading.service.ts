@@ -65,7 +65,7 @@ export class LoadingService implements OnDestroy {
       self.open();
       await request.pipe(timed, catchError((et) => {
         self.requestCancel(et);
-        return of(null);
+        return of(et.error);
       })).toPromise().then((success) => {
         response = success;
         self.done();

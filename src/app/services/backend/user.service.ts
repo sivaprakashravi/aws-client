@@ -74,11 +74,27 @@ export class UsersService {
     }
   }
 
-  login(data) {
+  async login(data) {
     const url = `${this.url}/login`;
     // const url = 'http://localhost:8083/login';
     const request = this.http.post(url, data);
-    const response = this.loadingService.get(request, true);
+    const response = await this.loadingService.get(request, true);
+    return response;
+  }
+
+  async confirm(data) {
+    const url = `${this.url}/confirm`;
+    // const url = 'http://localhost:8083/login';
+    const request = this.http.post(url, data);
+    const response = await this.loadingService.get(request, true);
+    return response;
+  }
+
+  async resendVerification(data) {
+    const url = `${this.url}/newVerificationCode`;
+    // const url = 'http://localhost:8083/login';
+    const request = this.http.post(url, data);
+    const response = await this.loadingService.get(request, true);
     return response;
   }
 

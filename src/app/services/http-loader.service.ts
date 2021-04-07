@@ -64,7 +64,6 @@ export class HttpLoaderService implements OnDestroy {
     if (noValidation || this.session.validSession()) {
       self.open();
       await request.pipe(timed, catchError((et) => {
-        debugger;
         self.requestCancel(et);
         return of(null);
       })).toPromise().then((success) => {

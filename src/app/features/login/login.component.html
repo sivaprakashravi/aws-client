@@ -6,18 +6,28 @@
         <form [formGroup]="login">
             <mat-form-field class="block">
                 <mat-label>Login Id</mat-label>
-                <input formControlName="email" matInput>
+                <input formControlName="email" [disabled]="showConfirm" matInput>
             </mat-form-field>
-            <mat-form-field class="block">
+            <mat-form-field class="block" *ngIf="!showConfirm">
                 <mat-label>Password</mat-label>
                 <input type="password" formControlName="password" matInput>
             </mat-form-field>
-            <div class="block fr">
+            <mat-form-field class="block" *ngIf="showConfirm">
+                <mat-label>Verification Code</mat-label>
+                <input type="password" formControlName="verificationCode" matInput>
+            </mat-form-field>
+            <div class="block fr" *ngIf="!showConfirm">
                 <button class="left10px" mat-raised-button color="primary" (click)="signIn()"
                     [disabled]="!login.value.email || !login.value.password"><span
                         class="mdi">schedule</span>Login</button>
                 <button [disabled]="!login.value.email && !login.value.password" mat-raised-button color="secondary" (click)="setForm()"><span
                         class="mdi">clear_all</span>Reset</button>
+            </div>
+            <div class="block fr" *ngIf="showConfirm">
+                <span class="link" (click)="newCode()">Request new code</span>
+                <button class="left10px" mat-raised-button color="primary" (click)="confirm()"
+                    [disabled]="!login.value.email || !login.value.verificationCode"><span
+                        class="mdi">schedule</span>Confirm</button>
             </div>
         </form>
     </div>

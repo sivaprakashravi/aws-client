@@ -14,6 +14,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 })
 export class LoginComponent implements OnInit {
   login: FormGroup;
+  showConfirm = false;
   constructor(
     private session: SessionService,
     private user: UsersService,
@@ -38,8 +39,33 @@ export class LoginComponent implements OnInit {
   setForm() {
     this.login = new FormGroup({
       email: new FormControl(''),
-      password: new FormControl('')
+      password: new FormControl(''),
+      verificationCode: new FormControl('')
     });
+  }
+
+  async confirm() {
+    const self = this;
+    const session = this.login.value;
+    session.email = session.email.toUpperCase();
+    const user = await self.user.confirm(session);
+    if (user && user.data) {
+      self.session.setSession(user.data);
+      self.router.navigate(['job-scheduler']);
+    } else {
+      this.dialog.simpleDialog('Something went wrong. Please Try Again');
+      window.setTimeout(() => self.router.navigate(['login']), 2000);
+    }
+  }
+
+  async newCode() { 
+    const self = this;
+    const session = this.login.value;
+    session.email = session.email.toUpperCase();
+    const user = await self.user.resendVerification(session);
+    if(user) {
+      this.dialog.simpleDialog('New Verification code sent to registered email address');
+    }
   }
 
   async signIn() {
@@ -53,8 +79,12 @@ export class LoginComponent implements OnInit {
         self.session.setSession(user.data);
         self.router.navigate(['job-scheduler']);
       } else {
-        this.dialog.simpleDialog('Something went wrong. Please Try Again');
-        window.setTimeout(() => self.router.navigate(['login']), 2000);
+        if(user.status === 'error' && user.message ===  'User is not confirmed.') {
+          self.showConfirm = true;
+        } else {
+          this.dialog.simpleDialog('Something went wrong. Please Try Again');
+          window.setTimeout(() => self.router.navigate(['login']), 2000);
+        }
       }
     } else {
       this.dialog.simpleDialog('Entered Email is not valid');
