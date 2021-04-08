@@ -40,15 +40,19 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
     private cdRef: ChangeDetectorRef) {
 
   }
-  async ngOnInit() {
+  ngOnInit() {
+    this.fetchNotifications();
   }
 
-  async ngOnChanges() {
+  ngOnChanges() {
+    this.fetchNotifications();
+  }
+
+  async fetchNotifications() {
     if (this.app.user && !this.notifications) {
       const count = await this.notificationService.count();
       this.notifications = count;
     }
-    // this.ngOnInit();
   }
 
   ngAfterContentChecked(): void {
