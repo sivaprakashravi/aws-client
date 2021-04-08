@@ -39,11 +39,11 @@
             </mat-form-field>
             <mat-form-field class="left10px range">
                 <mat-label>Data From</mat-label>
-                <input formControlName="from" #from matInput maxlength="4">
+                <input formControlName="from" #from matInput [maxlength]="config.maxRange" (keyup)="checkRange($event, config.maxRange)">
             </mat-form-field>
             <mat-form-field class="left10px range">
                 <mat-label>Data To</mat-label>
-                <input formControlName="to" #to matInput maxlength="4">
+                <input formControlName="to" #to matInput [maxlength]="config.maxRange" (keyup)="checkRange($event, config.maxRange)">
             </mat-form-field>
             <mat-checkbox color="primary" class="left10px" formControlName="prime">Only Prime</mat-checkbox>
             <mat-checkbox color="primary" class="left10px" *ngIf="newJob.value.interval !== 'Now'" formControlName="recursive">Recursive Job</mat-checkbox>
@@ -95,6 +95,10 @@
             <ng-container matColumnDef="subCategory">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY. </th>
                 <td mat-cell *matCellDef="let element"> {{element.subCategory.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="subCategory1">
+                <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY 1. </th>
+                <td mat-cell *matCellDef="let element"> {{element.subCategory1.name ? element.subCategory1.name : '-'}} </td>
             </ng-container>
             <ng-container matColumnDef="interval">
                 <th mat-header-cell *matHeaderCellDef> INTERVAL. </th>

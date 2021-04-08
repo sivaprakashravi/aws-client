@@ -1,6 +1,7 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, OnChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from './services/app.service';
+import { AuthGuardService } from './services/auth/auth-guard.service';
 import { NotificationService } from './services/backend/notification.service';
 
 @Component({
@@ -37,10 +38,12 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
     private notificationService: NotificationService,
     private router: Router,
     public app: AppService,
+    private auth: AuthGuardService,
     private cdRef: ChangeDetectorRef) {
 
   }
   ngOnInit() {
+    this.auth.user();
     this.fetchNotifications();
   }
 

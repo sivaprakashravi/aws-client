@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { JobSchedulerService } from 'src/app/services/backend/job-scheduler.service';
 import { HelpersService } from 'src/app/services/helpers.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { ConfigurationService } from 'src/app/services/backend/configuration.service';
 @Component({
   selector: 'app-job-scheduler',
   templateUrl: './job-scheduler.component.html',
@@ -12,6 +13,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 export class JobSchedulerComponent implements OnInit {
   displayedColumns: string[] = ['category',
     'subCategory',
+    'subCategory1',
     'interval',
     'from',
     'to',
@@ -33,12 +35,20 @@ export class JobSchedulerComponent implements OnInit {
   fetchData = false;
   duration = ['Now', 'Everyday', 'Once in a Week', 'Once in a Month', 'Twice in a Week', 'Twice in a Month'];
   newJob: FormGroup;
-  constructor(private jobSchedulerService: JobSchedulerService, private helpers: HelpersService, private dialog: DialogService) { }
+  config: any = {
+    maxRange: '10000'
+  };
+  constructor(
+    private jobSchedulerService: JobSchedulerService,
+    private helpers: HelpersService,
+    private dialog: DialogService,
+    private configuration: ConfigurationService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     const self = this;
     self.setJob();
-    self.getCategories();
+    await self.getCategories();
+    await self.getConfiguration();
     self.showJobs();
     // self.scrap();
     setInterval(() => {
@@ -167,6 +177,13 @@ export class JobSchedulerComponent implements OnInit {
     this.categories = data;
   }
 
+  async getConfiguration() {
+    const config = await this.configuration.getConfiguration();
+    if (config) {
+      this.config = config;
+    }
+  }
+
   download() {
     const category = this.newJob.get('category');
     this.helpers.convertTOCSV(this.products, `${category.value}-${new Date().getTime()}`, '.csv');
@@ -197,6 +214,13 @@ export class JobSchedulerComponent implements OnInit {
     });
     this.subCategories = [];
     this.subCategories1 = [];
+  }
+
+  checkRange($event, range) {
+    const val = $event.target.value;
+    if (Number(val) > Number(range)) {
+      $event.target.value = Number(range);
+    }
   }
 
 }

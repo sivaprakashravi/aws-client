@@ -112,6 +112,7 @@ export class LocaleSetupComponent implements OnInit {
     if (added) {
       this.dialog.simpleDialog('Locale Added');
       this.listLocales();
+      this.addLocale = false;
     }
   }
 
