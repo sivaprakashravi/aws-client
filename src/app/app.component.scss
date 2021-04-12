@@ -32,6 +32,7 @@
                 display: inline-flex;
                 margin-right: 18px;
                 cursor: pointer;
+                position: relative;
                 a {
                     color: #fff;
                     text-decoration: none;
@@ -44,6 +45,19 @@
                     span {
                         font-size: 22px;
                         color: #3f51b5;
+                    }
+                }
+                .profile {
+                    position: absolute;
+                    right: 0;
+                    top: 22px;
+                    background: #3f51b5;
+                    padding: 8px;
+                    border: 1px solid #ffffff80;
+                    text-transform: capitalize;
+                    .role {
+                        font-size: 12px;
+                        text-decoration: underline;
                     }
                 }
             }

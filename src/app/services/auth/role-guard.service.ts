@@ -24,7 +24,8 @@ export class RoleGuardService implements CanActivate {
     const self = this;
     const expectedRole = route.data.expectedRole;
     const profile = this.app.user;
-    if (!this.auth.isAuthenticated() || expectedRole.indexOf(profile.role) < 0) {
+    const hasAccess = this.isOk(profile.role.config, expectedRole);
+    if (profile.role.name !== 'ADMIN' && (!this.auth.isAuthenticated() || !hasAccess)) {
       self.message.createMessage({
         header: 'Access Denied',
         message: `You dont have access to this module, do you want to login as another user`,
@@ -47,6 +48,15 @@ export class RoleGuardService implements CanActivate {
       return false;
     } else {
       this.authGuard.user();
+      return true;
+    }
+  }
+
+  isOk(config, expectedRole) {
+    const roles = config[expectedRole];
+    if (roles) {
+      return roles.view || roles.edit || roles.delete;
+    } else {
       return true;
     }
   }

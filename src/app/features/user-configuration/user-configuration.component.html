@@ -54,11 +54,12 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <button [disabled]="!user.value.name || !user.value.email || !user.value.phone || !user.value.role" mat-raised-button class="left10px" color="primary" (click)="saveUser()"><span
+                    <button [disabled]="!user.value.name || !user.value.email || !user.value.phone || !user.value.role"
+                        mat-raised-button class="left10px" color="primary" (click)="saveUser()"><span
                             class="mdi">add</span>Save</button>
                 </form>
             </div>
-            <div class="user-list">
+            <div class="user-list" *ngIf="users && users.length">
                 <h3>Users Added</h3>
                 <table class="table">
                     <thead>
@@ -79,6 +80,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="no-data" *ngIf="!(users && users.length)">
+                [0] Users Available.
+            </div>
         </mat-tab>
         <mat-tab label="Roles">
             <h3>Create New Role</h3>
@@ -92,20 +96,24 @@
                             class="mdi">schedule</span>Save</button>
                 </form>
             </div>
-            <div class="role-config">
+            <div class="role-config" *ngIf="roles && roles.length">
                 <h3>Manage Roles</h3>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th rowspan="2">Role</th>
+                            <th class="role-input" rowspan="2">Role</th>
                             <th colspan="3">Scheduler</th>
                             <th colspan="3">Locale</th>
                             <th colspan="3">Products</th>
                             <th colspan="3">Category</th>
                             <th colspan="3">Orders</th>
+                            <th colspan="3">Configuration</th>
                             <th rowspan="2"></th>
                         </tr>
                         <tr>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                             <th>View</th>
                             <th>Edit</th>
                             <th>Delete</th>
@@ -125,71 +133,76 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let role of roles">
-                            <td>{{role.name}}</td>
-                            <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'scheduler.view')" [(ngModel)]="role.config.scheduler.view">
-                                </mat-checkbox>
+                            <td>
+                                <mat-form-field style="width:100%">
+                                    <mat-label>Role</mat-label>
+                                    <input [(ngModel)]="role.name" matInput>
+                                </mat-form-field>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'scheduler.edit')" [(ngModel)]="role.config.scheduler.edit">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.scheduler.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'scheduler.delete')" [(ngModel)]="role.config.scheduler.delete">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.scheduler.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'locale.view')" [(ngModel)]="role.config.locale.view">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.scheduler.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'locale.edit')" [(ngModel)]="role.config.locale.edit">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.locale.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'locale.delete')" [(ngModel)]="role.config.locale.delete">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.locale.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'products.view')" [(ngModel)]="role.config.products.view">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.locale.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'products.edit')" [(ngModel)]="role.config.products.edit">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.products.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'products.delete')" [(ngModel)]="role.config.products.delete">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.products.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'category.view')" [(ngModel)]="role.config.category.view">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.products.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'category.edit')" [(ngModel)]="role.config.category.edit">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.category.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'category.delete')" [(ngModel)]="role.config.category.delete">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.category.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'orders.view')" [(ngModel)]="role.config.orders.view">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.category.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'orders.edit')" [(ngModel)]="role.config.orders.edit">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.orders.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox (click)="updateRole(role, 'orders.delete')" [(ngModel)]="role.config.orders.delete">
-                                </mat-checkbox>
+                                <mat-checkbox [(ngModel)]="role.config.orders.edit"></mat-checkbox>
                             </td>
-                            <td><span class="mdi red" (click)="deleteRole(role)">cancel</span></td>
+                            <td align="center">
+                                <mat-checkbox [(ngModel)]="role.config.orders.delete"></mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox [(ngModel)]="role.config.configuration.view"></mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox [(ngModel)]="role.config.configuration.edit"></mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <mat-checkbox [(ngModel)]="role.config.configuration.delete"></mat-checkbox>
+                            </td>
+                            <td align="center">
+                                <span class="mdi blue" (click)="updateRole(role)">save</span>
+                                <span class="mdi red" (click)="deleteRole(role)">cancel</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="no-data" *ngIf="!(roles && roles.length)">
+                [0] Roles Available.
             </div>
         </mat-tab>
     </mat-tab-group>

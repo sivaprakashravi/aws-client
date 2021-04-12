@@ -15,25 +15,39 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
   user;
   navigation = [{
     name: 'Schedule',
-    route: 'job-scheduler'
+    role: 'scheduler',
+    route: 'job-scheduler',
+    show: false
   }, {
     name: 'Locale',
-    route: 'locale-setup'
+    role: 'locale',
+    route: 'locale-setup',
+    show: false
   }, {
     name: 'Products',
-    route: 'products'
+    role: 'products',
+    route: 'products',
+    show: false
   }, {
     name: 'Categories',
-    route: 'categories'
+    role: 'category',
+    route: 'categories',
+    show: false
   }, {
     name: 'Orders',
-    route: 'orders'
+    role: 'orders',
+    route: 'orders',
+    show: false
   }, {
     name: 'Configuration',
-    route: 'user-configuration'
+    role: 'configuration',
+    route: 'user-configuration',
+    show: false
   }];
   showUserOptions = false;
   notifications = 0;
+  profile: any = {};
+  role: any = {};
   constructor(
     private notificationService: NotificationService,
     private router: Router,
@@ -42,8 +56,8 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
     private cdRef: ChangeDetectorRef) {
 
   }
-  ngOnInit() {
-    this.auth.user();
+  async ngOnInit() {
+    await this.auth.user();
     this.fetchNotifications();
   }
 
@@ -52,9 +66,14 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
   }
 
   async fetchNotifications() {
-    if (this.app.user && !this.notifications) {
-      const count = await this.notificationService.count();
-      this.notifications = count;
+    if (this.app && this.app.user) {
+      this.profile = this.app.user.user;
+      this.role = this.app.user.role;
+      this.setNavigation();
+      if (this.app.user && !this.notifications) {
+        const count = await this.notificationService.count();
+        this.notifications = count;
+      }
     }
   }
 
@@ -68,5 +87,19 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
 
   logout() {
     this.router.navigate(['logout']);
+  }
+
+  setNavigation() {
+    const role = this.role.config;
+    this.navigation.forEach(nav => {
+      const navRole = nav.role;
+      const configuredRole: any = role[navRole];
+      for (const action in configuredRole) {
+        if (configuredRole[action]) {
+          nav.show = true;
+        }
+      }
+    });
+    this.navigation = this.navigation.filter(n => n.show);
   }
 }

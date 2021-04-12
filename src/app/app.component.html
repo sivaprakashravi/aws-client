@@ -4,11 +4,15 @@
     <label for="header">HORIZON</label>
     <ul>
       <li *ngFor="let nav of navigation"><a [routerLink]="nav.route" routerLinkActive="active">{{nav.name}}</a></li>
-      <li class="icon">
-        <span class="mdi">perm_identity</span>
+      <li class="icon" tabindex="-1" (focusout)="profile.show = false">
+        <span class="mdi" (click)="profile.show = !profile.show">perm_identity</span>
+        <div class="profile" *ngIf="profile && profile.show">
+          <div>{{profile.name}}</div>
+          <div class="role">{{role.name}}</div>
+        </div>
       </li>
       <li class="icon" title="Logout" (click)="logout()">
-        <span class="mdi"> arrow_forward </span>
+        <span class="mdi">arrow_forward</span>
       </li>
     </ul>
     <div *ngIf="notifications" (click)="gotoNotifications()" class="notification"><label>{{notifications}}</label><span

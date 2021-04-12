@@ -76,11 +76,14 @@ export class CategoriesComponent implements OnInit {
     this.isCategoryUpdate = false;
   }
 
-  createCategory() {
+  async createCategory() {
     const value = this.category.value;
     if (value && value.name) {
       if (!this.isCategoryUpdate) {
-        this.categoryService.addCategory(value);
+        await this.categoryService.addCategory(value);
+        this.dialog.simpleDialog('Category Added');
+        this.newCategory();
+        this.getCategories();
       } else {
         const subs = value.subCategory;
         const query = {
@@ -96,7 +99,8 @@ export class CategoriesComponent implements OnInit {
             return squery;
           })
         };
-        this.categoryService.updateCategory(query);
+        await this.categoryService.updateCategory(query);
+        this.dialog.simpleDialog('Category Updated');
       }
     }
   }
@@ -113,6 +117,10 @@ export class CategoriesComponent implements OnInit {
     const subCategories = this.category.value.subCategory;
     subCategories.push(this.subsForm({}));
     this.category.controls.subCategory.setValue(subCategories);
+  }
+
+  removeMainCategory() {
+    
   }
 
   addSubCategory1(subCategory, sub) {

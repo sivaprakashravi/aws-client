@@ -120,7 +120,7 @@ export class UserConfigurationComponent implements OnInit {
 
   async getRoles() {
     const { data } = await this.userService.getRoles();
-    this.roles = data;
+    this.roles = data.filter(d => d.roleId !== 1);
   }
 
   async saveUser() {
@@ -150,10 +150,8 @@ export class UserConfigurationComponent implements OnInit {
     }
   }
 
-  async updateRole(role, selector) {
+  async updateRole(role) {
     const self = this;
-    selector = selector.split('.');
-    role.config[selector[0]][selector[1]] = !role.config[selector[0]][selector[1]];
     await self.userService.updateRole(role);
     await self.getRoles();
   }

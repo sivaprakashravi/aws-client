@@ -18,8 +18,8 @@ export class SessionService {
     private app: AppService) {
   }
 
-  logout() {
-    this.resetSession();
+  async logout() {
+    await this.resetSession();
     this.router.navigate(['/login']);
   }
 
@@ -39,6 +39,7 @@ export class SessionService {
         this.authError = response;
       }
     }
+    return;
   }
 
   setRefresh(user) {
@@ -49,7 +50,7 @@ export class SessionService {
 
   resetSession() {
     this.user = null;
-    this.app.user = this.user;
+    this.app.user = null;
     this.accessToken = null;
     this.refreshToken = null;
     localStorage.removeItem('profile');
@@ -57,6 +58,7 @@ export class SessionService {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('credentials');
+    return;
   }
 
   setUserInfo(user) {

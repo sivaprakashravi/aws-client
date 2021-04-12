@@ -78,12 +78,14 @@ export class LoginComponent implements OnInit {
     const validEmail = self.appHelper.validateEmail(session.email);
     if (validEmail) {
       session.email = session.email.toUpperCase();
-      const user = await self.user.login(session);
+      const user: any = await self.user.login(session);
       // self.session.setSession(user.data);
       if (user && user.data && user.data.profile) {
         const profile = await self.user.getUser(session.email);
-        user.data.profile.roles = profile.data[0];
-        self.session.setSession(user.data);
+        const role = await self.user.getRole(profile[0].role);
+        user.data.profile.user = profile[0];
+        user.data.profile.role = role[0];
+        await self.session.setSession(user.data);
         self.router.navigate(['job-scheduler']);
       } else {
         if (user.status === 'error' && user.message === 'User is not confirmed.') {

@@ -8,6 +8,12 @@ export const environment = {
   PROCESS_URL: 'http://localhost:8000/'
 };
 
+// export const environment = {
+//   production: false,
+//   URL: 'http://54.151.149.177:8001/',
+//   PROCESS_URL: 'http://54.151.149.177:8000/'
+// };
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
