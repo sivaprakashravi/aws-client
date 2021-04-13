@@ -71,11 +71,12 @@ export class JobSchedulerComponent implements OnInit {
     }
   }
 
-  checkNewJob({ category, subCategory, from, to }) {
+  checkNewJob({ category, subCategory, subCategory1, from, to }) {
     if (this.rawJobs && this.rawJobs.length) {
       const exist = this.rawJobs.filter(r => {
         const sameCat = r.category.nId === category.nId;
         const sameSubCat = r.subCategory.nId === subCategory.nId;
+        const sameSubCat1 = r.subCategory1.nId === subCategory1.nId;
         const sameFrom = r.from === from;
         const sameTo = r.to === to;
         const btwnFrom = from >= r.from && from <= r.to;
@@ -216,11 +217,11 @@ export class JobSchedulerComponent implements OnInit {
     this.subCategories1 = [];
   }
 
-  checkRange($event, range) {
-    const val = $event.target.value;
-    if (Number(val) > Number(range)) {
-      $event.target.value = Number(range);
-    }
+  checkRange($event, range = 1000) {
+    // const val = $event.target.value;
+    // if (Number(val) > Number(range)) {
+    //   $event.target.value = Number(range);
+    // }
   }
 
 }
