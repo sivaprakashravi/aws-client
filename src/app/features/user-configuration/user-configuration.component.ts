@@ -108,7 +108,8 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   async getUsers() {
-    const { data } = await this.userService.getUsers();
+    let { data } = await this.userService.getUsers();
+    data = data.filter(d => d.role !== 1);
     data.forEach(d => {
       if (d.role) {
         const selectedRole = this.roles.find(r => r.roleId === d.role);
