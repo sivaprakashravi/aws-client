@@ -119,8 +119,8 @@ export class CategoriesComponent implements OnInit {
     this.category.controls.subCategory.setValue(subCategories);
   }
 
-  removeMainCategory() {
-    
+  removeMainCategory(nId) {
+    debugger;
   }
 
   addSubCategory1(subCategory, sub) {
