@@ -40,4 +40,13 @@ export class CategoryService {
     const { data } = await this.loadingService.get(request);
     return data;
   }
+
+  async removeCategory(nId) {
+    const url = `${this.url}category/delete`;
+    let params = new HttpParams();
+    params = params.set('nId', nId);
+    const request = this.http.delete(url, { params });
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
 }

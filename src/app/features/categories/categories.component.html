@@ -25,7 +25,7 @@
         <span class="mdi add" *ngIf="isCategoryUpdate" (click)="addSubCategory()">add</span>
         <span class="mdi add" *ngIf="isCategoryUpdate" (click)="removeMainCategory(category.value.nId)">remove</span>
         <button class="left10px" mat-raised-button color="primary" (click)="createCategory()"
-            [disabled]="!category.value.name && !category.value.nId"><span class="mdi">{{isCategoryUpdate ? 'update' :
+            [disabled]="!category.value.name || !category.value.nId"><span class="mdi">{{isCategoryUpdate ? 'update' :
                 'add'}}</span>{{isCategoryUpdate ? 'Update' : 'Add'}}</button>
         <button class="left10px" mat-raised-button color="secondary" (click)="clearCategory()"><span
                 class="mdi">clear_all</span>Cancel</button>

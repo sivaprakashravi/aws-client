@@ -119,8 +119,14 @@ export class CategoriesComponent implements OnInit {
     this.category.controls.subCategory.setValue(subCategories);
   }
 
-  removeMainCategory(nId) {
-    debugger;
+  async removeMainCategory(nId) {
+    if (nId) {
+      const removed = await this.categoryService.removeCategory(nId);
+      if (removed) {
+        this.dialog.simpleDialog('Category Removed Successfully');
+        await this.getCategories();
+      }
+    }
   }
 
   addSubCategory1(subCategory, sub) {
@@ -140,7 +146,7 @@ export class CategoriesComponent implements OnInit {
 
   }
 
-  subsForm({name = '', nId = '', subCategory = []}) {
+  subsForm({ name = '', nId = '', subCategory = [] }) {
     const subs = subCategory.map(s => this.subsForm(s));
     const subCat = new FormGroup({
       name: new FormControl(name),
@@ -172,7 +178,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   updateCategory(event) {
-    const {name, nId, _id, subCategory} = event.value;
+    const { name, nId, _id, subCategory } = event.value;
     if (name && nId && _id) {
       this.category.controls.name.setValue(name);
       this.category.controls.nId.setValue(nId);
