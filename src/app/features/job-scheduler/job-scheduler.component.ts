@@ -33,7 +33,7 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
   subCategories1 = [];
   jobs = [];
   rawJobs = [];
-  interval = 60000;
+  interval = 20000;
   fetchData = false;
   duration = ['Now', 'Everyday', 'Once in a Week', 'Once in a Month', 'Twice in a Week', 'Twice in a Month'];
   newJob: FormGroup;
