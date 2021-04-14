@@ -116,11 +116,20 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="left10px">
+            <mat-form-field class="left10px" *ngIf="subCategories && subCategories.length">
                 <mat-label>Choose a Sub Category</mat-label>
-                <mat-select formControlName="subCategory">
+                <mat-select formControlName="subCategory" (selectionChange)="updateSubCategory1($event)">
                     <mat-option value=''>-Select-</mat-option>
                     <mat-option *ngFor="let sCategory of subCategories" [value]="sCategory">
+                        {{sCategory.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="left10px" *ngIf="subCategories1 && subCategories1.length">
+                <mat-label>Choose a Sub Category</mat-label>
+                <mat-select formControlName="subCategory1">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let sCategory of subCategories1" [value]="sCategory">
                         {{sCategory.name}}
                     </mat-option>
                 </mat-select>
