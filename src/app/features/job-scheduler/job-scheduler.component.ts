@@ -80,12 +80,13 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
       const exist = this.rawJobs.filter(r => {
         const sameCat = r.category.nId === category.nId;
         const sameSubCat = r.subCategory.nId === subCategory.nId;
-        const sameSubCat1 = r.subCategory1.nId === subCategory1.nId;
+        const sameSubCat1nId = subCategory1.nId && r.subCategory1.nId === subCategory1.nId;
+        const sameSubCat1node = subCategory1.node && r.subCategory1.node === subCategory1.node;
         const sameFrom = r.from === from;
         const sameTo = r.to === to;
         const btwnFrom = from >= r.from && from <= r.to;
         const btwnTo = to >= r.from && to <= r.to;
-        return sameCat && sameSubCat && sameFrom && sameTo && btwnFrom && btwnTo;
+        return sameCat && sameSubCat && (sameSubCat1nId || sameSubCat1node) && sameFrom && sameTo && btwnFrom && btwnTo;
       });
       return exist.length ? false : true;
     } else {
@@ -99,14 +100,21 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
       if (Object.prototype.hasOwnProperty.call(values, key)) {
         const type = typeof values[key];
         if (type === 'object') {
+          const nId = values[key].nId;
+          const node = values[key].node;
           values[key] = {
-            name: values[key].name,
-            nId: values[key].nId
+            name: values[key].name
           };
+          if (nId) {
+            values[key].nId = nId;
+          }
+          if (node) {
+            values[key].node = node;
+          }
         }
       }
     }
-    if (values.category && values.subCategory) {
+    if (values.category && (values.subCategory || values.subCategory1)) {
       const isValid = await this.checkNewJob(values);
       if (isValid) {
         await this.jobSchedulerService.addJob(values);
