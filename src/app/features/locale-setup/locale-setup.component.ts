@@ -15,9 +15,9 @@ export class LocaleSetupComponent implements OnInit {
   displayedColumns: string[] = ['name',
     'variationFactor',
     'markUp',
-    'ccpKG',
+    // 'ccpKG',
     'ppn',
-    'actions'];
+    'lactions'];
   displayedApplyColumns: string[] = ['category', 'subCategory', 'recursive', 'locale', 'count', 'actions'];
   formula: FormGroup;
   newFormula: FormGroup;

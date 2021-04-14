@@ -1,6 +1,8 @@
-<!-- <app-loading></app-loading> -->
+<app-loading></app-loading>
+<app-message-box *ngIf="message && message.show"></app-message-box>
 <div class="core">
   <header *ngIf="app.user">
+    <input type="hidden" [(ngModel)]="app" (ngModelChange)="fetchNotifications()">
     <label for="header">HORIZON</label>
     <ul>
       <li *ngFor="let nav of navigation"><a [routerLink]="nav.route" routerLinkActive="active">{{nav.name}}</a></li>

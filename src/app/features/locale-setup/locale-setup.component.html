@@ -83,18 +83,20 @@
                     <th mat-header-cell *matHeaderCellDef> markUp.[%] </th>
                     <td mat-cell *matCellDef="let element"> {{element.markUp}} </td>
                 </ng-container>
-                <ng-container matColumnDef="ccpKG">
+                <!-- <ng-container matColumnDef="ccpKG">
                     <th mat-header-cell *matHeaderCellDef> Custom Clearance. </th>
                     <td mat-cell *matCellDef="let element"> {{element.ccpKG}} / KILO & {{element.ccpHAWB}} / HAWB </td>
-                </ng-container>
+                </ng-container> -->
                 <ng-container matColumnDef="ppn">
                     <th mat-header-cell *matHeaderCellDef> PPN.[%] </th>
                     <td mat-cell *matCellDef="let element"> {{element.ppn}} </td>
                 </ng-container>
-                <ng-container matColumnDef="actions">
+                <ng-container matColumnDef="lactions">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let row"> <span (click)="removeLocale(row)"
-                            class="mdi red">delete_outline</span> </td>
+                    <td mat-cell *matCellDef="let row">
+                        <span (click)="removeLocale(row)" class="mdi red">delete_outline</span>
+                        <span class="mdi copy"> file_copy </span>
+                    </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -174,9 +176,12 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let row">
-                        <span title="Apply" class="left10px mdi" [ngClass]="{'disabled': row.status === 'applied'}" (click)="row.status !== 'applied' ? apply('applyOnly', false, row) : ''">done</span>
-                        <span title="Apply Recursively" class="left10px mdi" [ngClass]="{'disabled': row.recursive}" (click)="!row.recursive ? apply('applyLog', true, row) : ''">published_with_changes</span>
-                        <span title="Refresh products count" (click)="refresh(row)" *ngIf="row.status === 'saved'" class="mdi left10px">refresh</span>
+                        <span title="Apply" class="left10px mdi" [ngClass]="{'disabled': row.status === 'applied'}"
+                            (click)="row.status !== 'applied' ? apply('applyOnly', false, row) : ''">done</span>
+                        <span title="Apply Recursively" class="left10px mdi" [ngClass]="{'disabled': row.recursive}"
+                            (click)="!row.recursive ? apply('applyLog', true, row) : ''">published_with_changes</span>
+                        <span title="Refresh products count" (click)="refresh(row)" *ngIf="row.status === 'saved'"
+                            class="mdi left10px">refresh</span>
                         <span title="Archive" (click)="archiveLocale(row)" class="mdi left10px">archive</span>
                     </td>
                 </ng-container>

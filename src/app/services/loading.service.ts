@@ -57,20 +57,26 @@ export class LoadingService implements OnDestroy {
     }
   }
   // service handler
-  async get(request: Observable<any>, noValidation?) {
+  async get(request: Observable<any>, noValidation?, noAnimation?) {
     const self = this;
     const timed = timeout(self.timeout * 60 * 1000);
     let response;
     if (noValidation || this.session.validSession()) {
-      self.open();
+      if (!noAnimation) {
+        self.open();
+      }
       await request.pipe(timed, catchError((et) => {
         self.requestCancel(et);
         return of(et.error);
       })).toPromise().then((success) => {
         response = success;
-        self.done();
+        if (!noAnimation) {
+          self.done();
+        }
       }, (error) => {
-        self.done();
+        if (!noAnimation) {
+          self.done();
+        }
         if (error.name === 'HttpErrorResponse') {
           self.subscribed.errorCodes = self.json.errorCodes().subscribe(er => {
             self.error = er.find(e => e.errorCode === error.status);

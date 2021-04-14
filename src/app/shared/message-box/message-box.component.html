@@ -1,0 +1,10 @@
+<div class="modal" *ngIf="message.show">
+    <div class="modal-content">
+        <header>{{message.header}} <i class="boschicon-bosch-ic-close" (click)="close()"></i></header>
+        <div class="view" [innerHTML]="message.message"></div>
+        <div class="actions" *ngIf="message.isConfirm">
+            <button mat-raised-button color="secondary" *ngIf="message && message.no" (click)="confirmNo()"> {{message.no.label}}</button>
+            <button mat-raised-button color="primary" *ngIf="message && message.yes" (click)="confirmYes()"> {{message.yes.label}}</button>
+        </div>
+    </div>
+</div>

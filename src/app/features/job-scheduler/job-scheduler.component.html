@@ -90,27 +90,27 @@
         <table mat-table [dataSource]="jobs" *ngIf="jobs && jobs.length">
             <ng-container matColumnDef="category">
                 <th mat-header-cell *matHeaderCellDef> CATEGORY. </th>
-                <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.category.name"> {{element.category.name}} </td>
             </ng-container>
             <ng-container matColumnDef="subCategory">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY. </th>
-                <td mat-cell *matCellDef="let element"> {{element.subCategory.name}} </td>
+                <td mat-cell *matCellDef="let element"  [title]="element.subCategory.name"> {{element.subCategory.name}} </td>
             </ng-container>
             <ng-container matColumnDef="subCategory1">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY 1. </th>
-                <td mat-cell *matCellDef="let element"> {{element.subCategory1.name ? element.subCategory1.name : '-'}} </td>
+                <td mat-cell *matCellDef="let element"  [title]="element.subCategory1.name"> {{element.subCategory1.name ? element.subCategory1.name : '-'}} </td>
             </ng-container>
             <ng-container matColumnDef="interval">
                 <th mat-header-cell *matHeaderCellDef> INTERVAL. </th>
-                <td mat-cell *matCellDef="let element"> {{element.interval ? element.interval : '--'}} </td>
+                <td mat-cell *matCellDef="let element"  [title]="element.interval"> {{element.interval ? element.interval : '--'}} </td>
             </ng-container>
             <ng-container matColumnDef="from">
                 <th mat-header-cell *matHeaderCellDef> DATA From. </th>
-                <td mat-cell *matCellDef="let element"> {{element.from}} </td>
+                <td mat-cell *matCellDef="let element"  [title]="element.from"> {{element.from}} </td>
             </ng-container>
             <ng-container matColumnDef="to">
                 <th mat-header-cell *matHeaderCellDef> DATA To. </th>
-                <td mat-cell *matCellDef="let element"> {{element.to}} </td>
+                <td mat-cell *matCellDef="let element"  [title]="element.to"> {{element.to}} </td>
             </ng-container>
             <ng-container matColumnDef="recursive">
                 <th mat-header-cell *matHeaderCellDef> RECURSIVE. </th>
@@ -124,15 +124,15 @@
             </ng-container>
             <ng-container matColumnDef="createdAt">
                 <th mat-header-cell *matHeaderCellDef> SCHEDULED ON. </th>
-                <td mat-cell *matCellDef="let element"> {{element.createdOn | date: 'medium'}} </td>
+                <td mat-cell *matCellDef="let element"  [title]="element.createdOn"> {{element.createdOn | date: 'medium'}} </td>
             </ng-container>
             <ng-container matColumnDef="scheduledBy">
                 <th mat-header-cell *matHeaderCellDef> SCHEDULED BY. </th>
-                <td mat-cell *matCellDef="let element"> {{element.scheduledBy}} </td>
+                <td mat-cell *matCellDef="let element"  [title]="element.scheduledBy"> {{element.scheduledBy}} </td>
             </ng-container>
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef> STATUS. </th>
-                <td mat-cell *matCellDef="let element"[title]="element.status">                    
+                <td mat-cell *matCellDef="let element"  [title]="element.status"[title]="element.status">                    
                     <span class="mdi" *ngIf="element.status === 'New'">fiber_new</span>
                     <span class="mdi" *ngIf="element.status === 'Scheduled'" >add_task</span>
                     <span class="mdi loop" *ngIf="element.status === 'Running'" >loop</span>
@@ -145,8 +145,9 @@
                     {{element.percentage ? element.percentage : 0}}%
                     <mat-progress-bar mode="determinate" [value]="element.percentage"></mat-progress-bar> </td>
             </ng-container>
-            <ng-container>
-                <td>Delete</td>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row"><span *ngIf="row.status === 'New'" title="Delete Job" (click)="removeJob(row.scheduleId)" class="mdi">clear</span></td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

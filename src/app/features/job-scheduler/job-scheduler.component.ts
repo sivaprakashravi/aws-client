@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { FormGroup, FormControl } from '@angular/forms';
 import { JobSchedulerService } from 'src/app/services/backend/job-scheduler.service';
 import { HelpersService } from 'src/app/services/helpers.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
+import { MessageService } from 'src/app/services/message.service';
 @Component({
   selector: 'app-job-scheduler',
   templateUrl: './job-scheduler.component.html',
   styleUrls: ['./job-scheduler.component.scss']
 })
-export class JobSchedulerComponent implements OnInit {
+export class JobSchedulerComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['category',
     'subCategory',
     'subCategory1',
@@ -22,7 +23,8 @@ export class JobSchedulerComponent implements OnInit {
     'recursive',
     'prime',
     'status',
-    'percentage'];
+    'percentage',
+    'actions'];
   products: Product[] = [];
   rawProducts: Product[] = [];
   value = '';
@@ -31,18 +33,20 @@ export class JobSchedulerComponent implements OnInit {
   subCategories1 = [];
   jobs = [];
   rawJobs = [];
-  interval = 30000;
+  interval = 60000;
   fetchData = false;
   duration = ['Now', 'Everyday', 'Once in a Week', 'Once in a Month', 'Twice in a Week', 'Twice in a Month'];
   newJob: FormGroup;
   config: any = {
     maxRange: '10000'
   };
+  temp: any = {};
   constructor(
     private jobSchedulerService: JobSchedulerService,
     private helpers: HelpersService,
     private dialog: DialogService,
-    private configuration: ConfigurationService) { }
+    private configuration: ConfigurationService,
+    private message: MessageService) { }
 
   async ngOnInit() {
     const self = this;
@@ -51,7 +55,7 @@ export class JobSchedulerComponent implements OnInit {
     await self.getConfiguration();
     self.showJobs();
     // self.scrap();
-    setInterval(() => {
+    self.temp = window.setInterval(() => {
       self.refreshJobs();
     }, self.interval);
   }
@@ -222,6 +226,34 @@ export class JobSchedulerComponent implements OnInit {
     // if (Number(val) > Number(range)) {
     //   $event.target.value = Number(range);
     // }
+  }
+
+  ngOnDestroy(): void {
+    const self = this;
+    window.clearInterval(self.temp);
+  }
+
+  removeJob(scheduleId) {
+    this.message.createMessage({
+      header: `Confirm Delete`,
+      message: 'Do you want to remove the selected Job?',
+      isConfirm: true,
+      yes: {
+        label: 'Ok',
+        action: async () => {
+          await this.jobSchedulerService.remove(scheduleId);
+          this.message.close();
+          this.dialog.simpleDialog('Job Successfully Removed');
+          this.showJobs();
+        }
+      },
+      no: {
+        label: 'Cancel',
+        action: () => {
+          this.message.close();
+        }
+      }
+    });
   }
 
 }

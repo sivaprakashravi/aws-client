@@ -35,6 +35,7 @@ import { UserConfigurationComponent } from './features/user-configuration/user-c
 import { LoginComponent } from './features/login/login.component';
 import { LogoutComponent } from './features/logout/logout.component';
 import { AuthInterceptor } from './services/auth/auth.interceptor';
+import { MessageBoxComponent } from './shared/message-box/message-box.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,8 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
     OrdersComponent,
     UserConfigurationComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    MessageBoxComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AppService } from './services/app.service';
 import { AuthGuardService } from './services/auth/auth-guard.service';
 import { NotificationService } from './services/backend/notification.service';
+import { MessageService } from './services/message.service';
 
 @Component({
   selector: 'app-root',
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit, OnChanges, AfterContentChecked {
     private router: Router,
     public app: AppService,
     private auth: AuthGuardService,
+    public message: MessageService,
     private cdRef: ChangeDetectorRef) {
 
   }

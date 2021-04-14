@@ -46,7 +46,7 @@ export class JobSchedulerService {
   async jobs() {
     const url = `${this.url}job/all`;
     const request = this.http.get(url);
-    const response = await this.loadingService.get(request);
+    const response = await this.loadingService.get(request, false, true);
     return response.data;
   }
 
@@ -55,5 +55,15 @@ export class JobSchedulerService {
     const request = this.http.post(url, data);
     const response = this.loadingService.get(request);
     return response;
+  }
+
+  remove(scheduleId) {
+    const url = `${this.url}job/delete`;
+    let params = new HttpParams();
+    params = params.set('scheduleId', scheduleId);
+    const request = this.http.delete(url, { params });
+    const response = this.loadingService.get(request);
+    return response;
+
   }
 }

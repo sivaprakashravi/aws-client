@@ -125,6 +125,7 @@ export class CategoriesComponent implements OnInit {
       if (removed) {
         this.dialog.simpleDialog('Category Removed Successfully');
         await this.getCategories();
+        this.clearCategory();
       }
     }
   }

@@ -135,6 +135,14 @@
       }
     }
   }
+  .mat-column-actions {
+    width: 50px;
+    padding: 0;
+    text-align: center;
+    span {
+      cursor: pointer;
+    }
+  }
 }
 
 .status {

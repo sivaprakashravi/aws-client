@@ -57,13 +57,13 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  setConfiguration({ proxies, host, maxRange, save, watchInterval }) {
+  setConfiguration({ proxies, host, maxRange, save, watchInterval, active }) {
     this.configurationForm = new FormGroup({
       proxies: new FormControl(proxies),
       host: new FormControl(host),
       maxRange: new FormControl(maxRange),
       save: new FormControl(save),
-      active: new FormControl(false),
+      active: new FormControl(active),
       watchInterval: new FormControl(watchInterval)
     });
   }
