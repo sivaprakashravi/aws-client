@@ -25,6 +25,7 @@ export class LocaleSetupComponent implements OnInit {
   locales = [];
   categories = [];
   subCategories = [];
+  subCategories1 = [];
   localeUpdates = [];
   addLocale = false;
 
@@ -52,6 +53,14 @@ export class LocaleSetupComponent implements OnInit {
     this.subCategories = [];
     if (value && value.subCategory) {
       this.subCategories = value.subCategory;
+    }
+  }
+
+  updateSubCategory1({ value }) {
+    this.subCategories1 = [];
+    this.newFormula.value.subCategory1 = null;
+    if (value && value.subCategory) {
+      this.subCategories1 = value.subCategory;
     }
   }
 

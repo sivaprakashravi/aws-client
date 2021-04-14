@@ -70,6 +70,7 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
 
   updateSubCategory({ value }, subCategories: string) {
     this[subCategories] = [];
+    this.subCategories1 = [];
     if (value && value.subCategory) {
       this[subCategories] = value.subCategory;
     }
