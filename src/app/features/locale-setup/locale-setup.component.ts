@@ -87,6 +87,7 @@ export class LocaleSetupComponent implements OnInit {
     this.newFormula = new FormGroup({
       category: new FormControl(''),
       subCategory: new FormControl(''),
+      subCategory1: new FormControl(''),
       locale: new FormControl('')
     });
   }
@@ -148,11 +149,14 @@ export class LocaleSetupComponent implements OnInit {
       category = category.nId;
       let subCategory = this.newFormula.value.subCategory;
       subCategory = subCategory.nId;
+      let subCategory1 = this.newFormula.value.subCategory1;
+      subCategory1 = subCategory1.nId;
       filter = {
         locale: _.pick(this.newFormula.value.locale, ['localeId', 'name']),
         recursive: isRecursive ? true : false,
         category,
-        subCategory
+        subCategory,
+        subCategory1
       };
     }
     if (method === 'addLog') {
