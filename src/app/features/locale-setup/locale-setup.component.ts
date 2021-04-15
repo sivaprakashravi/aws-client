@@ -142,6 +142,9 @@ export class LocaleSetupComponent implements OnInit {
       filter = row;
       filter.category = filter.category.nId;
       filter.subCategory = filter.subCategory.nId;
+      if (filter.subCategory1) {
+        filter.subCategory1 = filter.subCategory1.nId ? filter.subCategory1.nId : filter.subCategory1.node;
+      }
       filter.status = 'applied';
       filter.noSave = true;
     } else {
