@@ -39,8 +39,12 @@ table {
 
 .pagination {
   margin-top: 15px;
+  .limit {
+    float: left;
+  }
   ul {
     text-align: center;
+    float: right;
       li {
         display: inline-block;
         color: #3f51b5;
@@ -50,11 +54,23 @@ table {
         width: 25px;
         text-align: center;
         cursor: pointer;
+        height: 25px;
+        line-height: 25px;
+        vertical-align: bottom;
         &.active {
             background: #3f51b5;
             color: #fff;
             cursor: default;
         }
+        &.disabled {
+          display: none;
+        }
+        // &:first-child {
+        //   border-radius: 5px 0 0 5px;
+        // }
+        // &:last-child {
+        //   border-radius: 0 5px 5px 0;
+        // }
       }
   }
 }

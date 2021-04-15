@@ -69,9 +69,21 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <div class="pagination">
+            <mat-form-field class="limit">
+                <mat-label>Limit</mat-label>
+                <mat-select [(ngModel)]="limit" (selectionChange)="search()">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let l of limits" [value]="l">
+                        {{l}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
             <ul>
-                <li (click)="page(i+1)" *ngFor="let item of [].constructor(pages); let i = index"
-                    [ngClass]="{'active': i+1 === activePage}">{{i+1}}</li>
+                <li (click)="search(1)" [ngClass]="{'disabled': activePage === 1}"><span class="mdi">first_page</span></li>
+                <li (click)="search(activePage-1)" [ngClass]="{'disabled': activePage === 1}"><span class="mdi">chevron_left</span></li>
+                <li (click)="page(i)" *ngFor="let i of pageNos"[ngClass]="{'active': i === activePage}">{{i}}</li>
+                <li (click)="search(activePage+1)" [ngClass]="{'disabled': activePage === pages}"><span class="mdi">chevron_right</span></li>
+                <li (click)="search(pages)" [ngClass]="{'disabled': activePage === pages}"><span class="mdi">last_page</span></li>
             </ul>
         </div>
     </div>

@@ -180,6 +180,7 @@ export class LocaleSetupComponent implements OnInit {
     logs.forEach(l => {
       l.category = this.categories.find(c => c.nId === l.category);
       l.subCategory = l.category.subCategory.find(c => c.nId === l.subCategory);
+      l.subCategory1 = l.subCategory.subCategory.find(c => c.nId === l.subCategory1);
     });
     this.localeUpdates = logs;
   }
@@ -197,9 +198,13 @@ export class LocaleSetupComponent implements OnInit {
     this.getLocales();
   }
 
-  async navToPdts({ category, subCategory, count }) {
+  async navToPdts({ category, subCategory, subCategory1, count }) {
     if (count && category && subCategory) {
-      this.router.navigate(['products'], { queryParams: { category: category.nId, subCategory: subCategory.nId } });
+      const queryParams : any = { category: category.nId, subCategory: subCategory.nId };
+      if(subCategory1) {
+        queryParams.subCategory1 = subCategory1.nId;
+      }
+      this.router.navigate(['products'], { queryParams });
     }
   }
 

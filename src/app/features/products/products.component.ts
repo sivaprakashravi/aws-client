@@ -24,6 +24,7 @@ export class ProductsComponent implements OnInit {
   filter: FormGroup;
   category: any = {};
   subCategory: any = {};
+  subCategory1: any = {};
   categories = [];
   subCategories = [];
   subCategories1 = [];
@@ -32,6 +33,9 @@ export class ProductsComponent implements OnInit {
   totalProducts;
   pages = 0;
   activePage = 1;
+  limit = 10;
+  limits = [10,20,30,40,50];
+  pageNos = [];
   constructor(
     private jobSchedulerService: JobSchedulerService,
     private router: ActivatedRoute,
@@ -42,6 +46,7 @@ export class ProductsComponent implements OnInit {
     this.router.queryParams.subscribe((params) => {
       this.category = params.category;
       this.subCategory = params.subCategory;
+      this.subCategory1 = params.subCategory1;
     });
   }
 
@@ -58,10 +63,14 @@ export class ProductsComponent implements OnInit {
       const subCategory = this.subCategories.find(
         (c) => c.nId === this.subCategory
       );
+      this.subCategories1 = subCategory.subCategory;
+      const subCategory1 = this.subCategories1.find(
+        (c) => c.nId === this.subCategory1
+      );
       this.filter = new FormGroup({
         category: new FormControl(category),
         subCategory: new FormControl(subCategory),
-        subCategory1: new FormControl(""),
+        subCategory1: new FormControl(subCategory1),
       });
       this.search();
     }
@@ -83,7 +92,7 @@ export class ProductsComponent implements OnInit {
       const filter: any = {
         category: category.nId,
         subCategory: subCategory.nId,
-        limit: 25,
+        limit: this.limit,
         pageNo: pageNo ? pageNo : 1,
       };
       if (subCategory1.nId || subCategory1.node) {
@@ -93,9 +102,10 @@ export class ProductsComponent implements OnInit {
       }
       const { products, total } = await this.productService.getProducts(filter);
       this.products = products;
-      this.pages = Math.ceil(total / 25);
+      this.pages = Math.ceil(total / this.limit);
       this.totalProducts = total;
       this.activePage = filter.pageNo;
+      this.setPage();
     }
   }
 
@@ -124,6 +134,24 @@ export class ProductsComponent implements OnInit {
   page(pageNo) {
     if (this.activePage !== pageNo) {
       this.search(pageNo);
+    }
+  }
+
+  setPage() {
+    const {limit, activePage, pages} = this;
+    this.pageNos = [];
+    if(activePage > 2) {
+      this.pageNos.push(activePage - 2);
+    }
+    if(activePage > 1) {
+      this.pageNos.push(activePage - 1);
+    }
+    this.pageNos.push(activePage);
+    if(activePage < pages - 1) {
+      this.pageNos.push(activePage + 1);
+    }
+    if(activePage < pages - 2) {
+      this.pageNos.push(activePage + 2);
     }
   }
 
