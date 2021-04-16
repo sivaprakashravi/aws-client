@@ -1,5 +1,5 @@
 <div class="job-scheduler">
-    <div class="filter">
+    <div class="filter" *ngIf="app.create('scheduler')">
         <h3>Schedule a Job</h3>
         <form [formGroup]="newJob">
             <mat-form-field>
@@ -147,7 +147,7 @@
             </ng-container>
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let row"><span *ngIf="row.status === 'New'" title="Delete Job" (click)="removeJob(row.scheduleId)" class="mdi">clear</span></td>
+                <td mat-cell *matCellDef="let row"><span *ngIf="row.status === 'New' && app.delete('scheduler')" title="Delete Job" (click)="removeJob(row.scheduleId)" class="mdi">clear</span></td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

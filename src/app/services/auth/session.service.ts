@@ -33,6 +33,11 @@ export class SessionService {
       localStorage.setItem('username', this.user.email);
       localStorage.setItem('accessToken', response.accessToken);
       localStorage.setItem('refreshToken', response.refreshToken);
+      if (response.profile.role && response.profile.role.config) {
+        this.app.roles = response.profile.role.config;
+      } else {
+        this.logout();
+      }
     } else {
       if (response && response.code) {
         this.resetSession();
@@ -64,7 +69,10 @@ export class SessionService {
   setUserInfo(user) {
     this.app.user = JSON.parse(user);
     if (localStorage.getItem('profile')) {
-      this.setSession(JSON.parse(localStorage.getItem('profile')));
+      const profile = JSON.parse(localStorage.getItem('profile'));
+      const accessToken = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+      this.setSession({ profile, accessToken, refreshToken });
     }
   }
 

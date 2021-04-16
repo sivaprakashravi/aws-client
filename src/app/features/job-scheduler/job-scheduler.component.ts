@@ -6,6 +6,7 @@ import { HelpersService } from 'src/app/services/helpers.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
 import { MessageService } from 'src/app/services/message.service';
+import { AppService } from 'src/app/services/app.service';
 @Component({
   selector: 'app-job-scheduler',
   templateUrl: './job-scheduler.component.html',
@@ -46,7 +47,8 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
     private helpers: HelpersService,
     private dialog: DialogService,
     private configuration: ConfigurationService,
-    private message: MessageService) { }
+    private message: MessageService,
+    public app: AppService) { }
 
   async ngOnInit() {
     const self = this;

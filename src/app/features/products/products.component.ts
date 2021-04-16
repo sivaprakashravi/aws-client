@@ -64,9 +64,12 @@ export class ProductsComponent implements OnInit {
         (c) => c.nId === this.subCategory
       );
       this.subCategories1 = subCategory.subCategory;
-      const subCategory1 = this.subCategories1.find(
-        (c) => c.nId === this.subCategory1
-      );
+      let subCategory1 = '';
+      if (this.subCategories1) {
+        subCategory1 = this.subCategories1.find(
+          (c) => c.nId === this.subCategory1
+        );
+      }
       this.filter = new FormGroup({
         category: new FormControl(category),
         subCategory: new FormControl(subCategory),
@@ -95,7 +98,7 @@ export class ProductsComponent implements OnInit {
         limit: this.limit,
         pageNo: pageNo ? pageNo : 1,
       };
-      if (subCategory1.nId || subCategory1.node) {
+      if (subCategory1 && (subCategory1.nId || subCategory1.node)) {
         filter.subCategory1 = subCategory1.nId
           ? subCategory1.nId
           : subCategory1.node;

@@ -7,6 +7,38 @@ export class AppService {
   public dev = false;
   public overlay = false;
   public user;
+  public roles = {
+    scheduler: {
+      view: false,
+      edit: false,
+      delete: false
+    },
+    locale: {
+      view: false,
+      edit: false,
+      delete: false
+    },
+    products: {
+      view: false,
+      edit: false,
+      delete: false
+    },
+    category: {
+      view: false,
+      edit: false,
+      delete: false
+    },
+    orders: {
+      view: false,
+      edit: false,
+      delete: false
+    },
+    configuration: {
+      view: false,
+      edit: false,
+      delete: false
+    }
+  };
   public activeRoute;
   public basicDetails;
   constructor() { }
@@ -51,6 +83,18 @@ export class AppService {
       a.click();
       document.body.removeChild(a);
     }
+  }
+
+  public create(route) {
+    return this.roles[route].edit;
+  }
+
+  public delete(route) {
+    return this.roles[route].delete;
+  }
+
+  public view(route) {
+    return this.roles[route].view;
   }
 }
 

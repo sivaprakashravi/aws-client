@@ -6,7 +6,7 @@
                 <div>
                     <mat-form-field>
                         <mat-label>Order Watch Interval</mat-label>
-                        <mat-select formControlName="orderInterval">
+                        <mat-select [disabled]="!app.create('configuration')" formControlName="orderInterval">
                             <mat-option value=''>-Select-</mat-option>
                             <mat-option *ngFor="let i of interval" [value]="i.id">
                                 {{i.label}}
@@ -17,7 +17,7 @@
                 <div>
                     <mat-form-field>
                         <mat-label>Price / Stock Watch Interval</mat-label>
-                        <mat-select formControlName="priceStockInteval">
+                        <mat-select [disabled]="!app.create('configuration')" formControlName="priceStockInteval">
                             <mat-option value=''>-Select-</mat-option>
                             <mat-option *ngFor="let i of interval" [value]="i.id">
                                 {{i.label}}
@@ -25,13 +25,13 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <button mat-raised-button color="primary" (click)="saveConfiguration()"><span
+                <button *ngIf="app.create('configuration')" mat-raised-button color="primary" (click)="saveConfiguration()"><span
                         class="mdi">schedule</span>Save</button>
             </form>
         </mat-tab>
         <mat-tab label="Users">
             <h3>Create New User</h3>
-            <div class="users">
+            <div class="users" *ngIf="app.create('configuration')">
                 <form [formGroup]="user">
                     <mat-form-field>
                         <mat-label>Name</mat-label>
@@ -86,7 +86,7 @@
         </mat-tab>
         <mat-tab label="Roles">
             <h3>Create New Role</h3>
-            <div class="roles">
+            <div class="roles" *ngIf="app.create('configuration')">
                 <form [formGroup]="role">
                     <mat-form-field>
                         <mat-label>Role</mat-label>
@@ -140,62 +140,62 @@
                                 </mat-form-field>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.scheduler.view"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.scheduler.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.scheduler.edit"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.scheduler.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.scheduler.delete"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.scheduler.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.locale.view"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.locale.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.locale.edit"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.locale.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.locale.delete"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.locale.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.products.view"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.products.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.products.edit"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.products.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.products.delete"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.products.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.category.view"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.category.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.category.edit"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.category.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.category.delete"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.category.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.orders.view"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.orders.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.orders.edit"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.orders.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.orders.delete"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.orders.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.configuration.view"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.configuration.view"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.configuration.edit"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.configuration.edit"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <mat-checkbox [(ngModel)]="role.config.configuration.delete"></mat-checkbox>
+                                <mat-checkbox [disabled]="!app.create('configuration')" [(ngModel)]="role.config.configuration.delete"></mat-checkbox>
                             </td>
                             <td align="center">
-                                <span class="mdi blue" (click)="updateRole(role)">save</span>
-                                <span class="mdi red" (click)="deleteRole(role)">cancel</span>
+                                <span class="mdi blue" *ngIf="app.create('configuration')" (click)="updateRole(role)">save</span>
+                                <span class="mdi red" *ngIf="app.delete('configuration')" (click)="deleteRole(role)">cancel</span>
                             </td>
                         </tr>
                     </tbody>
