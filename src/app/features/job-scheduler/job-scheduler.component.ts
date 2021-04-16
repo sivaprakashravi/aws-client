@@ -224,6 +224,7 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
       subCategory1: new FormControl(''),
       recursive: new FormControl(false),
       prime: new FormControl(false),
+      paused: new FormControl(false),
       interval: new FormControl('Now'),
       from: new FormControl('0'),
       to: new FormControl('1000')
