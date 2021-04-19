@@ -103,9 +103,13 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
         if (type === 'object') {
           const nId = values[key].nId;
           const node = values[key].node;
+          const id = values[key].id;
           values[key] = {
             name: values[key].name
           };
+          if (id) {
+            values[key].id = id;
+          }
           if (nId) {
             values[key].nId = nId;
           }
