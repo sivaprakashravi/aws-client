@@ -25,9 +25,13 @@ export class ProductsComponent implements OnInit {
   category: any = {};
   subCategory: any = {};
   subCategory1: any = {};
+  subCategory2: any = {};
+  subCategory3: any = {};
   categories = [];
   subCategories = [];
   subCategories1 = [];
+  subCategories2 = [];
+  subCategories3 = [];
   products = [];
   rawProducts = [];
   totalProducts;
@@ -47,6 +51,8 @@ export class ProductsComponent implements OnInit {
       this.category = params.category;
       this.subCategory = params.subCategory;
       this.subCategory1 = params.subCategory1;
+      this.subCategory2 = params.subCategory2;
+      this.subCategory3 = params.subCategory3;
     });
   }
 
@@ -64,16 +70,24 @@ export class ProductsComponent implements OnInit {
         (c) => c.nId === this.subCategory
       );
       this.subCategories1 = subCategory.subCategory;
+      const catLoop = [1,2,3];
+      const loop: any = {};
       let subCategory1 = '';
-      if (this.subCategories1) {
-        subCategory1 = this.subCategories1.find(
-          (c) => c.nId === this.subCategory1
-        );
-      }
+      let subCategory2 = '';
+      let subCategory3 = '';
+      catLoop.forEach(c => {
+        if (this[`subCategories1${c}`]) {
+          loop[`subCategory${c}`] = this[`subCategories1${c}`].find(
+            (c) => c.nId === this.subCategory1
+          );
+        }
+      });
       this.filter = new FormGroup({
         category: new FormControl(category),
         subCategory: new FormControl(subCategory),
-        subCategory1: new FormControl(subCategory1),
+        subCategory1: new FormControl(loop.subCategory1),
+        subCategory2: new FormControl(loop.subCategory2),
+        subCategory3: new FormControl(loop.subCategory3)
       });
       this.search();
     }
@@ -84,13 +98,17 @@ export class ProductsComponent implements OnInit {
       category: new FormControl(''),
       subCategory: new FormControl(''),
       subCategory1: new FormControl(''),
+      subCategory2: new FormControl(''),
+      subCategory3: new FormControl(''),
     });
     this.subCategories = [];
     this.subCategories1 = [];
   }
 
   async search(pageNo?) {
-    const { category, subCategory, subCategory1 } = this.filter.value;
+    const catLoop = [1,2,3];
+    const fv = this.filter.value;
+    const { category, subCategory, subCategory1, subCategory2, subCategory3 } = fv;
     if (category.nId && subCategory.nId) {
       const filter: any = {
         category: category.nId,
@@ -98,11 +116,14 @@ export class ProductsComponent implements OnInit {
         limit: this.limit,
         pageNo: pageNo ? pageNo : 1,
       };
-      if (subCategory1 && (subCategory1.nId || subCategory1.node)) {
-        filter.subCategory1 = subCategory1.nId
-          ? subCategory1.nId
-          : subCategory1.node;
-      }
+      catLoop.forEach(c => {
+        const sub = fv[`subCategory${c}`];
+        if (sub && (sub.nId || sub.node)) {
+          filter[`subCategory${c}`] = sub.nId
+            ? sub.nId
+            : sub.node;
+        }
+      })
       const { products, total } = await this.productService.getProducts(filter);
       this.products = products;
       this.pages = Math.ceil(total / this.limit);
@@ -119,19 +140,27 @@ export class ProductsComponent implements OnInit {
   }
 
   updateSubCategory({ value }) {
-    this.subCategories = [];
-    this.filter.value.subCategory = null;
+    this.subCategories1 = [];
+    this.subCategories2 = [];
+    this.subCategories3 = [];
     if (value && value.subCategory) {
       this.subCategories = value.subCategory;
     }
   }
 
   updateSubCategory1({ value }) {
-    this.subCategories1 = [];
-    this.filter.value.subCategory1 = null;
-    if (value && value.subCategory) {
-      this.subCategories1 = value.subCategory;
-    }
+    this.subCategories2 = [];
+    this.subCategories3 = [];
+    this.subCategories1 = value.subCategory;
+  }
+
+  updateSubCategory2({ value }) {
+    this.subCategories3 = [];
+    this.subCategories2 = value.subCategory;
+  }
+
+  updateSubCategory3({ value }) {
+    this.subCategories3 = value.subCategory;
   }
 
   page(pageNo) {

@@ -16,7 +16,15 @@ export class ProductService {
     private session: AppService
   ) {}
 
-  async getProducts({ category, subCategory, subCategory1, pageNo, limit }) {
+  async getProducts({
+    category,
+    subCategory,
+    subCategory1,
+    subCategory2,
+    subCategory3,
+    pageNo,
+    limit,
+  }) {
     const url = `${this.url}products/processed/all`;
     let params = new HttpParams();
     params = params
@@ -26,6 +34,12 @@ export class ProductService {
       .append("limit", limit);
     if (subCategory1) {
       params = params.append("subCategory1", subCategory1);
+    }
+    if (subCategory2) {
+      params = params.append("subCategory2", subCategory2);
+    }
+    if (subCategory3) {
+      params = params.append("subCategory3", subCategory3);
     }
     const request = this.http.get(url, { params });
     const { data } = await this.loadingService.get(request);
