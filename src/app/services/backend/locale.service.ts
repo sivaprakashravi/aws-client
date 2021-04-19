@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { environment } from ".././../../environments/environment";
-import { LoadingService } from "../loading.service";
-import { HttpClient, HttpParams, HttpRequest } from "@angular/common/http";
-import { AppService } from "../app.service";
+import { Injectable } from '@angular/core';
+import { environment } from '.././../../environments/environment';
+import { LoadingService } from '../loading.service';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
+import { AppService } from '../app.service';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class LocaleService {
   url = `${environment.URL}`;
@@ -14,7 +14,7 @@ export class LocaleService {
     private loadingService: LoadingService,
     private http: HttpClient,
     private session: AppService
-  ) {}
+  ) { }
 
   async getLocales() {
     const url = `${this.url}locale/all`;
@@ -33,7 +33,7 @@ export class LocaleService {
   async deleteLocale(localeId) {
     const url = `${this.url}locale/delete`;
     let params = new HttpParams();
-    params = params.set("localeId", localeId);
+    params = params.set('localeId', localeId);
     const request = this.http.delete(url, { params });
     const { data } = await this.loadingService.get(request);
     return data;
@@ -67,7 +67,7 @@ export class LocaleService {
   async archiveLog(logId) {
     const url = `${this.url}locale/log/archive`;
     let params = new HttpParams();
-    params = params.set("log", logId);
+    params = params.set('log', logId);
     const request = this.http.delete(url, { params });
     const { data } = await this.loadingService.get(request);
     return data;
@@ -76,20 +76,38 @@ export class LocaleService {
   async recursiveLog(logId) {
     const url = `${this.url}locale/log/recursive`;
     let params = new HttpParams();
-    params = params.set("log", logId);
+    params = params.set('log', logId);
     const request = this.http.get(url, { params });
     const { data } = await this.loadingService.get(request);
     return data;
   }
 
-  async refresh(log, category, subCategory) {
+  async refresh(log, category, subCategory, subCategory1?, subCategory2?, subCategory3?) {
     const url = `${this.url}locale/log/refresh`;
     let params = new HttpParams();
     params = params
-      .set("log", log)
-      .append("category", category)
-      .append("subCategory", subCategory);
+      .set('log', log)
+      .append('category', category);
+    if (subCategory) {
+      params = params.append('subCategory', subCategory);
+    }
+    if (subCategory1) {
+      params = params.append('subCategory1', subCategory1);
+    }
+    if (subCategory2) {
+      params = params.append('subCategory2', subCategory2);
+    }
+    if (subCategory3) {
+      params = params.append('subCategory3', subCategory3);
+    }
     const request = this.http.get(url, { params });
+    const { data } = await this.loadingService.get(request);
+    return data;
+  }
+
+  async group() {
+    const url = `${this.url}scrap/grouping`;
+    const request = this.http.get(url);
     const { data } = await this.loadingService.get(request);
     return data;
   }

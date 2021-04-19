@@ -13,9 +13,12 @@ import { AppService } from 'src/app/services/app.service';
   styleUrls: ['./job-scheduler.component.scss']
 })
 export class JobSchedulerComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['category',
+  displayedColumns: string[] = [
+    'category',
     'subCategory',
     'subCategory1',
+    'subCategory2',
+    'subCategory3',
     'interval',
     'from',
     'to',
@@ -111,8 +114,7 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
         const sameTo = r.to === to;
         const btwnFrom = from >= r.from && from <= r.to;
         const btwnTo = to >= r.from && to <= r.to;
-        return sameCat && sameSubCat 
-        && (sameSubCat1nId || sameSubCat1node)
+        return sameCat && sameSubCat && (sameSubCat1nId || sameSubCat1node)
         && (sameSubCat2nId || sameSubCat2node)
         && (sameSubCat3nId || sameSubCat3node)
         && sameFrom && sameTo && btwnFrom && btwnTo;
