@@ -4,7 +4,7 @@
         <form [formGroup]="newJob">
             <mat-form-field>
                 <mat-label>Choose a Category</mat-label>
-                <mat-select formControlName="category" (selectionChange)="updateSubCategory($event, 'subCategories')">
+                <mat-select formControlName="category" (selectionChange)="updateSubCategory($event)">
                     <mat-option value=''>-Select-</mat-option>
                     <mat-option *ngFor="let category of categories" [value]="category">
                         {{category.name}}
@@ -13,7 +13,7 @@
             </mat-form-field>
             <mat-form-field class="left10px" *ngIf="subCategories && subCategories.length">
                 <mat-label>Choose a Sub Category 1</mat-label>
-                <mat-select formControlName="subCategory" (selectionChange)="updateSubCategory($event, 'subCategories1')">
+                <mat-select formControlName="subCategory" (selectionChange)="updateSubCategory1($event)">
                     <mat-option value=''>-Select-</mat-option>
                     <mat-option *ngFor="let sCategory of subCategories" [value]="sCategory">
                         {{sCategory.name}}
@@ -22,9 +22,27 @@
             </mat-form-field>
             <mat-form-field class="left10px" *ngIf="subCategories1 && subCategories1.length">
                 <mat-label>Choose a Sub Category 2</mat-label>
-                <mat-select formControlName="subCategory1">
+                <mat-select formControlName="subCategory1" (selectionChange)="updateSubCategory2($event)">
                     <mat-option value=''>-Select-</mat-option>
                     <mat-option *ngFor="let sCategory of subCategories1" [value]="sCategory">
+                        {{sCategory.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="left10px" *ngIf="subCategories2 && subCategories2.length">
+                <mat-label>Choose a Sub Category 3</mat-label>
+                <mat-select formControlName="subCategory2" (selectionChange)="updateSubCategory3($event)">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let sCategory of subCategories2" [value]="sCategory">
+                        {{sCategory.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="left10px" *ngIf="subCategories3 && subCategories3.length">
+                <mat-label>Choose a Sub Category 4</mat-label>
+                <mat-select formControlName="subCategory3">
+                    <mat-option value=''>-Select-</mat-option>
+                    <mat-option *ngFor="let sCategory of subCategories3" [value]="sCategory">
                         {{sCategory.name}}
                     </mat-option>
                 </mat-select>
@@ -115,12 +133,15 @@
             <ng-container matColumnDef="recursive">
                 <th mat-header-cell *matHeaderCellDef> RECURSIVE. </th>
                 <td mat-cell *matCellDef="let element">
-                    <span class="mdi" [ngClass]="{'no': !element.recursive}">check_box</span>
+                    <span *ngIf="element.interval === 'Now'">-</span>
+                    <mat-checkbox *ngIf="element.interval !== 'Now'" (ngModelChange)="recursiveChange(element)" [(ngModel)]="element.recursive" [disabled]="element.interval === 'Now'"></mat-checkbox>
+                    <!-- <span class="mdi" [ngClass]="{'no': !element.recursive}">check_box</span> -->
             </ng-container>
             <ng-container matColumnDef="prime">
                 <th mat-header-cell *matHeaderCellDef> PRIME. </th>
                 <td mat-cell *matCellDef="let element">
-                    <span class="mdi" [ngClass]="{'no': !element.prime}">check_box</span>
+                    <mat-checkbox [(ngModel)]="element.prime" (ngModelChange)="primeChange(element)" [disabled]="element.interval === 'Now'"></mat-checkbox>
+                    <!-- <span class="mdi" [ngClass]="{'no': !element.prime}">check_box</span> -->
             </ng-container>
             <ng-container matColumnDef="createdAt">
                 <th mat-header-cell *matHeaderCellDef> SCHEDULED ON. </th>
@@ -143,12 +164,13 @@
                 <th mat-header-cell *matHeaderCellDef> Completion (%). </th>
                 <td mat-cell *matCellDef="let element"> 
                     {{element.percentage ? element.percentage : 0}}%
-                    <mat-progress-bar mode="determinate" [value]="element.percentage"></mat-progress-bar> </td>
+                    <span *ngIf="element.paused"> - Job Paused</span>
+                    <mat-progress-bar mode="determinate" [value]="element.percentage" *ngIf="!element.paused"></mat-progress-bar> </td>
             </ng-container>
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let row">
-                    <span *ngIf="(row.status !== 'Running' && row.status !== 'Scheduled' && row.status !== 'Completed') && app.create('scheduler')" title="Stop Job" (click)="removeJob(row.scheduleId)" class="mdi">{{!row.paused ? 'stop' : 'resume'}}</span>
+                    <span *ngIf="(row.status !== 'Running' && row.status !== 'Scheduled' && row.status !== 'Completed') && app.create('scheduler')" [title]="(!row.paused ? 'Stop' : 'Resume') + ' Job'" (click)="pauseJob(row)" class="mdi">{{!row.paused ? 'stop' : 'play_arrow'}}</span>
                     <span *ngIf="row.status !== 'Running' && app.delete('scheduler')" title="Delete Job" (click)="removeJob(row.scheduleId)" class="mdi">clear</span></td>
             </ng-container>
 
