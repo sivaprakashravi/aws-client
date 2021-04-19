@@ -14,22 +14,22 @@ import { AppService } from "src/app/services/app.service";
 })
 export class LocaleSetupComponent implements OnInit {
   displayedColumnsList = [
-    {key: "name", label: "Name"},
-    {key: "beaCukai", label: "BEA CUKAI %"},
-    {key: "ccpHAWB", label: "Custom Clearance / HAWB"},
-    {key: "ccpKG", label: "Custom Clearance / KG"},
-    {key: "freightDC", label: "freight D->C"},
-    {key: "freightUD", label: "freight U->D"},
-    {key: "handlingCharges", label: "Handling Charges"},
-    {key: "markUp", label: "Mark Up %"},
-    {key: "packingCost", label: "Packing Cost"},
-    {key: "pfComission", label: "PF Comission %"},
-    {key: "ppn", label: "PPN %"},
-    {key: "sensitiveCargo", label: "Sensitive Cargo"},
-    {key: "variationFactor", label: "Variation Factor"},
-    {key: "volumetricWtFactor", label: "Volumetric WtFactor"},
-    {key: "ccv", label: "Currency Conversion value"},
-    {key: "lactions", label: ""}
+    { key: "name", label: "Name" },
+    { key: "beaCukai", label: "BEA CUKAI %" },
+    { key: "ccpHAWB", label: "Custom Clearance / HAWB" },
+    { key: "ccpKG", label: "Custom Clearance / KG" },
+    { key: "freightDC", label: "freight D->C" },
+    { key: "freightUD", label: "freight U->D" },
+    { key: "handlingCharges", label: "Handling Charges" },
+    { key: "markUp", label: "Mark Up %" },
+    { key: "packingCost", label: "Packing Cost" },
+    { key: "pfComission", label: "PF Comission %" },
+    { key: "ppn", label: "PPN %" },
+    { key: "sensitiveCargo", label: "Sensitive Cargo" },
+    { key: "variationFactor", label: "Variation Factor" },
+    { key: "volumetricWtFactor", label: "Volumetric WtFactor" },
+    { key: "ccv", label: "Currency Conversion value" },
+    { key: "lactions", label: "" },
   ];
   displayedColumns: string[] = [];
   displayedApplyColumns: string[] = [
@@ -50,8 +50,8 @@ export class LocaleSetupComponent implements OnInit {
   subCategories2 = [];
   subCategories3 = [];
   localeUpdates = [];
-  addLocale = false;
-  toggleFormula = false;
+  addLocale = true;
+  toggleFormula = true;
   toggleApplyFormula = true;
   constructor(
     private localeService: LocaleService,
@@ -62,7 +62,7 @@ export class LocaleSetupComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.displayedColumns = this.displayedColumnsList.map(d => d.key);
+    this.displayedColumns = this.displayedColumnsList.map((d) => d.key);
     this.reset();
     this.resetNewFormula();
     this.listLocales();
@@ -116,7 +116,7 @@ export class LocaleSetupComponent implements OnInit {
       beaCukai: new FormControl("", [Validators.required]),
       pfComission: new FormControl("", [Validators.required]),
       ppn: new FormControl("", [Validators.required]),
-      ccv: new FormControl("", [Validators.required])
+      ccv: new FormControl("", [Validators.required]),
     });
   }
 
@@ -177,18 +177,18 @@ export class LocaleSetupComponent implements OnInit {
 
   async apply(method, isRecursive?, row?) {
     let filter: any = {};
-    const catloop = [1,2,3];
+    const catloop = [1, 2, 3];
     if (method === "applyOnly" || method === "applyLog") {
       filter = row;
       filter.category = filter.category.nId;
       filter.subCategory = filter.subCategory.nId;
-      catloop.forEach(c => {
+      catloop.forEach((c) => {
         if (filter && filter[`subCategory${c}`]) {
           filter[`subCategory${c}`] = filter[`subCategory${c}`].nId
             ? filter[`subCategory${c}`].nId
             : filter[`subCategory${c}`].node;
         }
-      })
+      });
       filter.status = "applied";
       filter.noSave = true;
     } else {
@@ -278,5 +278,25 @@ export class LocaleSetupComponent implements OnInit {
       }
       this.router.navigate(["products"], { queryParams });
     }
+  }
+
+  async recursiveChange(locale) {
+    const rec = await this.localeService.recursiveLog(locale.log);
+    this.dialog.simpleDialog(
+      rec
+        ? "Recursive updated Successfully!"
+        : "Something went wrong. Try after sometime!!"
+    );
+    this.getLocales();
+  }
+
+  async cloneLocale(row) {
+    const clone = _.omit(row, ['_id', 'createdBy', 'createdOn', 'localeId', 'active']);
+    clone.name = `${clone.name}-CLONE`;
+    this.formula.setValue(clone);
+  }
+
+  async fetchScrapCount() {
+    
   }
 }

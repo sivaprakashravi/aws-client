@@ -1,80 +1,80 @@
 .locale-setup {
-  padding: 15px;
-  // display: flex;
-  h3 {
-    span {
-      color: #fff;
-      &.mdi {
-        background: #3f51b5;
-        border-radius: 5px;
-        vertical-align: sub;
-      }
+    padding: 15px;
+    // display: flex;
+    h3 {
+        span {
+            color: #fff;
+            &.mdi {
+                background: #3f51b5;
+                border-radius: 5px;
+                vertical-align: sub;
+            }
+        }
     }
-  }
-  .add-formula {
-    width: 100%;
-    // display: inline-block;
-    .add {
-      float: right;
-      margin: 5px;
-    }
-  }
-  .long-form {
-    border: 1px solid #ccc;
-    padding-left: 15px;
-    padding-bottom: 15px;
-    width: calc(100% - 20px);
-  }
-  .apply-formula {
-    width: 100%;
-    // display: inline-block;
-  }
-  .locale-list {
-    margin: 15px 0 0 0;
-    table {
-      margin-bottom: 15px;
-      .mdi {
-          color: #3f51b5;
-          &.disabled {
-            color: #ccc;
-          }
-      }
-    }
-    &.w100 {
-      table {
+    .add-formula {
         width: 100%;
-      }
+        // display: inline-block;
+        .add {
+            float: right;
+            margin: 5px;
+        }
     }
-  }
-  .red {
-    color: rgb(201, 0, 0);
-  }
-  .w25 {
-    width: 70px;
-  }
-  .w115 {
-    width: 19%;
-  }
-  .action-buttons {
-    display: inline-block;
-  }
-  .mdi {
-      cursor: pointer;
-  }
-  .link {
-    cursor: pointer;
-    color: #3f51b5;
-    text-decoration: underline;
-  }
-
-  .mat-column-actions {
-    width: 140px;
-  }
-  .copy {
-    font-size: 18px;
-    margin-left: 10px;
-  }
-  .mat-column-lactions {
-    width: 80px !important;
-  }
+    .long-form {
+        border: 1px solid #ccc;
+        padding-left: 15px;
+        padding-bottom: 15px;
+        padding-top: 15px;
+        width: calc(100% - 20px);
+    }
+    .apply-formula {
+        width: 100%;
+        // display: inline-block;
+    }
+    .locale-list {
+        margin: 15px 0 0 0;
+        table {
+            margin-bottom: 15px;
+            .mdi {
+                color: #3f51b5;
+                &.disabled {
+                    color: #ccc;
+                }
+            }
+        }
+        &.w100 {
+            table {
+                width: 100%;
+            }
+        }
+    }
+    .red {
+        color: rgb(201, 0, 0);
+    }
+    .w25 {
+        width: 70px;
+    }
+    .w115 {
+        width: 19%;
+    }
+    .action-buttons {
+        display: inline-block;
+    }
+    .mdi {
+        cursor: pointer;
+    }
+    .link {
+        cursor: pointer;
+        color: #3f51b5;
+        text-decoration: underline;
+    }
+    .mat-column-actions {
+        width: 140px;
+    }
+    .copy {
+        font-size: 18px;
+        margin-left: 10px;
+    }
+    .mat-column-lactions {
+        width: 80px !important;
+    }
 }
