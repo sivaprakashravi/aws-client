@@ -44,15 +44,15 @@
     table {
       width: 100%;
       tr {
-        &.inactive {
-          background: #eee;
-          td {
-            color: #bbb;
-            .mdi {
-              opacity: 0.5;
-            }
-          }
-        }
+        // &.inactive {
+        //   background: #eee;
+        //   td {
+        //     color: #bbb;
+        //     .mdi {
+        //       opacity: 0.5;
+        //     }
+        //   }
+        // }
       }
     }
   }
@@ -136,9 +136,9 @@
     }
   }
   .mat-column-actions {
-    width: 50px;
-    padding: 0;
-    text-align: center;
+    width: 120px;
+    padding: 0 10px 0 0;
+    text-align: right;
     span {
       cursor: pointer;
     }

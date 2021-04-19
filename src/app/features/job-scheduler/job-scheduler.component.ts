@@ -6,6 +6,7 @@ import { HelpersService } from 'src/app/services/helpers.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
 import { MessageService } from 'src/app/services/message.service';
+import { AppService } from 'src/app/services/app.service';
 @Component({
   selector: 'app-job-scheduler',
   templateUrl: './job-scheduler.component.html',
@@ -31,6 +32,8 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
   categories = [];
   subCategories = [];
   subCategories1 = [];
+  subCategories2 = [];
+  subCategories3 = [];
   jobs = [];
   rawJobs = [];
   interval = 20000;
@@ -46,7 +49,8 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
     private helpers: HelpersService,
     private dialog: DialogService,
     private configuration: ConfigurationService,
-    private message: MessageService) { }
+    private message: MessageService,
+    public app: AppService) { }
 
   async ngOnInit() {
     const self = this;
@@ -68,12 +72,28 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
     this.products = data;
   }
 
-  updateSubCategory({ value }, subCategories: string) {
-    this[subCategories] = [];
+  updateSubCategory({ value }) {
     this.subCategories1 = [];
+    this.subCategories2 = [];
+    this.subCategories3 = [];
     if (value && value.subCategory) {
-      this[subCategories] = value.subCategory;
+      this.subCategories = value.subCategory;
     }
+  }
+
+  updateSubCategory1({ value }) {
+    this.subCategories2 = [];
+    this.subCategories3 = [];
+    this.subCategories1 = value.subCategory;
+  }
+
+  updateSubCategory2({ value }) {
+    this.subCategories3 = [];
+    this.subCategories2 = value.subCategory;
+  }
+
+  updateSubCategory3({ value }) {
+    this.subCategories3 = value.subCategory;
   }
 
   checkNewJob({ category, subCategory, subCategory1, from, to }) {
@@ -224,8 +244,11 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
       category: new FormControl(''),
       subCategory: new FormControl(''),
       subCategory1: new FormControl(''),
+      subCategory2: new FormControl(''),
+      subCategory3: new FormControl(''),
       recursive: new FormControl(false),
       prime: new FormControl(false),
+      paused: new FormControl(false),
       interval: new FormControl('Now'),
       from: new FormControl('0'),
       to: new FormControl('1000')
@@ -267,6 +290,36 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  async pauseJob(job) {
+    const paused = await this.jobSchedulerService.pause(job);
+    if (paused) {
+      this.dialog.simpleDialog(`Job Successfully ${job.paused ? 'Resumed' : 'Paused'}`);
+      this.showJobs();
+    } else {
+      this.dialog.simpleDialog('Something went wrong! Please try after sometime.');
+    }
+  }
+
+  async primeChange(job) {
+    const paused = await this.jobSchedulerService.prime(job);
+    if (paused) {
+      this.dialog.simpleDialog(`Prime Job Updated Successfully`);
+      this.showJobs();
+    } else {
+      this.dialog.simpleDialog('Something went wrong! Please try after sometime.');
+    }
+  }
+
+  async recursiveChange(job) {
+    const paused = await this.jobSchedulerService.recursive(job);
+    if (paused) {
+      this.dialog.simpleDialog(`Recursive Job Updated Successfully`);
+      this.showJobs();
+    } else {
+      this.dialog.simpleDialog('Something went wrong! Please try after sometime.');
+    }
   }
 
 }

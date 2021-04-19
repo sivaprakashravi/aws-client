@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AppService } from 'src/app/services/app.service';
 import { CategoryService } from 'src/app/services/backend/category.service';
 import { JobSchedulerService } from 'src/app/services/backend/job-scheduler.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -17,7 +18,11 @@ export class CategoriesComponent implements OnInit {
   subCategories = [];
   subCategories1 = [];
   isCategoryUpdate = false;
-  constructor(private jobSchedulerService: JobSchedulerService, private categoryService: CategoryService, private dialog: DialogService) { }
+  constructor(
+    private jobSchedulerService: JobSchedulerService,
+    private categoryService: CategoryService,
+    private dialog: DialogService,
+    public app: AppService) { }
 
   async ngOnInit() {
     this.setForm();

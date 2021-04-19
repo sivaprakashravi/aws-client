@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit {
 
   setForm() {
     this.login = new FormGroup({
-      email: new FormControl(''),
-      password: new FormControl(''),
+      email: new FormControl('sivaprakasharavi@gmail.com'),
+      password: new FormControl('Horizon@12!'),
       verificationCode: new FormControl('')
     });
   }

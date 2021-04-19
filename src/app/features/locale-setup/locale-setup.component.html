@@ -1,6 +1,6 @@
 <div class="locale-setup">
     <div class="add-formula">
-        <h3>Add a Locale <span>[Conversion from USD - IDR]</span> <span class="add mdi"
+        <h3>Add a Locale <span>[Conversion from USD - IDR]</span> <span *ngIf="app.create('locale')" class="add mdi"
                 (click)="addLocale = !addLocale">{{!addLocale ? 'add' : 'clear'}}</span></h3>
         <div class="long-form" *ngIf="addLocale">
             <form [formGroup]="formula">
@@ -106,7 +106,7 @@
     </div>
     <div class="apply-formula">
         <h3>Apply a Locale</h3>
-        <form [formGroup]="newFormula">
+        <form [formGroup]="newFormula" *ngIf="app.create('locale')">
             <mat-form-field>
                 <mat-label>Choose a Category</mat-label>
                 <mat-select formControlName="category" (selectionChange)="updateSubCategory($event)">
@@ -185,13 +185,13 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let row">
-                        <span title="Apply" class="left10px mdi" [ngClass]="{'disabled': row.status === 'applied'}"
+                        <span *ngIf="app.create('locale')" title="Apply" class="left10px mdi" [ngClass]="{'disabled': row.status === 'applied'}"
                             (click)="row.status !== 'applied' ? apply('applyOnly', false, row) : ''">done</span>
-                        <span title="Apply Recursively" class="left10px mdi" [ngClass]="{'disabled': row.recursive}"
+                        <span *ngIf="app.create('locale')" title="Apply Recursively" class="left10px mdi" [ngClass]="{'disabled': row.recursive}"
                             (click)="!row.recursive ? apply('applyLog', true, row) : ''">published_with_changes</span>
                         <span title="Refresh products count" (click)="refresh(row)" *ngIf="row.status === 'saved'"
                             class="mdi left10px">refresh</span>
-                        <span title="Archive" (click)="archiveLocale(row)" class="mdi left10px">archive</span>
+                        <span *ngIf="app.delete('locale')" title="Remove" (click)="archiveLocale(row)" class="mdi left10px">delete</span>
                     </td>
                 </ng-container>
 

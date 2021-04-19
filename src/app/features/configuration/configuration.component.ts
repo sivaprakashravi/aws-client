@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AppService } from 'src/app/services/app.service';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
 import { DbService } from 'src/app/services/backend/db.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -34,7 +35,11 @@ export class ConfigurationComponent implements OnInit {
     active: new FormControl(false),
     watchInterval: new FormControl('')
   });
-  constructor(private config: ConfigurationService, private dialog: DialogService, private db: DbService) { }
+  constructor(
+    private config: ConfigurationService,
+    private dialog: DialogService,
+    private db: DbService,
+    public app: AppService) { }
 
   ngOnInit() {
     this.getConfiguration();

@@ -1,25 +1,25 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { JobSchedulerService } from "src/app/services/backend/job-scheduler.service";
-import { ProductService } from "src/app/services/backend/product.service";
-import * as _ from "lodash";
-import { DialogService } from "src/app/services/dialog.service";
-import { AppService } from "src/app/services/app.service";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { JobSchedulerService } from 'src/app/services/backend/job-scheduler.service';
+import { ProductService } from 'src/app/services/backend/product.service';
+import * as _ from 'lodash';
+import { DialogService } from 'src/app/services/dialog.service';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
-  selector: "app-products",
-  templateUrl: "./products.component.html",
-  styleUrls: ["./products.component.scss"],
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
   displayedColumns = [
-    "asin",
-    "sku",
-    "label",
-    "item_dimensions_weight",
-    "price",
-    "link",
+    'asin',
+    'sku',
+    'label',
+    'item_dimensions_weight',
+    'price',
+    'link',
   ];
   filter: FormGroup;
   category: any = {};
@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit {
   pages = 0;
   activePage = 1;
   limit = 10;
-  limits = [10,20,30,40,50];
+  limits = [10, 20, 30, 40, 50];
   pageNos = [];
   constructor(
     private jobSchedulerService: JobSchedulerService,
@@ -64,9 +64,12 @@ export class ProductsComponent implements OnInit {
         (c) => c.nId === this.subCategory
       );
       this.subCategories1 = subCategory.subCategory;
-      const subCategory1 = this.subCategories1.find(
-        (c) => c.nId === this.subCategory1
-      );
+      let subCategory1 = '';
+      if (this.subCategories1) {
+        subCategory1 = this.subCategories1.find(
+          (c) => c.nId === this.subCategory1
+        );
+      }
       this.filter = new FormGroup({
         category: new FormControl(category),
         subCategory: new FormControl(subCategory),
@@ -78,9 +81,9 @@ export class ProductsComponent implements OnInit {
 
   setFilter() {
     this.filter = new FormGroup({
-      category: new FormControl(""),
-      subCategory: new FormControl(""),
-      subCategory1: new FormControl(""),
+      category: new FormControl(''),
+      subCategory: new FormControl(''),
+      subCategory1: new FormControl(''),
     });
     this.subCategories = [];
     this.subCategories1 = [];
@@ -95,7 +98,7 @@ export class ProductsComponent implements OnInit {
         limit: this.limit,
         pageNo: pageNo ? pageNo : 1,
       };
-      if (subCategory1.nId || subCategory1.node) {
+      if (subCategory1 && (subCategory1.nId || subCategory1.node)) {
         filter.subCategory1 = subCategory1.nId
           ? subCategory1.nId
           : subCategory1.node;
@@ -138,19 +141,19 @@ export class ProductsComponent implements OnInit {
   }
 
   setPage() {
-    const {limit, activePage, pages} = this;
+    const { limit, activePage, pages } = this;
     this.pageNos = [];
-    if(activePage > 2) {
+    if (activePage > 2) {
       this.pageNos.push(activePage - 2);
     }
-    if(activePage > 1) {
+    if (activePage > 1) {
       this.pageNos.push(activePage - 1);
     }
     this.pageNos.push(activePage);
-    if(activePage < pages - 1) {
+    if (activePage < pages - 1) {
       this.pageNos.push(activePage + 1);
     }
-    if(activePage < pages - 2) {
+    if (activePage < pages - 2) {
       this.pageNos.push(activePage + 2);
     }
   }
@@ -173,15 +176,15 @@ export class ProductsComponent implements OnInit {
       }
       if (filter.storeId && filter.categoryCode) {
         let products = await this.productService.downloadProducts(filter);
-        products = products.map((p) => _.omit(p, "altImages"));
+        products = products.map((p) => _.omit(p, 'altImages'));
         this.appService.convertTOCSV(
           products,
           `${category.name}-${subCategory.name}-${new Date().getTime()}`,
-          ".csv"
+          '.csv'
         );
       } else {
         this.dialog.simpleDialog(
-          "Store Id is not available for selected Category / Sub-Category."
+          'Store Id is not available for selected Category / Sub-Category.'
         );
       }
     }

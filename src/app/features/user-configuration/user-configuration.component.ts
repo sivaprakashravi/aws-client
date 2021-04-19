@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AppHelperService } from 'src/app/helpers/app-helper.service';
+import { AppService } from 'src/app/services/app.service';
 import { SessionService } from 'src/app/services/auth/session.service';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
 import { UsersService } from 'src/app/services/backend/user.service';
@@ -39,6 +40,7 @@ export class UserConfigurationComponent implements OnInit {
   constructor(
     private config: ConfigurationService,
     private dialog: DialogService,
+    public app: AppService,
     private appHelper: AppHelperService,
     private userService: UsersService) { }
 

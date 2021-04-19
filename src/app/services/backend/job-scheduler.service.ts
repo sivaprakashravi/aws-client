@@ -64,6 +64,33 @@ export class JobSchedulerService {
     const request = this.http.delete(url, { params });
     const response = this.loadingService.get(request);
     return response;
-
   }
+
+  pause({scheduleId}) {
+    const url = `${this.url}job/pause`;
+    let params = new HttpParams();
+    params = params.set('scheduleId', scheduleId);
+    const request = this.http.get(url, { params });
+    const response = this.loadingService.get(request);
+    return response;
+  }
+
+  recursive({scheduleId}) {
+    const url = `${this.url}job/recursive`;
+    let params = new HttpParams();
+    params = params.set('scheduleId', scheduleId);
+    const request = this.http.get(url, { params });
+    const response = this.loadingService.get(request);
+    return response;
+  }
+
+  prime({scheduleId}) {
+    const url = `${this.url}job/prime`;
+    let params = new HttpParams();
+    params = params.set('scheduleId', scheduleId);
+    const request = this.http.get(url, { params });
+    const response = this.loadingService.get(request);
+    return response;
+  }
+
 }

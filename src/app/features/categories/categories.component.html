@@ -1,4 +1,4 @@
-<div class="category-manager">
+<div class="category-manager" *ngIf="app.create('category')">
     <h3>Manage Category
         <span class="mdi add">add</span>
     </h3>
@@ -95,15 +95,15 @@
         </mat-form-field>
         <mat-form-field class="left10px range" *ngIf="form && form.value && form.value.category">
             <mat-label>Store Id</mat-label>
-            <input formControlName="storeId" matInput type="number">
+            <input formControlName="storeId" [readonly]="!app.create('category')" matInput type="number">
         </mat-form-field>
         <mat-form-field class="left10px range" *ngIf="form && form.value && form.value.category">
             <mat-label>Category Code</mat-label>
-            <input formControlName="categoryCode" matInput type="number">
+            <input formControlName="categoryCode" [readonly]="!app.create('category')" matInput type="number">
         </mat-form-field>
-        <button class="left10px" mat-raised-button color="primary" (click)="update()"
+        <button *ngIf="app.create('category')" class="left10px" mat-raised-button color="primary" (click)="update()"
             [disabled]="!form.value.storeId || !form.value.categoryCode"><span class="mdi">update</span>Update</button>
-        <button class="left10px" mat-raised-button color="secondary" (click)="cancel()"><span
+        <button *ngIf="app.create('category')" class="left10px" mat-raised-button color="secondary" (click)="cancel()"><span
                 class="mdi">clear_all</span>Cancel</button>
     </form>
 </div>

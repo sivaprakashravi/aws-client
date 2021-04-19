@@ -5,6 +5,7 @@ import { LocaleService } from 'src/app/services/backend/locale.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-locale-setup',
@@ -33,7 +34,8 @@ export class LocaleSetupComponent implements OnInit {
     private localeService: LocaleService,
     private dialog: DialogService,
     private router: Router,
-    private jobSchedulerService: JobSchedulerService) { }
+    private jobSchedulerService: JobSchedulerService,
+    public app: AppService) { }
 
   async ngOnInit() {
     this.reset();
@@ -142,6 +144,9 @@ export class LocaleSetupComponent implements OnInit {
       filter = row;
       filter.category = filter.category.nId;
       filter.subCategory = filter.subCategory.nId;
+      if (filter.subCategory1) {
+        filter.subCategory1 = filter.subCategory1.nId ? filter.subCategory1.nId : filter.subCategory1.node;
+      }
       filter.status = 'applied';
       filter.noSave = true;
     } else {
@@ -180,7 +185,9 @@ export class LocaleSetupComponent implements OnInit {
     logs.forEach(l => {
       l.category = this.categories.find(c => c.nId === l.category);
       l.subCategory = l.category.subCategory.find(c => c.nId === l.subCategory);
-      l.subCategory1 = l.subCategory.subCategory.find(c => c.nId === l.subCategory1);
+      if (l.subCategory1) {
+        l.subCategory1 = l.subCategory.subCategory.find(c => c.nId === l.subCategory1);
+      }
     });
     this.localeUpdates = logs;
   }
@@ -200,8 +207,8 @@ export class LocaleSetupComponent implements OnInit {
 
   async navToPdts({ category, subCategory, subCategory1, count }) {
     if (count && category && subCategory) {
-      const queryParams : any = { category: category.nId, subCategory: subCategory.nId };
-      if(subCategory1) {
+      const queryParams: any = { category: category.nId, subCategory: subCategory.nId };
+      if (subCategory1) {
         queryParams.subCategory1 = subCategory1.nId;
       }
       this.router.navigate(['products'], { queryParams });
