@@ -12,7 +12,7 @@ export class CategoryService {
   process = `${environment.PROCESS_URL}`;
   constructor(private loadingService: LoadingService, private http: HttpClient, private session: AppService) { }
 
-  async updateStoreInfo({ category, subCategory, subCategory1, storeId, categoryCode }) {
+  async updateStoreInfo({ category, subCategory, subCategory1, subCategory2, subCategory3, storeId, categoryCode }) {
     const url = `${this.url}category/store/update`;
     let params = new HttpParams();
     params = params.set('category', category).append('storeId', storeId).append('categoryCode', categoryCode);
@@ -21,6 +21,12 @@ export class CategoryService {
     }
     if (subCategory1) {
       params = params.append('subCategory1', subCategory1);
+    }
+    if (subCategory2) {
+      params = params.append('subCategory2', subCategory2);
+    }
+    if (subCategory3) {
+      params = params.append('subCategory3', subCategory3);
     }
     const request = this.http.put(url, {}, { params });
     const { data } = await this.loadingService.get(request);

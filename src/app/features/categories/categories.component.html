@@ -65,31 +65,49 @@
 <div class="category-manager">
     <h3>Set Store</h3>
     <form [formGroup]="form">
+        
         <mat-form-field>
             <mat-label>Choose a Category</mat-label>
-            <mat-select formControlName="category" (selectionChange)="updateSubCategory($event, 'subCategories')">
-                <mat-option value=''>-Select-</mat-option>
+            <mat-select formControlName="category" (selectionChange)="updateSubCategory($event)">
+                <mat-option value="">-Select-</mat-option>
                 <mat-option *ngFor="let category of categories" [value]="category">
-                    {{category.name}}
+                    {{ category.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="left10px" *ngIf="subCategories && subCategories.length">
             <mat-label>Choose a Sub Category 1</mat-label>
-            <mat-select formControlName="subCategory"
-                (selectionChange)="updateStoreId($event); updateSubCategory($event, 'subCategories1')">
-                <mat-option value=''>-Select-</mat-option>
+            <mat-select formControlName="subCategory" (selectionChange)="updateSubCategory1($event)">
+                <mat-option value="">-Select-</mat-option>
                 <mat-option *ngFor="let sCategory of subCategories" [value]="sCategory">
-                    {{sCategory.name}}
+                    {{ sCategory.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="left10px" *ngIf="subCategories1 && subCategories1.length">
             <mat-label>Choose a Sub Category 2</mat-label>
-            <mat-select formControlName="subCategory1" (selectionChange)="updateStoreId($event)">
-                <mat-option value=''>-Select-</mat-option>
+            <mat-select formControlName="subCategory1" (selectionChange)="updateSubCategory2($event)">
+                <mat-option value="">-Select-</mat-option>
                 <mat-option *ngFor="let sCategory of subCategories1" [value]="sCategory">
-                    {{sCategory.name}}
+                    {{ sCategory.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="left10px" *ngIf="subCategories2 && subCategories2.length">
+            <mat-label>Choose a Sub Category 3</mat-label>
+            <mat-select formControlName="subCategory2" (selectionChange)="updateSubCategory3($event)">
+                <mat-option value="">-Select-</mat-option>
+                <mat-option *ngFor="let sCategory of subCategories2" [value]="sCategory">
+                    {{ sCategory.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="left10px" *ngIf="subCategories3 && subCategories3.length">
+            <mat-label>Choose a Sub Category 4</mat-label>
+            <mat-select formControlName="subCategory3" (selectionChange)="updateStoreId($event)">
+                <mat-option value="">-Select-</mat-option>
+                <mat-option *ngFor="let sCategory of subCategories3" [value]="sCategory">
+                    {{ sCategory.name }}
                 </mat-option>
             </mat-select>
         </mat-form-field>

@@ -17,6 +17,8 @@ export class CategoriesComponent implements OnInit {
   categories = [];
   subCategories = [];
   subCategories1 = [];
+  subCategories2 = [];
+  subCategories3 = [];
   isCategoryUpdate = false;
   constructor(
     private jobSchedulerService: JobSchedulerService,
@@ -37,8 +39,7 @@ export class CategoriesComponent implements OnInit {
     this.customCategories = data.filter(d => d.createdBy === 'USER');
   }
 
-  updateSubCategory({ value }, cat) {
-    this[cat] = [];
+  updateStoreInfo(value, cat) {
     if (value && value.subCategory) {
       this[cat] = value.subCategory;
     }
@@ -46,6 +47,34 @@ export class CategoriesComponent implements OnInit {
       this.form.controls.storeId.setValue(value.storeId);
       this.form.controls.categoryCode.setValue(value.categoryCode);
     }
+  }
+
+  updateSubCategory({ value }) {
+    this.subCategories1 = [];
+    this.subCategories2 = [];
+    this.subCategories3 = [];
+    if (value && value.subCategory) {
+      this.subCategories = value.subCategory;
+      this.updateStoreInfo(value, 'subCategory');
+    }
+  }
+
+  updateSubCategory1({ value }) {
+    this.subCategories2 = [];
+    this.subCategories3 = [];
+    this.subCategories1 = value.subCategory;
+    this.updateStoreInfo(value, 'subCategory1');
+  }
+
+  updateSubCategory2({ value }) {
+    this.subCategories3 = [];
+    this.subCategories2 = value.subCategory;
+    this.updateStoreInfo(value, 'subCategory2');
+  }
+
+  updateSubCategory3({ value }) {
+    this.subCategories3 = value.subCategory;
+    this.updateStoreInfo(value, 'subCategory3');
   }
 
   updateStoreId({ value }) {
@@ -64,11 +93,15 @@ export class CategoriesComponent implements OnInit {
       category: new FormControl(''),
       subCategory: new FormControl(''),
       subCategory1: new FormControl(''),
+      subCategory2: new FormControl(''),
+      subCategory3: new FormControl(''),
       storeId: new FormControl(null),
       categoryCode: new FormControl(null)
     });
     this.subCategories = [];
     this.subCategories1 = [];
+    this.subCategories2 = [];
+    this.subCategories3 = [];
   }
 
   newCategory() {
@@ -163,7 +196,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   async update() {
-    const { category, subCategory, subCategory1, storeId, categoryCode } = this.form.value;
+    const { category, subCategory, subCategory1, subCategory2, subCategory3, storeId, categoryCode } = this.form.value;
     const data: any = {};
     if ((category || subCategory) && storeId && categoryCode) {
       data.category = category.nId;
@@ -175,6 +208,12 @@ export class CategoriesComponent implements OnInit {
       if (subCategory1) {
         data.subCategory1 = subCategory1.nId;
       }
+      if (subCategory2) {
+        data.subCategory2 = subCategory2.nId;
+      }
+      if (subCategory3) {
+        data.subCategory3 = subCategory3.nId;
+      }
     }
     const updated = await this.categoryService.updateStoreInfo(data);
     if (updated) {
@@ -184,13 +223,19 @@ export class CategoriesComponent implements OnInit {
   }
 
   updateCategory(event) {
-    const { name, nId, _id, subCategory } = event.value;
+    const { name, nId, _id, subCategory, subCategory1, subCategory2, subCategory3 } = event.value;
     if (name && nId && _id) {
       this.category.controls.name.setValue(name);
       this.category.controls.nId.setValue(nId);
       this.category.controls._id.setValue(_id);
       const subs = subCategory.map(s => this.subsForm(s));
       this.category.controls.subCategory.setValue(subs);
+      const subs1 = subCategory1.map(s => this.subsForm(s));
+      this.category.controls.subCategory1.setValue(subs1);
+      const subs2 = subCategory2.map(s => this.subsForm(s));
+      this.category.controls.subCategory2.setValue(subs2);
+      const subs3 = subCategory3.map(s => this.subsForm(s));
+      this.category.controls.subCategory3.setValue(subs3);
       this.isCategoryUpdate = true;
     } else {
       this.clearCategory();
