@@ -190,7 +190,7 @@ export class ProductsComponent implements OnInit {
   }
 
   async download() {
-    const { category, subCategory, subCategory1 } = this.filter.value;
+    const { category, subCategory, subCategory1, subCategory2, subCategory3 } = this.filter.value;
     if (category.nId && subCategory.nId) {
       const filter: any = {
         category: category.nId,
@@ -200,10 +200,20 @@ export class ProductsComponent implements OnInit {
           ? subCategory.categoryCode
           : category.categoryCode,
       };
-      if (subCategory1.nId || subCategory1.node) {
+      if (subCategory1 && (subCategory1.nId || subCategory1.node)) {
         filter.subCategory1 = subCategory1.nId
           ? subCategory1.nId
           : subCategory1.node;
+      }
+      if (subCategory2 && (subCategory2.nId || subCategory2.node)) {
+        filter.subCategory2 = subCategory2.nId
+          ? subCategory2.nId
+          : subCategory2.node;
+      }
+      if (subCategory3 && (subCategory3.nId || subCategory3.node)) {
+        filter.subCategory3 = subCategory3.nId
+          ? subCategory3.nId
+          : subCategory3.node;
       }
       if (filter.storeId && filter.categoryCode) {
         let products = await this.productService.downloadProducts(filter);

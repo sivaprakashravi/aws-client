@@ -57,8 +57,12 @@ export class ProductService {
     category,
     subCategory,
     subCategory1,
+    subCategory2,
+    subCategory3,
     storeId,
     categoryCode,
+    sku,
+    asin
   }) {
     const url = `${this.url}products/download`;
     let params = new HttpParams();
@@ -69,6 +73,18 @@ export class ProductService {
       .append('categoryCode', categoryCode);
     if (subCategory1) {
       params = params.append('subCategory1', subCategory1);
+    }
+    if (subCategory2) {
+      params = params.append('subCategory2', subCategory2);
+    }
+    if (subCategory3) {
+      params = params.append('subCategory3', subCategory3);
+    }
+    if (sku) {
+      params = params.append('sku', sku);
+    }
+    if (asin) {
+      params = params.append('asin', asin);
     }
     const request = this.http.get(url, { params });
     const { data } = await this.loadingService.get(request);

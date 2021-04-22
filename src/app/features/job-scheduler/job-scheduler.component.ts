@@ -7,6 +7,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { ConfigurationService } from 'src/app/services/backend/configuration.service';
 import { MessageService } from 'src/app/services/message.service';
 import { AppService } from 'src/app/services/app.service';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-job-scheduler',
   templateUrl: './job-scheduler.component.html',
@@ -99,25 +100,13 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
     this.subCategories3 = value.subCategory;
   }
 
-  checkNewJob({ category, subCategory, subCategory1, subCategory2, subCategory3, from, to }) {
+  checkNewJob({ category, subCategory, subCategory1, subCategory2, subCategory3, from, to, recursive, prime }) {
     if (this.rawJobs && this.rawJobs.length) {
       const exist = this.rawJobs.filter(r => {
-        const sameCat = r.category.nId === category.nId;
-        const sameSubCat = r.subCategory.nId === subCategory.nId;
-        const sameSubCat1nId = subCategory1.nId && r.subCategory1.nId === subCategory1.nId;
-        const sameSubCat1node = subCategory1.node && r.subCategory1.node === subCategory1.node;
-        const sameSubCat2nId = subCategory2.nId && r.subCategory2.nId === subCategory2.nId;
-        const sameSubCat2node = subCategory2.node && r.subCategory2.node === subCategory2.node;
-        const sameSubCat3nId = subCategory3.nId && r.subCategory3.nId === subCategory3.nId;
-        const sameSubCat3node = subCategory3.node && r.subCategory3.node === subCategory3.node;
-        const sameFrom = r.from === from;
-        const sameTo = r.to === to;
-        const btwnFrom = from >= r.from && from <= r.to;
-        const btwnTo = to >= r.from && to <= r.to;
-        return sameCat && sameSubCat && (sameSubCat1nId || sameSubCat1node)
-        && (sameSubCat2nId || sameSubCat2node)
-        && (sameSubCat3nId || sameSubCat3node)
-        && sameFrom && sameTo && btwnFrom && btwnTo;
+        const job = { category, subCategory, subCategory1, subCategory2, subCategory3, from, to, recursive, prime };
+        // tslint:disable-next-line:max-line-length
+        const eJob = _.pick(r, ['category', 'subCategory', 'subCategory1', 'subCategory2', 'subCategory3', 'from', 'to', 'recursive', 'prime']);
+        return JSON.stringify(job) === JSON.stringify(eJob);
       });
       return exist.length ? false : true;
     } else {
@@ -157,7 +146,7 @@ export class JobSchedulerComponent implements OnInit, OnDestroy {
         this.setJob();
         this.showJobs();
       } else {
-        this.dialog.simpleDialog('Same Category / Sub Category Job is already Scheduled');
+        this.dialog.simpleDialog('Same Kind of Job is already Scheduled');
       }
     }
   }
