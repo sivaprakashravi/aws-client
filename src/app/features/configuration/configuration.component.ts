@@ -17,7 +17,7 @@ export class ConfigurationComponent implements OnInit {
     maxRange: '',
     save: 1,
     active: false,
-    watchInterval: 1
+    categoryJobSystem: 1
   };
   rawConfiguration: any = {
     proxies: '',
@@ -25,7 +25,7 @@ export class ConfigurationComponent implements OnInit {
     maxRange: '',
     save: 1,
     active: false,
-    watchInterval: 1
+    categoryJobSystem: 1
   };
   configurationForm: FormGroup = new FormGroup({
     proxies: new FormControl(''),
@@ -33,7 +33,7 @@ export class ConfigurationComponent implements OnInit {
     maxRange: new FormControl(''),
     save: new FormControl(''),
     active: new FormControl(false),
-    watchInterval: new FormControl('')
+    categoryJobSystem: new FormControl('')
   });
   constructor(
     private config: ConfigurationService,
@@ -62,14 +62,14 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  setConfiguration({ proxies, host, maxRange, save, watchInterval, active }) {
+  setConfiguration({ proxies, host, maxRange, save, categoryJobSystem, active }) {
     this.configurationForm = new FormGroup({
       proxies: new FormControl(proxies),
       host: new FormControl(host),
       maxRange: new FormControl(maxRange),
       save: new FormControl(save),
       active: new FormControl(active),
-      watchInterval: new FormControl(watchInterval)
+      categoryJobSystem: new FormControl(categoryJobSystem)
     });
   }
 
@@ -83,8 +83,11 @@ export class ConfigurationComponent implements OnInit {
   }
 
   async refreshCategories() {
-    const cat = await this.config.refreshCategories();
-    this.dialog.simpleDialog(cat);
+    const system = this.configuration.categoryJobSystem;
+    if (system) {
+      const cat = await this.config.refreshCategories(system);
+      this.dialog.simpleDialog(cat);
+    }
   }
 
   async clearDBs() {

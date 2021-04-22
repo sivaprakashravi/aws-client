@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   URL: 'http://localhost:8001/',
-  PROCESS_URL: 'http://localhost:8000/'
+  PROCESS_URL: 'http://localhost:8000/',
+  username: 'sivaprakasharavi@gmail.com',
+  password: 'Horizon@12!'
 };
 
 // export const environment = {

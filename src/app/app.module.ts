@@ -36,6 +36,7 @@ import { LoginComponent } from './features/login/login.component';
 import { LogoutComponent } from './features/logout/logout.component';
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { MessageBoxComponent } from './shared/message-box/message-box.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,7 +74,8 @@ import { MessageBoxComponent } from './shared/message-box/message-box.component'
     MatProgressBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTooltipModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

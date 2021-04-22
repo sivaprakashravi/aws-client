@@ -70,16 +70,12 @@ export class ProductsComponent implements OnInit {
         (c) => c.nId === this.subCategory
       );
       this.subCategories1 = subCategory.subCategory;
-      const catLoop = [1,2,3];
+      const catLoop = [1, 2, 3];
       const loop: any = {};
-      let subCategory1 = '';
-      let subCategory2 = '';
-      let subCategory3 = '';
       catLoop.forEach(c => {
         if (this[`subCategories1${c}`]) {
-          loop[`subCategory${c}`] = this[`subCategories1${c}`].find(
-            (c) => c.nId === this.subCategory1
-          );
+          loop[`subCategory${c}`] = this[`subCategories1${c}`].find(cc => cc.nId === this.subCategory1);
+
         }
       });
       this.filter = new FormGroup({
@@ -87,7 +83,9 @@ export class ProductsComponent implements OnInit {
         subCategory: new FormControl(subCategory),
         subCategory1: new FormControl(loop.subCategory1),
         subCategory2: new FormControl(loop.subCategory2),
-        subCategory3: new FormControl(loop.subCategory3)
+        subCategory3: new FormControl(loop.subCategory3),
+        asin: new FormControl(''),
+        sku: new FormControl('')
       });
       this.search();
     }
@@ -100,21 +98,25 @@ export class ProductsComponent implements OnInit {
       subCategory1: new FormControl(''),
       subCategory2: new FormControl(''),
       subCategory3: new FormControl(''),
+      asin: new FormControl(''),
+      sku: new FormControl(''),
     });
     this.subCategories = [];
     this.subCategories1 = [];
   }
 
   async search(pageNo?) {
-    const catLoop = [1,2,3];
+    const catLoop = [1, 2, 3];
     const fv = this.filter.value;
-    const { category, subCategory, subCategory1, subCategory2, subCategory3 } = fv;
+    const { category, subCategory, asin, sku } = fv;
     if (category.nId && subCategory.nId) {
       const filter: any = {
         category: category.nId,
         subCategory: subCategory.nId,
         limit: this.limit,
         pageNo: pageNo ? pageNo : 1,
+        asin,
+        sku
       };
       catLoop.forEach(c => {
         const sub = fv[`subCategory${c}`];
@@ -123,7 +125,7 @@ export class ProductsComponent implements OnInit {
             ? sub.nId
             : sub.node;
         }
-      })
+      });
       const { products, total } = await this.productService.getProducts(filter);
       this.products = products;
       this.pages = Math.ceil(total / this.limit);

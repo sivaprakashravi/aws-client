@@ -57,23 +57,27 @@
             </mat-form-field>
             <mat-form-field class="left10px range">
                 <mat-label>Data From</mat-label>
-                <input formControlName="from" #from matInput [maxlength]="config.maxRange" (keyup)="checkRange($event, config.maxRange)">
+                <input formControlName="from" #from matInput [maxlength]="config.maxRange"
+                    (keyup)="checkRange($event, config.maxRange)">
             </mat-form-field>
             <mat-form-field class="left10px range">
                 <mat-label>Data To</mat-label>
-                <input formControlName="to" #to matInput [maxlength]="config.maxRange" (keyup)="checkRange($event, config.maxRange)">
+                <input formControlName="to" #to matInput [maxlength]="config.maxRange"
+                    (keyup)="checkRange($event, config.maxRange)">
             </mat-form-field>
             <mat-checkbox color="primary" class="left10px" formControlName="prime">Only Prime</mat-checkbox>
-            <mat-checkbox color="primary" class="left10px" *ngIf="newJob.value.interval !== 'Now'" formControlName="recursive">Recursive Job</mat-checkbox>
-            <button mat-raised-button color="primary" (click)="seheduleJob()" [disabled]="!newJob.value.category || !newJob.value.subCategory"><span
+            <mat-checkbox color="primary" class="left10px" *ngIf="newJob.value.interval !== 'Now'"
+                formControlName="recursive">Recursive Job</mat-checkbox>
+            <button mat-raised-button color="primary" (click)="seheduleJob()"
+                [disabled]="!newJob.value.category || !newJob.value.subCategory"><span
                     class="mdi">schedule</span>Schedule</button>
             <button mat-raised-button color="secondary" (click)="setJob()"><span
                     class="mdi">clear_all</span>Reset</button>
         </form>
     </div>
     <div>
-        <button mat-raised-button color="secondary" (click)="showJobs()"><span
-            class="mdi">refresh</span>Refresh Scheduled Jobs</button>
+        <button mat-raised-button color="secondary" (click)="showJobs()"><span class="mdi">refresh</span>Refresh
+            Scheduled Jobs</button>
     </div>
     <!-- <div class="scheduled-jobs">
         <h4 *ngIf="jobs && jobs.length">Active Jobs</h4>
@@ -112,74 +116,91 @@
             </ng-container>
             <ng-container matColumnDef="subCategory">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.subCategory.name"> {{element.subCategory.name}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.subCategory.name"> {{element.subCategory.name}}
+                </td>
             </ng-container>
             <ng-container matColumnDef="subCategory1">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY 1. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.subCategory1.name"> {{element.subCategory1.name ? element.subCategory1.name : ' -'}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.subCategory1.name"> {{element.subCategory1.name
+                    ? element.subCategory1.name : ' -'}} </td>
             </ng-container>
             <ng-container matColumnDef="subCategory2">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY 2. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.subCategory2.name"> {{element.subCategory2.name ? element.subCategory2.name : ' -'}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.subCategory2.name"> {{element.subCategory2.name
+                    ? element.subCategory2.name : ' -'}} </td>
             </ng-container>
             <ng-container matColumnDef="subCategory3">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY 3. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.subCategory3.name"> {{element.subCategory3.name ? element.subCategory3.name : ' -'}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.subCategory3.name"> {{element.subCategory3.name
+                    ? element.subCategory3.name : ' -'}} </td>
             </ng-container>
             <ng-container matColumnDef="interval">
                 <th mat-header-cell *matHeaderCellDef> INTERVAL. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.interval"> {{element.interval ? element.interval : '--'}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.interval"> {{element.interval ? element.interval
+                    : '--'}} </td>
             </ng-container>
             <ng-container matColumnDef="from">
                 <th mat-header-cell *matHeaderCellDef> DATA From. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.from"> {{element.from}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.from"> {{element.from}} </td>
             </ng-container>
             <ng-container matColumnDef="to">
                 <th mat-header-cell *matHeaderCellDef> DATA To. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.to"> {{element.to}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.to"> {{element.to}} </td>
             </ng-container>
             <ng-container matColumnDef="recursive">
                 <th mat-header-cell *matHeaderCellDef> RECURSIVE. </th>
                 <td mat-cell *matCellDef="let element">
                     <span *ngIf="element.interval === 'Now'">-</span>
-                    <mat-checkbox *ngIf="element.interval !== 'Now'" (ngModelChange)="recursiveChange(element)" [(ngModel)]="element.recursive" [disabled]="element.interval === 'Now'"></mat-checkbox>
+                    <mat-checkbox *ngIf="element.interval !== 'Now'" (ngModelChange)="recursiveChange(element)"
+                        [(ngModel)]="element.recursive" [disabled]="element.interval === 'Now'"></mat-checkbox>
                     <!-- <span class="mdi" [ngClass]="{'no': !element.recursive}">check_box</span> -->
             </ng-container>
             <ng-container matColumnDef="prime">
                 <th mat-header-cell *matHeaderCellDef> PRIME. </th>
                 <td mat-cell *matCellDef="let element">
-                    <mat-checkbox [(ngModel)]="element.prime" (ngModelChange)="primeChange(element)" [disabled]="element.interval === 'Now'"></mat-checkbox>
+                    <mat-checkbox [(ngModel)]="element.prime" (ngModelChange)="primeChange(element)"
+                        [disabled]="element.interval === 'Now'"></mat-checkbox>
                     <!-- <span class="mdi" [ngClass]="{'no': !element.prime}">check_box</span> -->
             </ng-container>
             <ng-container matColumnDef="createdAt">
                 <th mat-header-cell *matHeaderCellDef> SCHEDULED ON. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.createdOn"> {{element.createdOn | date: 'medium'}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.createdOn"> {{element.createdOn | date:
+                    'medium'}} </td>
             </ng-container>
             <ng-container matColumnDef="scheduledBy">
                 <th mat-header-cell *matHeaderCellDef> SCHEDULED BY. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.scheduledBy"> {{element.scheduledBy}} </td>
+                <td mat-cell *matCellDef="let element" [title]="element.scheduledBy"> {{element.scheduledBy}} </td>
             </ng-container>
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef> STATUS. </th>
-                <td mat-cell *matCellDef="let element"  [title]="element.status"[title]="element.status">                    
+                <td mat-cell *matCellDef="let element" [title]="element.status" [title]="element.status">
                     <span class="mdi" *ngIf="element.status === 'New'">fiber_new</span>
-                    <span class="mdi" *ngIf="element.status === 'Scheduled'" >add_task</span>
-                    <span class="mdi loop" *ngIf="element.status === 'Running'" >loop</span>
-                    <span class="mdi completed" *ngIf="element.status === 'Completed'" >done_all</span>
+                    <span class="mdi" *ngIf="element.status === 'Scheduled'">add_task</span>
+                    <span class="mdi loop" *ngIf="element.status === 'Running'">loop</span>
+                    <span class="mdi red" *ngIf="element.status === 'Error'"
+                    [matTooltip]="element.message"> warning_amber </span>
+                    <span class="mdi completed" *ngIf="element.status === 'Completed'">done_all</span>
                 </td>
             </ng-container>
             <ng-container matColumnDef="percentage">
                 <th mat-header-cell *matHeaderCellDef> Completion (%). </th>
-                <td mat-cell *matCellDef="let element"> 
+                <td mat-cell *matCellDef="let element">
                     {{element.percentage ? element.percentage : 0}}%
                     <span *ngIf="element.paused"> - Job Paused</span>
-                    <mat-progress-bar mode="determinate" [value]="element.percentage" *ngIf="!element.paused"></mat-progress-bar> </td>
+                    <mat-progress-bar mode="determinate" [value]="element.percentage" *ngIf="!element.paused">
+                    </mat-progress-bar>
+                </td>
             </ng-container>
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let row">
-                    <span *ngIf="(row.status !== 'Running' && row.status !== 'Scheduled' && row.status !== 'Completed') && app.create('scheduler')" [title]="(!row.paused ? 'Stop' : 'Resume') + ' Job'" (click)="pauseJob(row)" class="mdi">{{!row.paused ? 'stop' : 'play_arrow'}}</span>
-                    <span *ngIf="row.status !== 'Running' && app.delete('scheduler')" title="Delete Job" (click)="removeJob(row.scheduleId)" class="mdi">clear</span></td>
+                    <span
+                        *ngIf="(row.status !== 'Running' && row.status !== 'Scheduled' && row.status !== 'Error' && row.status !== 'Completed') && app.create('scheduler')"
+                        [title]="(!row.paused ? 'Stop' : 'Resume') + ' Job'" (click)="pauseJob(row)"
+                        class="mdi">{{!row.paused ? 'stop' : 'play_arrow'}}</span>
+                    <span *ngIf="row.status !== 'Running' && row.status !== 'Scheduled' && app.delete('scheduler')"
+                        title="Delete Job" (click)="removeJob(row.scheduleId)" class="mdi">clear</span>
+                </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

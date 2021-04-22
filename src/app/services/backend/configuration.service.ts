@@ -40,10 +40,12 @@ export class ConfigurationService {
     return data;
   }
 
-  async refreshCategories() {
-    const url = `${this.process}amazon/categories`;
-    const request = this.http.get(url);
-    const { data } = await this.loadingService.get(request);
-    return data;
+  async refreshCategories(ip) {
+    if (ip) {
+      const url = `${ip}amazon/categories`;
+      const request = this.http.get(url);
+      const { data } = await this.loadingService.get(request);
+      return data;
+    }
   }
 }

@@ -47,6 +47,14 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+            <mat-form-field class="left10px range">
+                <mat-label>ASIN</mat-label>
+                <input formControlName="asin" matInput>
+            </mat-form-field>
+            <mat-form-field class="left10px range">
+                <mat-label>SKU</mat-label>
+                <input formControlName="sku"matInput>
+            </mat-form-field>
             <button class="left10px" mat-raised-button color="primary" (click)="search()" [disabled]="!filter.value.category || !filter.value.subCategory">
         <span class="mdi">filter_alt</span>Filter
       </button>

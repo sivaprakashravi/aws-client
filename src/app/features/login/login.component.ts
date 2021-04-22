@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { SessionService } from 'src/app/services/auth/session.service';
 import { UsersService } from 'src/app/services/backend/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { environment } from '.././../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -38,8 +39,8 @@ export class LoginComponent implements OnInit {
 
   setForm() {
     this.login = new FormGroup({
-      email: new FormControl('sivaprakasharavi@gmail.com'),
-      password: new FormControl('Horizon@12!'),
+      email: new FormControl(environment.username),
+      password: new FormControl(environment.password),
       verificationCode: new FormControl('')
     });
   }
