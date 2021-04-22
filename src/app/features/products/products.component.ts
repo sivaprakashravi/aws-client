@@ -73,8 +73,11 @@ export class ProductsComponent implements OnInit {
       const catLoop = [1, 2, 3];
       const loop: any = {};
       catLoop.forEach(c => {
-        if (this[`subCategories1${c}`]) {
-          loop[`subCategory${c}`] = this[`subCategories1${c}`].find(cc => cc.nId === this.subCategory1);
+        if (this[`subCategories${c}`]) {
+          loop[`subCategory${c}`] = this[`subCategories${c}`].find(cc => cc.nId === this[`subCategory${c}`]);
+          if (this[`subCategories${c + 1}`]) {
+            this[`subCategories${c + 1}`] = loop[`subCategory${c}`].subCategory;
+          }
 
         }
       });
@@ -204,16 +207,22 @@ export class ProductsComponent implements OnInit {
         filter.subCategory1 = subCategory1.nId
           ? subCategory1.nId
           : subCategory1.node;
+        filter.storeId = subCategory1.storeId;
+        filter.categoryCode = subCategory1.categoryCode;
       }
       if (subCategory2 && (subCategory2.nId || subCategory2.node)) {
         filter.subCategory2 = subCategory2.nId
           ? subCategory2.nId
           : subCategory2.node;
+        filter.storeId = subCategory2.storeId;
+        filter.categoryCode = subCategory2.categoryCode;
       }
       if (subCategory3 && (subCategory3.nId || subCategory3.node)) {
         filter.subCategory3 = subCategory3.nId
           ? subCategory3.nId
           : subCategory3.node;
+        filter.storeId = subCategory3.storeId;
+        filter.categoryCode = subCategory3.categoryCode;
       }
       if (filter.storeId && filter.categoryCode) {
         let products = await this.productService.downloadProducts(filter);

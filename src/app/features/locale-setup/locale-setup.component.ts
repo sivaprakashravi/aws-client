@@ -248,6 +248,16 @@ export class LocaleSetupComponent implements OnInit {
           (c) => c.nId === l.subCategory1
         );
       }
+      if (l.subCategory2) {
+        l.subCategory2 = l.subCategory1.subCategory.find(
+          (c) => c.nId === l.subCategory2
+        );
+      }
+      if (l.subCategory3) {
+        l.subCategory3 = l.subCategory2.subCategory.find(
+          (c) => c.nId === l.subCategory3
+        );
+      }
     });
     this.localeUpdates = logs;
   }
@@ -275,7 +285,7 @@ export class LocaleSetupComponent implements OnInit {
     this.getLocales();
   }
 
-  async navToPdts({ category, subCategory, subCategory1, count }) {
+  async navToPdts({ category, subCategory, subCategory1, subCategory2, subCategory3, count }) {
     if (count && category && subCategory) {
       const queryParams: any = {
         category: category.nId,
@@ -283,6 +293,12 @@ export class LocaleSetupComponent implements OnInit {
       };
       if (subCategory1) {
         queryParams.subCategory1 = subCategory1.nId;
+      }
+      if (subCategory2) {
+        queryParams.subCategory2 = subCategory2.nId;
+      }
+      if (subCategory3) {
+        queryParams.subCategory3 = subCategory3.nId;
       }
       this.router.navigate(['products'], { queryParams });
     }
