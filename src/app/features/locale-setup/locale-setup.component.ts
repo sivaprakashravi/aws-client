@@ -234,6 +234,7 @@ export class LocaleSetupComponent implements OnInit {
     this.dialog.simpleDialog(locale.message);
     this.resetNewFormula();
     this.getLocales();
+    this.grouByCat();
   }
 
   async getLocales() {
