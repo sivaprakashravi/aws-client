@@ -75,10 +75,9 @@ export class ProductsComponent implements OnInit {
       catLoop.forEach(c => {
         if (this[`subCategories${c}`]) {
           loop[`subCategory${c}`] = this[`subCategories${c}`].find(cc => cc.nId === this[`subCategory${c}`]);
-          if (this[`subCategories${c + 1}`]) {
+          if (this[`subCategories${c + 1}`] && loop[`subCategory${c}`] && loop[`subCategory${c}`].subCategory) {
             this[`subCategories${c + 1}`] = loop[`subCategory${c}`].subCategory;
           }
-
         }
       });
       this.filter = new FormGroup({
