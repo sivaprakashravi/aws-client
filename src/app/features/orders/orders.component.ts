@@ -65,7 +65,7 @@ export class OrdersComponent implements OnInit {
   }
 
   async search(pageNo?) {
-    const orders = await this.ordersService.orders({});
+    const orders = await this.ordersService.orders(this.filter.value);
     this.orders = orders;
     // this.pages = Math.ceil(total / 25);
     // this.totalProducts = total;

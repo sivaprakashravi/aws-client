@@ -14,7 +14,17 @@ export class OrdersService {
 
   async orders(d) {
     const url = `${this.url}orders/all`;
-    const request = this.http.get(url);
+    let params: any = {};
+    const { shop_id, status, to_date, from_date } = d;
+    const from = Math.round(new Date(from_date).getTime() / 1000);
+    const to = Math.round(new Date(to_date).getTime() / 1000);
+    const count = 10;
+    const page = 1;
+    params = new HttpParams();
+    params = params.set('shop_id', shop_id.id).append('status', status.key).append('from', from).append('to', to)
+    .append('count', count)
+    .append('page', page);
+    const request = this.http.get(url, { params });
     const { data } = await this.loadingService.get(request);
     return data;
   }
