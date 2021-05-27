@@ -2,7 +2,7 @@
     <div class="filter">
         <h3>Search Orders</h3>
         <form [formGroup]="filter">
-            <mat-form-field>
+            <mat-form-field *ngIf="shops && shops.length">
                 <mat-label>Shop</mat-label>
                 <mat-select formControlName="shop_id">
                     <mat-option value=''>-Select-</mat-option>
@@ -11,7 +11,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="left10px">
+            <mat-form-field class="left10px" *ngIf="statuses && statuses.length">
                 <mat-label>Status</mat-label>
                 <mat-select formControlName="status">
                     <mat-option value=''>-Select-</mat-option>
@@ -20,7 +20,16 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="date left10px">
+            <mat-form-field class="left10px">
+                <mat-label>Orders From - To</mat-label>
+                <mat-date-range-input [formGroup]="filter" [rangePicker]="picker" [max]="today">
+                    <input matStartDate formControlName="from_date" />
+                    <input matEndDate formControlName="to_date" />
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            <!-- <mat-form-field class="date left10px">
                 <mat-label>From</mat-label>
                 <input matInput [matDatepicker]="from_date" formControlName="from_date">
                 <mat-datepicker-toggle matSuffix [for]="from_date"></mat-datepicker-toggle>
@@ -31,7 +40,7 @@
                 <input matInput [matDatepicker]="to_date" formControlName="to_date">
                 <mat-datepicker-toggle matSuffix [for]="to_date"></mat-datepicker-toggle>
                 <mat-datepicker #to_date></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
             <button class="left10px" mat-raised-button color="primary" (click)="search()"
                 [disabled]="!filter.value.status"><span class="mdi">filter_alt</span>Filter</button>
             <button class="left10px" mat-raised-button color="secondary" (click)="setFilter()"><span
