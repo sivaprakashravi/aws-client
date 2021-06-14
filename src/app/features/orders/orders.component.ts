@@ -9,6 +9,7 @@ import {
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { OrdersService } from 'src/app/services/backend/orders.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -35,7 +36,7 @@ export class OrdersComponent implements OnInit {
   today = new Date();
   constructor(
     private ordersService: OrdersService,
-    private toast: ToastService) {
+    private dialog: DialogService) {
   }
 
   async ngOnInit() {
@@ -43,7 +44,7 @@ export class OrdersComponent implements OnInit {
     await this.getShops();
     this.setFilter();
     // this.applyParams();
-    // this.search();
+    this.search();
   }
 
   applyParams() {
@@ -68,7 +69,7 @@ export class OrdersComponent implements OnInit {
       // this.totalProducts = total;
       this.activePage = pageNo;
     } else {
-      this.toast.createToast({message: 'Invalid date Range. Range should not be greater than 3'});
+      this.dialog.simpleDialog('Invalid date Range. Range should not be greater than 3');
     }
   }
 

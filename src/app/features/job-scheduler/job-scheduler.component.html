@@ -121,17 +121,20 @@
             </ng-container>
             <ng-container matColumnDef="subCategory1">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY 1. </th>
-                <td mat-cell *matCellDef="let element" [title]="element.subCategory1.name"> {{element.subCategory1.name
+                <td mat-cell *matCellDef="let element" [title]="element.subCategory1 && element.subCategory1.name
+                ? element.subCategory1.name : ' -'"> {{element.subCategory1 && element.subCategory1.name
                     ? element.subCategory1.name : ' -'}} </td>
             </ng-container>
             <ng-container matColumnDef="subCategory2">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY 2. </th>
-                <td mat-cell *matCellDef="let element" [title]="element.subCategory2.name"> {{element.subCategory2.name
+                <td mat-cell *matCellDef="let element" [title]="element.subCategory2 && element.subCategory2.name
+                ? element.subCategory2.name : ' -'"> {{element.subCategory2 && element.subCategory2.name
                     ? element.subCategory2.name : ' -'}} </td>
             </ng-container>
             <ng-container matColumnDef="subCategory3">
                 <th mat-header-cell *matHeaderCellDef> SUB-CATEGORY 3. </th>
-                <td mat-cell *matCellDef="let element" [title]="element.subCategory3.name"> {{element.subCategory3.name
+                <td mat-cell *matCellDef="let element" [title]="element.subCategory3 && element.subCategory3.name
+                ? element.subCategory3.name : ' -'"> {{element.subCategory3 && element.subCategory3.name
                     ? element.subCategory3.name : ' -'}} </td>
             </ng-container>
             <ng-container matColumnDef="interval">
