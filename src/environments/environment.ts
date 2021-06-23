@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  URL: 'http://localhost:8001/',
-  PROCESS_URL: 'http://localhost:8000/',
+  URL: 'http://52.70.17.25:8001/',
+  PROCESS_URL: 'http://52.70.17.25:8000/',
   username: 'sivaprakasharavi@gmail.com',
   password: 'Horizon@12!'
 };

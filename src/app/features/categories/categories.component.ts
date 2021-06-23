@@ -223,7 +223,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   updateCategory(event) {
-    const { name, nId, _id, subCategory, subCategory1, subCategory2, subCategory3 } = event.value;
+    const { name, nId, _id, subCategory = [], subCategory1 = [], subCategory2 = [], subCategory3 = [] } = event.value;
     if (name && nId && _id) {
       this.category.controls.name.setValue(name);
       this.category.controls.nId.setValue(nId);
@@ -231,11 +231,17 @@ export class CategoriesComponent implements OnInit {
       const subs = subCategory.map(s => this.subsForm(s));
       this.category.controls.subCategory.setValue(subs);
       const subs1 = subCategory1.map(s => this.subsForm(s));
-      this.category.controls.subCategory1.setValue(subs1);
+      if(this.category.controls.subCategory1) {
+        this.category.controls.subCategory1.setValue(subs1);
+      }
       const subs2 = subCategory2.map(s => this.subsForm(s));
-      this.category.controls.subCategory2.setValue(subs2);
+      if(this.category.controls.subCategory2) {
+        this.category.controls.subCategory2.setValue(subs2);
+      }
       const subs3 = subCategory3.map(s => this.subsForm(s));
-      this.category.controls.subCategory3.setValue(subs3);
+      if(this.category.controls.subCategory3) {
+        this.category.controls.subCategory3.setValue(subs3);
+      }
       this.isCategoryUpdate = true;
     } else {
       this.clearCategory();
