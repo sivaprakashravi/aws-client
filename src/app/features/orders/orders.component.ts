@@ -87,10 +87,7 @@ export class OrdersComponent implements OnInit {
   async getShops() {
     this.shops = [{
       name: 'Shop 1',
-      id: 1
-    }, {
-      name: 'Shop 2',
-      id: 2
+      id: 11599703
     }];
   }
 
